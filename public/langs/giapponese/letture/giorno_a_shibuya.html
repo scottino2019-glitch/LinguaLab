@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lettura Graduata: Un Giorno a Shibuya</title>
+  <meta name="description" content="Racconto in giapponese semplice con furigana e traduzione italiana, ambientato nell'incrocio più famoso del mondo.">
+  <meta name="language" content="giapponese">
+  <meta name="category" content="letture">
+  <meta name="difficulty" content="Intermedio">
+  <meta name="keywords" content="giapponese, lettura, shibuya, tokyo, furigana">
+  <meta name="icon" content="🗼">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
+  <div class="max-w-3xl mx-auto">
+    <header class="mb-6 pb-4 border-b border-slate-800 flex justify-between items-center">
+      <div>
+        <span class="text-xs uppercase tracking-widest text-cyan-400 font-bold">🇯🇵 Giapponese • Letture</span>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-white mt-1">渋谷のいちにち (Un Giorno a Shibuya)</h1>
+      </div>
+      <button onclick="speakStory()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs font-bold text-white">🔊 Ascolta</button>
+    </header>
+
+    <div class="space-y-6 text-slate-300">
+      <div class="p-4 bg-slate-800/40 rounded-xl border border-slate-800">
+        <p class="text-lg text-white leading-relaxed">
+          きょうは ともだちと <ruby>渋谷<rt>しぶや</rt></ruby>で あいました。
+        </p>
+        <p class="text-sm text-slate-400 mt-2">Oggi ho incontrato un amico a Shibuya.</p>
+      </div>
+
+      <div class="p-4 bg-slate-800/40 rounded-xl border border-slate-800">
+        <p class="text-lg text-white leading-relaxed">
+          スクランブル<ruby>交差点<rt>こうさてん</rt></ruby>には たくさんの ひとが いました。
+        </p>
+        <p class="text-sm text-slate-400 mt-2">All'incrocio pedonale scramble c'erano tantissime persone.</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    function speakStory() {
+      const text = "きょうは ともだちと しぶやで あいました。スクランブルこうさてんには たくさんの ひとが いました。";
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'ja-JP';
+        window.speechSynthesis.speak(u);
+      }
+    }
+  </script>
+</body>
+</html>

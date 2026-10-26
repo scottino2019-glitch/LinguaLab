@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vocabolario Essenziale HSK 1: Le 20 Parole Chiave</title>
+  <meta name="description" content="Schede flashcard interattive dei vocaboli più importanti del livello HSK 1 con pronuncia, pinyin e frasi di esempio.">
+  <meta name="language" content="cinese">
+  <meta name="category" content="vocabolario">
+  <meta name="difficulty" content="Principiante">
+  <meta name="keywords" content="cinese, hsk1, vocabolario, flashcards, pinyin">
+  <meta name="icon" content="🗂️">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
+  <div class="max-w-4xl mx-auto">
+    <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-800">
+      <div>
+        <span class="text-xs uppercase tracking-widest text-emerald-400 font-bold">🇨🇳 Cinese • Vocabolario</span>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Flashcard HSK 1 Fondamentali</h1>
+      </div>
+      <input type="text" id="search" placeholder="Cerca parola o pinyin..." oninput="filterWords()" class="bg-slate-800 border border-slate-700 px-4 py-2 rounded-xl text-sm focus:outline-none focus:border-indigo-500 w-full sm:w-64">
+    </header>
+
+    <div id="cards-container" class="grid sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+  </div>
+
+  <script>
+    const words = [
+      { hanzi: '你好', pinyin: 'nǐ hǎo', it: 'Ciao / Buongiorno', ex: '你好，很高兴认识你。' },
+      { hanzi: '谢谢', pinyin: 'xièxie', it: 'Grazie', ex: '太谢谢你了！' },
+      { hanzi: '不客气', pinyin: 'bù kèqi', it: 'Prego / Di nulla', ex: '别客气。' },
+      { hanzi: '再见', pinyin: 'zàijiàn', it: 'Arrivederci', ex: '明天再见！' },
+      { hanzi: '吃', pinyin: 'chī', it: 'Mangiare', ex: '你想吃什么？' },
+      { hanzi: '喝', pinyin: 'hē', it: 'Bere', ex: '我想喝茶。' },
+      { hanzi: '茶', pinyin: 'chá', it: 'Tè', ex: '中国茶很好喝。' },
+      { hanzi: '朋友', pinyin: 'péngyou', it: 'Amico', ex: '他是我的好朋友。' },
+      { hanzi: '老师', pinyin: 'lǎoshī', it: 'Insegnante', ex: '王老师好！' }
+    ];
+
+    function speak(txt) {
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(txt);
+        u.lang = 'zh-CN';
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    function render(list) {
+      const c = document.getElementById('cards-container');
+      c.innerHTML = '';
+      list.forEach(w => {
+        const d = document.createElement('div');
+        d.className = 'bg-slate-800/80 border border-slate-700/80 hover:border-slate-500 rounded-2xl p-5 transition flex flex-col justify-between';
+        d.innerHTML = `
+          <div>
+            <div class="flex items-start justify-between">
+              <span class="text-3xl font-extrabold text-amber-300 font-['Noto_Sans_SC']">${w.hanzi}</span>
+              <button onclick="speak('${w.hanzi}')" class="p-2 hover:bg-slate-700 rounded-lg text-slate-400 hover:text-white transition">🔊</button>
+            </div>
+            <div class="text-emerald-400 font-mono text-sm mt-1">${w.pinyin}</div>
+            <div class="text-slate-200 font-medium text-base mt-2">${w.it}</div>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-700/60 text-xs text-slate-400">
+            <span class="text-slate-500">Es:</span> ${w.ex}
+          </div>
+        `;
+        c.appendChild(d);
+      });
+    }
+
+    function filterWords() {
+      const q = document.getElementById('search').value.toLowerCase();
+      const filtered = words.filter(w => w.hanzi.includes(q) || w.pinyin.toLowerCase().includes(q) || w.it.toLowerCase().includes(q));
+      render(filtered);
+    }
+
+    render(words);
+  </script>
+</body>
+</html>

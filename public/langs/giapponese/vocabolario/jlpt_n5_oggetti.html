@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vocabolario JLPT N5: Vita Quotidiana e Oggetti</title>
+  <meta name="description" content="Schede di vocabolario per il livello base JLPT N5 con kanji, furigana, pronuncia e traduzione italiana.">
+  <meta name="language" content="giapponese">
+  <meta name="category" content="vocabolario">
+  <meta name="difficulty" content="Principiante">
+  <meta name="keywords" content="giapponese, jlpt, n5, vocabolario, kanji, furigana">
+  <meta name="icon" content="🍱">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
+  <div class="max-w-4xl mx-auto">
+    <header class="mb-6 pb-4 border-b border-slate-800">
+      <span class="text-xs uppercase tracking-widest text-emerald-400 font-bold">🇯🇵 Giapponese • Vocabolario</span>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Vocabolario Vita Quotidiana JLPT N5</h1>
+    </header>
+
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4" id="vocab-grid"></div>
+  </div>
+  <script>
+    const items = [
+      { kanji: '本', kana: 'ほん', romaji: 'hon', it: 'Libro' },
+      { kanji: '車', kana: 'くるま', romaji: 'kuruma', it: 'Macchina / Auto' },
+      { kanji: '猫', kana: 'ねこ', romaji: 'neko', it: 'Gatto' },
+      { kanji: '犬', kana: 'いぬ', romaji: 'inu', it: 'Cane' },
+      { kanji: '水', kana: 'みず', romaji: 'mizu', it: 'Acqua' },
+      { kanji: '時間', kana: 'じかん', romaji: 'jikan', it: 'Tempo / Ora' }
+    ];
+
+    function speak(txt) {
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(txt);
+        u.lang = 'ja-JP';
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    const grid = document.getElementById('vocab-grid');
+    items.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'bg-slate-800/70 border border-slate-700/80 p-5 rounded-2xl flex items-center justify-between';
+      card.innerHTML = `
+        <div>
+          <ruby class="text-3xl font-black text-rose-300">${item.kanji}<rt class="text-xs text-slate-400">${item.kana}</rt></ruby>
+          <div class="text-xs font-mono text-emerald-400 mt-1">${item.romaji}</div>
+          <div class="text-sm font-semibold text-white mt-1">${item.it}</div>
+        </div>
+        <button onclick="speak('${item.kana}')" class="p-3 bg-slate-700 hover:bg-slate-600 rounded-xl transition text-lg">🔊</button>
+      `;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gioco di Memoria: Caratteri Hanzi Fondamentali</title>
+  <meta name="description" content="Abbina i caratteri cinesi essenziali (HSK 1) al loro significato e pinyin. Sfida a tempo con punteggio e pronuncia audio!">
+  <meta name="language" content="cinese">
+  <meta name="category" content="giochi">
+  <meta name="difficulty" content="Principiante">
+  <meta name="keywords" content="cinese, hanzi, pinyin, memoria, hsk1, gioco">
+  <meta name="icon" content="🀄">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@500;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .hanzi { font-family: 'Noto Sans SC', sans-serif; }
+    .card { perspective: 1000px; }
+    .card-inner { transition: transform 0.4s; transform-style: preserve-3d; }
+    .card.flipped .card-inner { transform: rotateY(180deg); }
+    .back { transform: rotateY(180deg); }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8 flex flex-col items-center">
+  <div class="max-w-2xl w-full">
+    <header class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+      <div>
+        <span class="text-xs uppercase tracking-widest text-emerald-400 font-bold">🇨🇳 Cinese • Giochi & Quiz</span>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Memory dei Caratteri Hanzi</h1>
+      </div>
+      <div class="flex gap-4 text-center">
+        <div class="bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700">
+          <div class="text-xs text-slate-400">Mosse</div>
+          <div id="moves" class="text-lg font-bold text-amber-400">0</div>
+        </div>
+        <div class="bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-700">
+          <div class="text-xs text-slate-400">Coppie</div>
+          <div id="matches" class="text-lg font-bold text-emerald-400">0/6</div>
+        </div>
+      </div>
+    </header>
+
+    <div id="win-banner" class="hidden mb-4 p-3 bg-emerald-600/90 border border-emerald-400 rounded-xl text-center font-bold text-white animate-bounce"></div>
+    <div id="grid" class="grid grid-cols-3 sm:grid-cols-4 gap-3 md:gap-4 mb-6"></div>
+
+    <div class="flex items-center justify-between bg-slate-800/50 p-4 rounded-xl border border-slate-800 text-sm">
+      <p class="text-slate-400">Ascolta la pronuncia cliccando sulle carte scoperte.</p>
+      <button onclick="initGame()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 font-semibold text-white rounded-lg transition shadow-lg shadow-emerald-900/40">
+        Ricomincia
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const items = [
+      { id: 1, hanzi: '水', pinyin: 'shuǐ', it: 'Acqua' },
+      { id: 2, hanzi: '火', pinyin: 'huǒ', it: 'Fuoco' },
+      { id: 3, hanzi: '山', pinyin: 'shān', it: 'Montagna' },
+      { id: 4, hanzi: '月', pinyin: 'yuè', it: 'Luna / Mese' },
+      { id: 5, hanzi: '日', pinyin: 'rì', it: 'Sole / Giorno' },
+      { id: 6, hanzi: '人', pinyin: 'rén', it: 'Persona' }
+    ];
+
+    let cards = [];
+    let flipped = [];
+    let matchedCount = 0;
+    let moves = 0;
+    let canClick = true;
+
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'zh-CN';
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    function initGame() {
+      matchedCount = 0;
+      moves = 0;
+      flipped = [];
+      canClick = true;
+      document.getElementById('moves').textContent = '0';
+      document.getElementById('matches').textContent = '0/' + items.length;
+
+      cards = [];
+      items.forEach(item => {
+        cards.push({ id: item.id, type: 'hanzi', content: item.hanzi, sub: item.pinyin, speak: item.hanzi });
+        cards.push({ id: item.id, type: 'meaning', content: item.it, sub: item.pinyin, speak: item.hanzi });
+      });
+      cards.sort(() => Math.random() - 0.5);
+
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      cards.forEach((card, index) => {
+        const el = document.createElement('div');
+        el.className = 'card h-28 md:h-32 cursor-pointer select-none';
+        el.dataset.index = index;
+        el.innerHTML = `
+          <div class="card-inner relative w-full h-full">
+            <div class="absolute inset-0 bg-slate-800 border border-slate-700 hover:border-slate-500 rounded-xl flex items-center justify-center text-slate-500 font-bold text-2xl backface-hidden shadow-md">
+              ?
+            </div>
+            <div class="back absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-700 border-2 border-emerald-500/50 rounded-xl flex flex-col items-center justify-center p-2 text-center backface-hidden shadow-lg">
+              <span class="${card.type === 'hanzi' ? 'hanzi text-3xl md:text-4xl font-bold text-amber-300' : 'text-base md:text-lg font-bold text-white'}">${card.content}</span>
+              <span class="text-xs text-emerald-400 mt-1 font-mono">${card.sub}</span>
+            </div>
+          </div>
+        `;
+        el.onclick = () => onCardClick(index, el);
+        grid.appendChild(el);
+      });
+    }
+
+    function onCardClick(index, el) {
+      if (!canClick || el.classList.contains('flipped') || flipped.some(f => f.index === index)) return;
+      el.classList.add('flipped');
+      speak(cards[index].speak);
+      flipped.push({ index, el, card: cards[index] });
+
+      if (flipped.length === 2) {
+        moves++;
+        document.getElementById('moves').textContent = moves;
+        canClick = false;
+
+        const [c1, c2] = flipped;
+        if (c1.card.id === c2.card.id && c1.card.type !== c2.card.type) {
+          matchedCount++;
+          document.getElementById('matches').textContent = matchedCount + '/' + items.length;
+          c1.el.querySelector('.back').classList.add('!border-emerald-400', '!bg-emerald-950/40');
+          c2.el.querySelector('.back').classList.add('!border-emerald-400', '!bg-emerald-950/40');
+          flipped = [];
+          canClick = true;
+          if (matchedCount === items.length) {
+            const winEl = document.getElementById('win-banner');
+            if (winEl) {
+              winEl.textContent = '🎉 Complimenti! Hai completato la sfida in ' + moves + ' mosse!';
+              winEl.classList.remove('hidden');
+            }
+          }
+        } else {
+          setTimeout(() => {
+            c1.el.classList.remove('flipped');
+            c2.el.classList.remove('flipped');
+            flipped = [];
+            canClick = true;
+          }, 900);
+        }
+      }
+    }
+
+    initGame();
+  </script>
+</body>
+</html>

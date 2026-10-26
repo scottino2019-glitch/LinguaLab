@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esercizi sui Casi Russi: Prepositivo vs Accusativo</title>
+  <meta name="description" content="Allena la distinzione fondamentale tra stato in luogo (В/НА + Prepositivo) e moto a luogo (В/НА + Accusativo).">
+  <meta name="language" content="russo">
+  <meta name="category" content="esercizi">
+  <meta name="difficulty" content="Intermedio">
+  <meta name="keywords" content="russo, grammatica, casi, accusativo, prepositivo">
+  <meta name="icon" content="✏️">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
+  <div class="max-w-2xl mx-auto">
+    <header class="mb-6 pb-4 border-b border-slate-800">
+      <span class="text-xs uppercase tracking-widest text-emerald-400 font-bold">🇷🇺 Russo • Esercizi</span>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Stato in Luogo o Moto a Luogo?</h1>
+    </header>
+
+    <div class="space-y-4">
+      <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
+        <p class="text-lg font-bold text-white mb-2">Я иду в [ ? ] (Vado al parco - moto a luogo)</p>
+        <div class="flex gap-2">
+          <button onclick="document.getElementById('rfb1').textContent='✅ Esatto! Sostantivo inanimato maschile all accusativo resta invariato: парк.'; document.getElementById('rfb1').className='p-3 bg-emerald-950/60 border border-emerald-500/50 rounded-xl text-emerald-300 text-xs mt-3 block';" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-semibold">парк</button>
+          <button onclick="document.getElementById('rfb1').textContent='❌ Errore! парке è il prepositivo, usato per lo stato in luogo (Я в парке).'; document.getElementById('rfb1').className='p-3 bg-rose-950/60 border border-rose-500/50 rounded-xl text-rose-300 text-xs mt-3 block';" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-semibold">парке</button>
+        </div>
+        <div id="rfb1" class="hidden"></div>
+      </div>
+      <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700">
+        <p class="text-lg font-bold text-white mb-2">Я сейчас в [ ? ] (Ora sono a scuola - stato in luogo)</p>
+        <div class="flex gap-2">
+          <button onclick="document.getElementById('rfb2').textContent='✅ Esatto! In prepositivo школу diventa школе.'; document.getElementById('rfb2').className='p-3 bg-emerald-950/60 border border-emerald-500/50 rounded-xl text-emerald-300 text-xs mt-3 block';" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-semibold">школе</button>
+          <button onclick="document.getElementById('rfb2').textContent='❌ Errore! школу è all accusativo, usato per il moto a luogo (Иду в школу).'; document.getElementById('rfb2').className='p-3 bg-rose-950/60 border border-rose-500/50 rounded-xl text-rose-300 text-xs mt-3 block';" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-semibold">школу</button>
+        </div>
+        <div id="rfb2" class="hidden"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

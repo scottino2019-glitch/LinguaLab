@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lettura Graduata: Una Sera sul Fiume Han</title>
+  <meta name="description" content="Breve racconto graduato su una piacevole serata sul fiume Han con testo coreano e note a margine.">
+  <meta name="language" content="coreano">
+  <meta name="category" content="letture">
+  <meta name="difficulty" content="Intermedio">
+  <meta name="keywords" content="coreano, lettura, seoul, fiume han, testo">
+  <meta name="icon" content="🌙">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
+  <div class="max-w-2xl mx-auto">
+    <header class="mb-6 pb-4 border-b border-slate-800 flex justify-between items-center">
+      <div>
+        <span class="text-xs uppercase tracking-widest text-indigo-400 font-bold">🇰🇷 Coreano • Letture</span>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-white mt-1">한강의 밤 (La Notte sul Fiume Han)</h1>
+      </div>
+      <button onclick="speak()" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs font-bold text-white">🔊 Ascolta</button>
+    </header>
+
+    <div class="space-y-4 text-slate-300">
+      <div class="p-4 bg-slate-800/40 rounded-xl border border-slate-800">
+        <p class="text-xl text-white font-['Noto_Sans_KR']">
+          날씨가 따뜻해서 친구들과 한강 공원에 갔습니다.
+        </p>
+        <p class="text-sm text-slate-400 mt-2">Dato che il tempo era mite, sono andato al parco del fiume Han con gli amici.</p>
+      </div>
+
+      <div class="p-4 bg-slate-800/40 rounded-xl border border-slate-800">
+        <p class="text-xl text-white font-['Noto_Sans_KR']">
+          강변에서 라면을 먹고 자전거를 탔습니다.
+        </p>
+        <p class="text-sm text-slate-400 mt-2">Abbiamo mangiato ramen sulla riva del fiume e siamo andati in bicicletta.</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    function speak() {
+      const text = "날씨가 따뜻해서 친구들과 한강 공원에 갔습니다. 강변에서 라면을 먹고 자전거를 탔습니다.";
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'ko-KR';
+        window.speechSynthesis.speak(u);
+      }
+    }
+  </script>
+</body>
+</html>

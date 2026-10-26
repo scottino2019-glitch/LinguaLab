@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kana Arcade: Velocità Hiragana e Katakana</title>
+  <meta name="description" content="Sfida di velocità a tempo sui sillabari Hiragana e Katakana con streak, punteggio e pronuncia audio autentica!">
+  <meta name="language" content="giapponese">
+  <meta name="category" content="giochi">
+  <meta name="difficulty" content="Principiante">
+  <meta name="keywords" content="giapponese, hiragana, katakana, quiz, gioco, arcade">
+  <meta name="icon" content="🌸">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8 flex flex-col items-center">
+  <div class="max-w-md w-full">
+    <header class="flex items-center justify-between mb-6 pb-3 border-b border-slate-800">
+      <div>
+        <span class="text-xs uppercase tracking-widest text-rose-400 font-bold">🇯🇵 Giapponese • Giochi & Quiz</span>
+        <h1 class="text-2xl font-black text-white mt-1">Kana Arcade</h1>
+      </div>
+      <div class="flex gap-2">
+        <div class="bg-slate-800 px-3 py-1 rounded-lg border border-slate-700 text-center">
+          <div class="text-[10px] text-slate-400">STREAK</div>
+          <div id="streak" class="text-base font-bold text-amber-400">🔥 0</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="bg-slate-800/90 border border-slate-700 rounded-3xl p-6 text-center shadow-2xl mb-4">
+      <div class="text-xs font-semibold text-slate-400 mb-2">QUALE ROMAJI CORRISPONDE?</div>
+      <div id="target-kana" class="text-7xl font-black text-rose-300 py-6 font-['Noto_Sans_JP'] drop-shadow-md">あ</div>
+      <div id="buttons-grid" class="grid grid-cols-2 gap-3 mt-4"></div>
+    </div>
+
+    <div class="flex justify-between items-center text-xs text-slate-400 px-2">
+      <span>Punti: <strong id="score" class="text-emerald-400 text-sm">0</strong></span>
+      <button onclick="newRound()" class="hover:text-white transition">Salta canale ↻</button>
+    </div>
+  </div>
+
+  <script>
+    const kanaList = [
+      { kana: 'あ', romaji: 'a' }, { kana: 'い', romaji: 'i' }, { kana: 'う', romaji: 'u' }, { kana: 'え', romaji: 'e' }, { kana: 'お', romaji: 'o' },
+      { kana: 'か', romaji: 'ka' }, { kana: 'き', romaji: 'ki' }, { kana: 'く', romaji: 'ku' }, { kana: 'け', romaji: 'ke' }, { kana: 'こ', romaji: 'ko' },
+      { kana: 'さ', romaji: 'sa' }, { kana: 'し', romaji: 'shi' }, { kana: 'す', romaji: 'su' }, { kana: 'せ', romaji: 'se' }, { kana: 'そ', romaji: 'so' },
+      { kana: 'ア', romaji: 'a' }, { kana: 'カ', romaji: 'ka' }, { kana: 'サ', romaji: 'sa' }, { kana: 'ナ', romaji: 'na' }
+    ];
+
+    let current = null;
+    let score = 0;
+    let streak = 0;
+
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'ja-JP';
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    function newRound() {
+      current = kanaList[Math.floor(Math.random() * kanaList.length)];
+      document.getElementById('target-kana').textContent = current.kana;
+      speak(current.kana);
+
+      // Wrong options
+      let wrong = kanaList.map(k => k.romaji).filter(r => r !== current.romaji);
+      wrong = [...new Set(wrong)].sort(() => Math.random() - 0.5).slice(0, 3);
+      const choices = [current.romaji, ...wrong].sort(() => Math.random() - 0.5);
+
+      const grid = document.getElementById('buttons-grid');
+      grid.innerHTML = '';
+      choices.forEach(c => {
+        const btn = document.createElement('button');
+        btn.className = 'py-3.5 bg-slate-700/80 hover:bg-slate-700 border border-slate-600 rounded-xl font-bold text-lg text-slate-100 transition active:scale-95';
+        btn.textContent = c;
+        btn.onclick = () => {
+          if (c === current.romaji) {
+            score += 10;
+            streak++;
+            btn.classList.add('!bg-emerald-600');
+          } else {
+            streak = 0;
+            btn.classList.add('!bg-rose-600');
+          }
+          document.getElementById('score').textContent = score;
+          document.getElementById('streak').textContent = '🔥 ' + streak;
+          setTimeout(newRound, 400);
+        };
+        grid.appendChild(btn);
+      });
+    }
+
+    newRound();
+  </script>
+</body>
+</html>

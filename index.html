@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      // Suppress Vite HMR WebSocket closing noise in embedded iframe sandbox
+      window.addEventListener('error', function(event) {
+        if (event.message && (event.message.indexOf('WebSocket') !== -1 || event.message.indexOf('ws://') !== -1 || event.message.indexOf('wss://') !== -1)) {
+          event.stopImmediatePropagation();
+        }
+      });
+      window.addEventListener('unhandledrejection', function(event) {
+        if (event.reason && (String(event.reason).indexOf('WebSocket') !== -1 || String(event.reason?.message).indexOf('WebSocket') !== -1)) {
+          event.stopImmediatePropagation();
+        }
+      });
+    </script>
+    <title>LinguaHub PWA</title>
+    <meta name="description" content="PWA modulare per raccogliere e consultare fogli HTML per cinese, giapponese, coreano, russo e altre lingue con caricamento automatico da cartella public." />
+    <meta property="og:title" content="LinguaHub PWA" />
+    <meta property="og:description" content="PWA modulare per raccogliere e consultare fogli HTML per cinese, giapponese, coreano, russo e altre lingue con caricamento automatico da cartella public." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#c5ced8" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="LinguaHub" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#c5ced8] text-slate-900 antialiased font-sans selection:bg-indigo-600 selection:text-white min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "LinguaHub PWA",
+  "description": "PWA modulare per raccogliere e consultare fogli HTML per cinese, giapponese, coreano, russo e altre lingue con caricamento automatico da cartella public.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

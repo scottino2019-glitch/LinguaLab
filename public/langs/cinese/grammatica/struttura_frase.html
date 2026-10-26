@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammatica Cinese: Ordine della Frase e Particelle</title>
+  <meta name="description" content="Guida visiva interattiva alla struttura sintattica S-T-M-L-V-O in cinese e all'uso fondamentale delle particelle 的, 得, 地.">
+  <meta name="language" content="cinese">
+  <meta name="category" content="grammatica">
+  <meta name="difficulty" content="Intermedio">
+  <meta name="keywords" content="cinese, grammatica, sintassi, de, particelle, frase">
+  <meta name="icon" content="📚">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
+  <div class="max-w-3xl mx-auto">
+    <header class="mb-8 pb-4 border-b border-slate-800">
+      <span class="text-xs uppercase tracking-widest text-purple-400 font-bold">🇨🇳 Cinese • Grammatica & Regole</span>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-white mt-1">La Formula della Frase Cinese</h1>
+      <p class="text-slate-400 mt-2">La sequenza standard è <strong>Soggetto + Tempo + Luogo + Mezzo + Verbo + Oggetto</strong>.</p>
+    </header>
+
+    <div class="bg-slate-800/70 border border-slate-700 rounded-2xl p-6 mb-8">
+      <h2 class="text-lg font-bold text-amber-300 mb-3">Schema Sintattico Interattivo</h2>
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-2 text-center text-xs font-mono font-bold mb-4">
+        <div class="bg-indigo-900/60 border border-indigo-500/40 p-2.5 rounded-lg text-indigo-200">Soggetto (S)<br><span class="text-sm font-sans font-normal text-white">我 (Io)</span></div>
+        <div class="bg-blue-900/60 border border-blue-500/40 p-2.5 rounded-lg text-blue-200">Tempo (T)<br><span class="text-sm font-sans font-normal text-white">明天 (Domani)</span></div>
+        <div class="bg-teal-900/60 border border-teal-500/40 p-2.5 rounded-lg text-teal-200">Luogo (L)<br><span class="text-sm font-sans font-normal text-white">在图书馆</span></div>
+        <div class="bg-emerald-900/60 border border-emerald-500/40 p-2.5 rounded-lg text-emerald-200">Mezzo (M)<br><span class="text-sm font-sans font-normal text-white">跟朋友 (Con amici)</span></div>
+        <div class="bg-amber-900/60 border border-amber-500/40 p-2.5 rounded-lg text-amber-200">Verbo (V)<br><span class="text-sm font-sans font-normal text-white">学 (Studio)</span></div>
+        <div class="bg-rose-900/60 border border-rose-500/40 p-2.5 rounded-lg text-rose-200">Oggetto (O)<br><span class="text-sm font-sans font-normal text-white">中文 (Cinese)</span></div>
+      </div>
+      <div class="p-3 bg-slate-900/80 rounded-xl border border-slate-800 text-sm flex items-center justify-between">
+        <span class="text-slate-300">Frase unita: <strong>我明天在图书馆跟朋友学中文。</strong></span>
+        <button onclick="speak('我明天在图书馆跟朋友学中文')" class="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold rounded text-white flex items-center gap-1">
+          🔊 Ascolta
+        </button>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-4">
+      <div class="bg-slate-800/50 border border-slate-700/60 p-4 rounded-xl">
+        <span class="text-xl font-bold text-amber-400">的 (de)</span>
+        <h3 class="font-bold text-white text-sm mt-1">Possesso e Modificatore</h3>
+        <p class="text-xs text-slate-400 mt-2">Collega aggettivo o possessore a un sostantivo: 我的书 (Il mio libro), 红色的花 (Fiore rosso).</p>
+      </div>
+      <div class="bg-slate-800/50 border border-slate-700/60 p-4 rounded-xl">
+        <span class="text-xl font-bold text-cyan-400">得 (de)</span>
+        <h3 class="font-bold text-white text-sm mt-1">Grado e Risultato</h3>
+        <p class="text-xs text-slate-400 mt-2">Segue il verbo per indicare come l'azione viene svolta: 他跑得很快 (Lui corre molto veloce).</p>
+      </div>
+      <div class="bg-slate-800/50 border border-slate-700/60 p-4 rounded-xl">
+        <span class="text-xl font-bold text-emerald-400">地 (de)</span>
+        <h3 class="font-bold text-white text-sm mt-1">Avverbiale</h3>
+        <p class="text-xs text-slate-400 mt-2">Trasforma un aggettivo in avverbio prima del verbo: 高兴地笑了 (Sorrise felicemente).</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'zh-CN';
+        window.speechSynthesis.speak(u);
+      }
+    }
+  </script>
+</body>
+</html>

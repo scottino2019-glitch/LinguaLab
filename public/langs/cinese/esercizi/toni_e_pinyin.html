@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esercizi di Ascolto e Riconoscimento: I 4 Toni del Cinese</title>
+  <meta name="description" content="Allena l'orecchio a distinguere i 4 toni del cinese mandarino (alto, ascendente, discendente-ascendente, discendente).">
+  <meta name="language" content="cinese">
+  <meta name="category" content="esercizi">
+  <meta name="difficulty" content="Principiante">
+  <meta name="keywords" content="cinese, toni, pinyin, ascolto, pronuncia">
+  <meta name="icon" content="🎵">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8 flex flex-col items-center">
+  <div class="max-w-xl w-full">
+    <header class="mb-6 pb-4 border-b border-slate-800">
+      <span class="text-xs uppercase tracking-widest text-blue-400 font-bold">🇨🇳 Cinese • Esercizi</span>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Sfida dei 4 Toni Mandarini</h1>
+      <p class="text-sm text-slate-400 mt-1">Ascolta il suono e scegli il tono o carattere corretto.</p>
+    </header>
+
+    <div class="bg-slate-800/80 border border-slate-700 rounded-2xl p-6 shadow-xl mb-6 text-center">
+      <div class="text-xs font-semibold text-slate-400 mb-2">DOMANDA <span id="q-num">1</span> DI <span id="q-total">5</span></div>
+      <button id="listen-btn" class="my-4 px-6 py-4 bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold rounded-2xl flex items-center justify-center gap-3 mx-auto transition shadow-lg shadow-indigo-600/30">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        Ascolta il Suono
+      </button>
+
+      <div class="grid grid-cols-2 gap-3 mt-6" id="options"></div>
+      <div id="feedback" class="mt-4 text-sm font-semibold h-6"></div>
+    </div>
+
+    <div class="flex justify-between items-center text-sm text-slate-400">
+      <div>Punteggio: <span id="score" class="font-bold text-emerald-400">0</span></div>
+      <button onclick="restart()" class="text-indigo-400 hover:underline">Ricomincia quiz</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { text: 'mā', char: '妈 (mamma)', tone: '1° Tono (mā - piano)', sound: 'mā', options: ['1° Tono (mā)', '2° Tono (má)', '3° Tono (mǎ)', '4° Tono (mà)'], correct: 0 },
+      { text: 'má', char: '麻 (canapa)', tone: '2° Tono (má - salita)', sound: 'má', options: ['1° Tono (mā)', '2° Tono (má)', '3° Tono (mǎ)', '4° Tono (mà)'], correct: 1 },
+      { text: 'mǎ', char: '马 (cavallo)', tone: '3° Tono (mǎ - curva)', sound: 'mǎ', options: ['1° Tono (mā)', '2° Tono (má)', '3° Tono (mǎ)', '4° Tono (mà)'], correct: 2 },
+      { text: 'mà', char: '骂 (rimproverare)', tone: '4° Tono (mà - discesa)', sound: 'mà', options: ['1° Tono (mā)', '2° Tono (má)', '3° Tono (mǎ)', '4° Tono (mà)'], correct: 3 },
+      { text: 'hǎo', char: '好 (bene/buono)', tone: '3° Tono (hǎo)', sound: 'hǎo', options: ['1° Tono (hāo)', '2° Tono (háo)', '3° Tono (hǎo)', '4° Tono (hào)'], correct: 2 }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    function playSound() {
+      const q = questions[current];
+      if ('speechSynthesis' in window) {
+        const u = new SpeechSynthesisUtterance(q.sound);
+        u.lang = 'zh-CN';
+        window.speechSynthesis.speak(u);
+      }
+    }
+
+    document.getElementById('listen-btn').onclick = playSound;
+
+    function renderQuestion() {
+      const q = questions[current];
+      document.getElementById('q-num').textContent = current + 1;
+      document.getElementById('q-total').textContent = questions.length;
+      document.getElementById('feedback').textContent = '';
+      
+      const optContainer = document.getElementById('options');
+      optContainer.innerHTML = '';
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'p-3 bg-slate-700/60 hover:bg-slate-700 border border-slate-600 rounded-xl font-medium text-slate-200 transition text-sm';
+        btn.textContent = opt;
+        btn.onclick = () => selectOption(idx);
+        optContainer.appendChild(btn);
+      });
+      playSound();
+    }
+
+    function selectOption(idx) {
+      const q = questions[current];
+      const feedback = document.getElementById('feedback');
+      const buttons = document.querySelectorAll('#options button');
+      buttons.forEach(b => b.disabled = true);
+
+      if (idx === q.correct) {
+        score++;
+        document.getElementById('score').textContent = score;
+        buttons[idx].classList.add('!bg-emerald-600', '!border-emerald-400', 'text-white');
+        feedback.textContent = 'Esatto! Era ' + q.char;
+        feedback.className = 'mt-4 text-sm font-semibold text-emerald-400';
+      } else {
+        buttons[idx].classList.add('!bg-rose-600', '!border-rose-400', 'text-white');
+        buttons[q.correct].classList.add('!bg-emerald-600', '!border-emerald-400', 'text-white');
+        feedback.textContent = 'Non proprio: la risposta era ' + q.char;
+        feedback.className = 'mt-4 text-sm font-semibold text-rose-400';
+      }
+
+      setTimeout(() => {
+        current++;
+        if (current < questions.length) {
+          renderQuestion();
+        } else {
+          document.getElementById('options').innerHTML = '<div class="col-span-2 py-4 text-emerald-400 font-bold text-lg">Esercizio completato! Punteggio: ' + score + '/' + questions.length + '</div>';
+          document.getElementById('feedback').textContent = '';
+        }
+      }, 1500);
+    }
+
+    function restart() {
+      current = 0;
+      score = 0;
+      document.getElementById('score').textContent = '0';
+      renderQuestion();
+    }
+
+    renderQuestion();
+  </script>
+</body>
+</html>

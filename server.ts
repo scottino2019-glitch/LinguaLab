@@ -1,0 +1,78 @@
+import express from 'express';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { scanPublicDirectory } from './src/server/scannerNode.ts';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+async function startServer() {
+  const app = express();
+  const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+  const isProd = process.env.NODE_ENV === 'production';
+
+  app.use(express.json({ limit: '10mb' }));
+
+  // API: Get scanned public files
+  app.get('/api/files', (_req, res) => {
+    try {
+      const scan = scanPublicDirectory(process.cwd());
+      res.json(scan);
+    } catch (err) {
+      res.status(500).json({ error: (err as Error).message });
+    }
+  });
+
+  // API: Upload / Save HTML file to public/langs/<lang>/<cat>/<filename>
+  app.post('/api/upload', (req, res) => {
+    try {
+      const { language, category, fileName, content } = req.body;
+      const lang = (language || 'altre').toLowerCase().trim();
+      const cat = (category || 'generale').toLowerCase().trim();
+      const safeName = (fileName || 'foglio.html').replace(/[^a-zA-Z0-9_.-]/g, '_');
+
+      const targetDir = path.resolve(process.cwd(), 'public', 'langs', lang, cat);
+      if (!fs.existsSync(targetDir)) {
+        fs.mkdirSync(targetDir, { recursive: true });
+      }
+
+      const targetPath = path.join(targetDir, safeName);
+      fs.writeFileSync(targetPath, content || '', 'utf8');
+
+      res.json({
+        success: true,
+        relPath: `langs/${lang}/${cat}/${safeName}`,
+        url: `/langs/${lang}/${cat}/${safeName}`
+      });
+    } catch (err) {
+      res.status(500).json({ error: (err as Error).message });
+    }
+  });
+
+  // Serve static files from public
+  app.use(express.static(path.resolve(__dirname, 'public')));
+
+  if (!isProd) {
+    const { createServer: createViteServer } = await import('vite');
+    const vite = await createViteServer({
+      server: {
+        middlewareMode: true,
+        hmr: false
+      },
+      appType: 'spa'
+    });
+    app.use(vite.middlewares);
+  } else {
+    app.use(express.static(path.resolve(__dirname, 'dist')));
+    app.get('*', (_req, res) => {
+      res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+    });
+  }
+
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`LinguaHub Server listening on http://0.0.0.0:${PORT}`);
+  });
+}
+
+startServer();

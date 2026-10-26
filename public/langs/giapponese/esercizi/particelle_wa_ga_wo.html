@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esercizi Particelle Giapponesi: は (wa), が (ga), を (wo), に (ni)</title>
+  <meta name="description" content="Mettiti alla prova con le particelle grammaticali essenziali del giapponese moderno con spiegazione immediata dell'errore.">
+  <meta name="language" content="giapponese">
+  <meta name="category" content="esercizi">
+  <meta name="difficulty" content="Principiante">
+  <meta name="keywords" content="giapponese, particelle, wa, ga, wo, ni, esercizi, grammatica">
+  <meta name="icon" content="✏️">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8">
+  <div class="max-w-2xl mx-auto">
+    <header class="mb-6 pb-4 border-b border-slate-800">
+      <span class="text-xs uppercase tracking-widest text-emerald-400 font-bold">🇯🇵 Giapponese • Esercizi</span>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-white mt-1">Scegli la Particella Corretta</h1>
+      <p class="text-sm text-slate-400 mt-1">Completa la frase giapponese con la particella appropriata.</p>
+    </header>
+
+    <div id="quiz-box" class="space-y-4"></div>
+  </div>
+
+  <script>
+    const questions = [
+      { text: 'わたし [ ? ] がくせいです。 (Io sono uno studente)', options: ['は (wa)', 'が (ga)', 'を (wo)', 'に (ni)'], correct: 0, why: 'は marca il tema principale della frase (watashi wa).' },
+      { text: 'みず [ ? ] のみます。 (Bevo acqua)', options: ['は (wa)', 'が (ga)', 'を (wo)', 'に (ni)'], correct: 2, why: 'を (letto "o") marca l'oggetto diretto del verbo transitivo.' },
+      { text: 'とうきょう [ ? ] いきます。 (Vado a Tokyo)', options: ['は (wa)', 'が (ga)', 'を (wo)', 'に (ni)'], correct: 3, why: 'に marca la direzione e il punto di arrivo (Tokyo ni ikimasu).' },
+      { text: 'だれ [ ? ] きましたか。 (Chi è venuto?)', options: ['は (wa)', 'が (ga)', 'を (wo)', 'に (ni)'], correct: 1, why: 'I pronomi interrogativi come だれ (chi) prendono sempre が come soggetto.' }
+    ];
+
+    const box = document.getElementById('quiz-box');
+    questions.forEach((q, i) => {
+      const card = document.createElement('div');
+      card.className = 'bg-slate-800/70 border border-slate-700/80 p-5 rounded-2xl';
+      card.innerHTML = `
+        <p class="text-lg font-bold text-white mb-3 font-['Noto_Sans_JP']">${q.text}</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+          ${q.options.map((opt, optIndex) => `
+            <button onclick="check(${i}, ${optIndex}, this)" class="p-2.5 bg-slate-700 hover:bg-slate-600 rounded-xl text-sm font-semibold transition border border-slate-600">${opt}</button>
+          `).join('')}
+        </div>
+        <div id="expl-${i}" class="text-xs hidden p-3 rounded-lg"></div>
+      `;
+      box.appendChild(card);
+    });
+
+    function check(qIndex, choiceIndex, btn) {
+      const q = questions[qIndex];
+      const parent = btn.parentElement;
+      const allButtons = parent.querySelectorAll('button');
+      allButtons.forEach(b => b.disabled = true);
+
+      const expl = document.getElementById('expl-' + qIndex);
+      expl.classList.remove('hidden');
+
+      if (choiceIndex === q.correct) {
+        btn.classList.add('!bg-emerald-600', '!border-emerald-400');
+        expl.className = 'text-xs p-3 rounded-lg bg-emerald-950/60 border border-emerald-500/50 text-emerald-300';
+        expl.textContent = '✅ Esatto! ' + q.why;
+      } else {
+        btn.classList.add('!bg-rose-600', '!border-rose-400');
+        allButtons[q.correct].classList.add('!bg-emerald-600');
+        expl.className = 'text-xs p-3 rounded-lg bg-rose-950/60 border border-rose-500/50 text-rose-300';
+        expl.textContent = '❌ Sbagliato. Spiegazione: ' + q.why;
+      }
+    }
+  </script>
+</body>
+</html>

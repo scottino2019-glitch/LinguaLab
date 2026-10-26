@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cirillico Explorer: I Falsi Amici dell'Alfabeto Russo</title>
+  <meta name="description" content="Gioco interattivo per imparare le lettere cirilliche che traggono in inganno (В = V, Р = R, Н = N, Х = H).">
+  <meta name="language" content="russo">
+  <meta name="category" content="giochi">
+  <meta name="difficulty" content="Principiante">
+  <meta name="keywords" content="russo, cirillico, alfabeto, falsi amici, quiz">
+  <meta name="icon" content="🪆">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-4 md:p-8 flex flex-col items-center">
+  <div class="max-w-md w-full">
+    <header class="mb-6 pb-3 border-b border-slate-800 text-center">
+      <span class="text-xs uppercase tracking-widest text-amber-400 font-bold">🇷🇺 Russo • Giochi & Quiz</span>
+      <h1 class="text-2xl font-black text-white mt-1">Falsi Amici del Cirillico</h1>
+      <p class="text-xs text-slate-400 mt-1">Attento: queste lettere si scrivono come in italiano ma suonano diverse!</p>
+    </header>
+
+    <div class="bg-slate-800/90 border border-slate-700 rounded-3xl p-6 text-center shadow-xl mb-4">
+      <div id="cyr-letter" class="text-7xl font-black text-amber-300 py-4">В</div>
+      <div class="text-xs text-slate-400 mb-4">Come si pronuncia in russo questa lettera?</div>
+      <div id="choices" class="grid grid-cols-2 gap-3"></div>
+      <div id="res" class="mt-4 text-xs font-bold h-5"></div>
+    </div>
+  </div>
+
+  <script>
+    const pairs = [
+      { cyr: 'В', correct: 'V come Vaso', wrong: ['B come Barca', 'P come Pane', 'N come Notte'] },
+      { cyr: 'Р', correct: 'R come Roma', wrong: ['P come Pietro', 'D come Dado', 'F come Fiume'] },
+      { cyr: 'Н', correct: 'N come Notte', wrong: ['H come Hotel', 'M come Mare', 'K come Kiwi'] },
+      { cyr: 'С', correct: 'S come Sole', wrong: ['C come Casa', 'G come Gatto', 'T come Torre'] },
+      { cyr: 'Х', correct: 'Ch / H aspirata', wrong: ['X (Ics)', 'K forte', 'Z dolce'] }
+    ];
+
+    let currentIdx = 0;
+
+    function renderRound() {
+      const q = pairs[currentIdx];
+      document.getElementById('cyr-letter').textContent = q.cyr;
+      document.getElementById('res').textContent = '';
+
+      const opts = [q.correct, ...q.wrong].sort(() => Math.random() - 0.5);
+      const grid = document.getElementById('choices');
+      grid.innerHTML = '';
+      opts.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'p-3 bg-slate-700 hover:bg-slate-600 rounded-xl font-semibold text-sm transition';
+        btn.textContent = opt;
+        btn.onclick = () => {
+          if (opt === q.correct) {
+            document.getElementById('res').textContent = '✅ Esatto!';
+            document.getElementById('res').className = 'mt-4 text-xs font-bold text-emerald-400';
+            setTimeout(() => {
+              currentIdx = (currentIdx + 1) % pairs.length;
+              renderRound();
+            }, 800);
+          } else {
+            document.getElementById('res').textContent = '❌ No, riprova!';
+            document.getElementById('res').className = 'mt-4 text-xs font-bold text-rose-400';
+          }
+        };
+        grid.appendChild(btn);
+      });
+    }
+
+    renderRound();
+  </script>
+</body>
+</html>
