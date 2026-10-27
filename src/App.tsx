@@ -15,7 +15,8 @@ import {
   Star,
   CheckCircle,
   Layers,
-  Globe
+  Globe,
+  Trash2
 } from 'lucide-react';
 
 import { LanguageFile, ScanResult } from './types';
@@ -27,11 +28,13 @@ import { UploadModal } from './components/UploadModal';
 import { PublicFolderGuideModal } from './components/PublicFolderGuideModal';
 import { FileInspectorModal } from './components/FileInspectorModal';
 import { FolderTreeView } from './components/FolderTreeView';
+import { ConfirmDeleteModal } from './components/ConfirmDeleteModal';
 import { PWAInstallButton } from './components/PWAInstallButton';
 import { OfflineIndicator } from './components/OfflineIndicator';
 import {
   getCustomFiles,
   saveCustomFile,
+  deleteCustomFile,
   getFavoriteIds,
   toggleFavorite,
   getCompletedIds,
@@ -81,6 +84,7 @@ export default function App() {
   // Modals state
   const [activeViewerFile, setActiveViewerFile] = useState<LanguageFile | null>(null);
   const [inspectedFile, setInspectedFile] = useState<LanguageFile | null>(null);
+  const [fileToDelete, setFileToDelete] = useState<LanguageFile | null>(null);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -88,6 +92,44 @@ export default function App() {
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3000);
+  };
+
+  const handleRequestDelete = (file: LanguageFile) => {
+    setFileToDelete(file);
+  };
+
+  const handleConfirmDelete = async (file: LanguageFile) => {
+    try {
+      if (file.isCustom) {
+        deleteCustomFile(file.id);
+      } else {
+        try {
+          const res = await fetch('/api/delete', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ relPath: file.relPath, url: file.url })
+          });
+          if (!res.ok) {
+            console.warn('Server delete returned status', res.status);
+          }
+        } catch (e) {
+          console.warn('Network call to delete failed:', e);
+        }
+      }
+
+      setFiles(prev => prev.filter(f => f.id !== file.id));
+      if (activeViewerFile?.id === file.id) {
+        setActiveViewerFile(null);
+      }
+      if (inspectedFile?.id === file.id) {
+        setInspectedFile(null);
+      }
+      setFileToDelete(null);
+      showToast(`Foglio "${file.title}" eliminato con successo!`);
+    } catch (err) {
+      console.error('Error during deletion:', err);
+      showToast('Errore durante l\'eliminazione del foglio.');
+    }
   };
 
   const loadFiles = useCallback(async (isManualRescan = false) => {
@@ -649,7 +691,11 @@ export default function App() {
             </div>
           ) : viewMode === 'tree' ? (
             /* Folder Tree View */
-            <FolderTreeView files={filteredFiles} onOpen={handleOpenFile} />
+            <FolderTreeView
+              files={filteredFiles}
+              onOpen={handleOpenFile}
+              onDelete={handleRequestDelete}
+            />
           ) : viewMode === 'list' ? (
             /* Compact List View */
             <div className="bg-[#333b47] border border-[#475263] rounded-2xl overflow-hidden divide-y divide-[#475263] shadow-sm">
@@ -692,6 +738,13 @@ export default function App() {
                         <Star className={`w-4 h-4 ${f.favorite ? 'fill-amber-400' : ''}`} />
                       </button>
                       <button
+                        onClick={() => handleRequestDelete(f)}
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition cursor-pointer"
+                        title="Elimina foglio"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                      <button
                         onClick={() => handleOpenFile(f)}
                         className={`px-3 py-1.5 rounded-xl text-white font-bold text-xs shadow-xs transition ${cat.actionBtn}`}
                       >
@@ -713,6 +766,7 @@ export default function App() {
                   onToggleFavorite={handleToggleFavorite}
                   onToggleCompleted={handleToggleCompleted}
                   onInspect={(f) => setInspectedFile(f)}
+                  onDelete={handleRequestDelete}
                 />
               ))}
             </div>
@@ -746,6 +800,7 @@ export default function App() {
         onClose={() => setActiveViewerFile(null)}
         onToggleFavorite={handleToggleFavorite}
         onToggleCompleted={handleToggleCompleted}
+        onDelete={handleRequestDelete}
       />
 
       <UploadModal
@@ -764,6 +819,14 @@ export default function App() {
         file={inspectedFile}
         onClose={() => setInspectedFile(null)}
         onOpen={handleOpenFile}
+        onDelete={handleRequestDelete}
+      />
+
+      <ConfirmDeleteModal
+        file={fileToDelete}
+        isOpen={!!fileToDelete}
+        onClose={() => setFileToDelete(null)}
+        onConfirm={handleConfirmDelete}
       />
     </div>
   );

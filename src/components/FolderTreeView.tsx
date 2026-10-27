@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { ChevronRight, ChevronDown, Folder, FileCode, Play } from 'lucide-react';
+import { ChevronRight, ChevronDown, Folder, FileCode, Play, Trash2 } from 'lucide-react';
 import { LanguageFile } from '../types';
 import { getLanguageMeta, getCategoryMeta } from '../constants/languages';
 
 interface FolderTreeViewProps {
   files: LanguageFile[];
   onOpen: (file: LanguageFile) => void;
+  onDelete?: (file: LanguageFile) => void;
 }
 
-export const FolderTreeView: React.FC<FolderTreeViewProps> = ({ files, onOpen }) => {
+export const FolderTreeView: React.FC<FolderTreeViewProps> = ({ files, onOpen, onDelete }) => {
   const tree: Record<string, Record<string, LanguageFile[]>> = {};
 
   files.forEach((f) => {
@@ -111,6 +112,18 @@ export const FolderTreeView: React.FC<FolderTreeViewProps> = ({ files, onOpen })
                                 </div>
                                 <div className="flex items-center gap-2 shrink-0">
                                   <span className="text-[10px] text-slate-300 font-mono">{f.formattedSize}</span>
+                                  {onDelete && (
+                                    <button
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        onDelete(f);
+                                      }}
+                                      className="p-1 px-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/20 transition cursor-pointer"
+                                      title="Elimina foglio"
+                                    >
+                                      <Trash2 className="w-3.5 h-3.5" />
+                                    </button>
+                                  )}
                                   <button
                                     onClick={(e) => {
                                       e.stopPropagation();

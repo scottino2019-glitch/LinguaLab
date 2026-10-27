@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, FileCode, ExternalLink } from 'lucide-react';
+import { X, FileCode, ExternalLink, Trash2 } from 'lucide-react';
 import { LanguageFile } from '../types';
 import { getLanguageMeta, getCategoryMeta } from '../constants/languages';
 
@@ -7,9 +7,10 @@ interface FileInspectorModalProps {
   file: LanguageFile | null;
   onClose: () => void;
   onOpen: (file: LanguageFile) => void;
+  onDelete?: (file: LanguageFile) => void;
 }
 
-export const FileInspectorModal: React.FC<FileInspectorModalProps> = ({ file, onClose, onOpen }) => {
+export const FileInspectorModal: React.FC<FileInspectorModalProps> = ({ file, onClose, onOpen, onDelete }) => {
   if (!file) return null;
 
   const langMeta = getLanguageMeta(file.language);
@@ -110,22 +111,37 @@ export const FileInspectorModal: React.FC<FileInspectorModalProps> = ({ file, on
           )}
         </div>
 
-        <div className="mt-5 pt-3 border-t border-[#2d3340] flex justify-between gap-2">
-          <a
-            href={file.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-3 py-1.5 rounded-xl bg-[#242933] hover:bg-[#2c333f] border border-[#384050] text-xs text-slate-200 font-bold flex items-center gap-1.5 shadow-xs"
-          >
-            <ExternalLink className="w-3.5 h-3.5" />
-            <span>Nuova Scheda</span>
-          </a>
+        <div className="mt-5 pt-3 border-t border-[#2d3340] flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <a
+              href={file.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-1.5 rounded-xl bg-[#242933] hover:bg-[#2c333f] border border-[#384050] text-xs text-slate-200 font-bold flex items-center gap-1.5 shadow-xs"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              <span>Nuova Scheda</span>
+            </a>
+            {onDelete && (
+              <button
+                onClick={() => {
+                  onClose();
+                  onDelete(file);
+                }}
+                className="px-3 py-1.5 rounded-xl bg-rose-950/60 hover:bg-rose-900/80 border border-rose-800/60 text-xs text-rose-300 font-bold flex items-center gap-1.5 shadow-xs transition cursor-pointer"
+                title="Elimina definitivamente questo foglio"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Elimina</span>
+              </button>
+            )}
+          </div>
           <button
             onClick={() => {
               onClose();
               onOpen(file);
             }}
-            className="px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white shadow-xs"
+            className="px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white shadow-xs cursor-pointer"
           >
             Apri nel Visualizzatore
           </button>

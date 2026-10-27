@@ -72,6 +72,59 @@ async function startServer() {
     }
   });
 
+  // API: Delete an HTML file from public directory
+  const handleDelete = (req: express.Request, res: express.Response) => {
+    try {
+      const targetParam = (req.body?.relPath || req.body?.url || req.query.path || req.query.url || '') as string;
+      const sanitized = targetParam.replace(/^\/+/, '').replace(/\.\./g, '').trim();
+
+      if (!sanitized) {
+        return res.status(400).json({ error: 'Percorso file non specificato' });
+      }
+
+      // Safeguard against deleting critical app files
+      if (
+        sanitized.startsWith('assets/') ||
+        sanitized === 'index.html' ||
+        sanitized === 'files-manifest.json' ||
+        sanitized.endsWith('.png') ||
+        sanitized.endsWith('.svg') ||
+        sanitized.endsWith('.ico') ||
+        sanitized.endsWith('.webmanifest')
+      ) {
+        return res.status(403).json({ error: 'Operazione non consentita per questo file protetto' });
+      }
+
+      const fullPath = path.resolve(process.cwd(), 'public', sanitized);
+      if (!fs.existsSync(fullPath) || !fs.statSync(fullPath).isFile()) {
+        return res.status(404).json({ error: `File non trovato: ${sanitized}` });
+      }
+
+      fs.unlinkSync(fullPath);
+
+      // Clean empty directory if not top-level langs or public
+      const parentDir = path.dirname(fullPath);
+      const publicDir = path.resolve(process.cwd(), 'public');
+      if (parentDir !== publicDir && parentDir !== path.join(publicDir, 'langs')) {
+        try {
+          const files = fs.readdirSync(parentDir);
+          if (files.length === 0) {
+            fs.rmdirSync(parentDir);
+          }
+        } catch {
+          // Ignore directory cleanup error
+        }
+      }
+
+      res.json({ success: true, message: `File ${sanitized} eliminato con successo` });
+    } catch (err) {
+      res.status(500).json({ error: (err as Error).message });
+    }
+  };
+
+  app.post('/api/delete', handleDelete);
+  app.delete('/api/files', handleDelete);
+
   // Serve static files from public
   app.use(express.static(path.resolve(__dirname, 'public'), {
     maxAge: '1h',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, Star, CheckCircle, FileCode, Play, Download } from 'lucide-react';
+import { ExternalLink, Star, CheckCircle, FileCode, Play, Download, Trash2 } from 'lucide-react';
 import { LanguageFile } from '../types';
 import { getLanguageMeta, getCategoryMeta } from '../constants/languages';
 
@@ -9,6 +9,7 @@ interface LanguageCardProps {
   onToggleFavorite: (id: string) => void;
   onToggleCompleted: (id: string) => void;
   onInspect: (file: LanguageFile) => void;
+  onDelete?: (file: LanguageFile) => void;
 }
 
 export const LanguageCard: React.FC<LanguageCardProps> = ({
@@ -17,6 +18,7 @@ export const LanguageCard: React.FC<LanguageCardProps> = ({
   onToggleFavorite,
   onToggleCompleted,
   onInspect,
+  onDelete,
 }) => {
   const langMeta = getLanguageMeta(file.language);
   const catMeta = getCategoryMeta(file.category);
@@ -159,6 +161,15 @@ export const LanguageCard: React.FC<LanguageCardProps> = ({
             >
               <Download className="w-3.5 h-3.5" />
             </button>
+            {onDelete && (
+              <button
+                onClick={() => onDelete(file)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/20 transition"
+                title="Elimina questo foglio"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+              </button>
+            )}
             <a
               href={file.url}
               target="_blank"

@@ -15,7 +15,8 @@ import {
   AlertTriangle,
   Loader2,
   FileCode,
-  Sparkles
+  Sparkles,
+  Trash2
 } from 'lucide-react';
 import { LanguageFile } from '../types';
 import { getLanguageMeta, getCategoryMeta } from '../constants/languages';
@@ -25,6 +26,7 @@ interface SheetViewerModalProps {
   onClose: () => void;
   onToggleFavorite: (id: string) => void;
   onToggleCompleted: (id: string) => void;
+  onDelete?: (file: LanguageFile) => void;
 }
 
 export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
@@ -32,6 +34,7 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
   onClose,
   onToggleFavorite,
   onToggleCompleted,
+  onDelete,
 }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
@@ -338,6 +341,18 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
             >
               {isFullscreen ? <Minimize2 className="w-3.5 h-3.5" /> : <Maximize2 className="w-3.5 h-3.5" />}
             </button>
+
+            {/* Delete File button */}
+            {onDelete && (
+              <button
+                onClick={() => onDelete(file)}
+                className="flex items-center gap-1 px-2.5 py-1 rounded-lg border text-xs font-bold transition bg-[#333d4b] border-[#445163] text-rose-300 hover:text-white hover:bg-rose-600 hover:border-rose-500 cursor-pointer"
+                title="Elimina questo foglio"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Elimina</span>
+              </button>
+            )}
           </div>
         </nav>
 

@@ -89,6 +89,61 @@ function publicLangsApiPlugin(): Plugin {
           return;
         }
 
+        if ((req.url.startsWith('/api/delete') || req.url.startsWith('/api/files')) && (req.method === 'POST' || req.method === 'DELETE')) {
+          let body = '';
+          req.on('data', chunk => {
+            body += chunk;
+          });
+          req.on('end', () => {
+            try {
+              let targetParam = '';
+              try {
+                const data = JSON.parse(body || '{}');
+                targetParam = data.relPath || data.url || '';
+              } catch {
+                // not JSON body
+              }
+
+              if (!targetParam) {
+                const parsedUrl = new URL(req.url || '/', 'http://localhost');
+                targetParam = parsedUrl.searchParams.get('path') || parsedUrl.searchParams.get('url') || '';
+              }
+
+              const sanitized = targetParam.replace(/^\/+/, '').replace(/\.\./g, '').trim();
+              if (!sanitized) {
+                res.statusCode = 400;
+                res.end(JSON.stringify({ error: 'Percorso mancante' }));
+                return;
+              }
+
+              if (
+                sanitized.startsWith('assets/') ||
+                sanitized === 'index.html' ||
+                sanitized === 'files-manifest.json' ||
+                sanitized.endsWith('.png') ||
+                sanitized.endsWith('.svg') ||
+                sanitized.endsWith('.webmanifest')
+              ) {
+                res.statusCode = 403;
+                res.end(JSON.stringify({ error: 'Operazione non consentita' }));
+                return;
+              }
+
+              const fullPath = path.resolve(process.cwd(), 'public', sanitized);
+              if (fs.existsSync(fullPath) && fs.statSync(fullPath).isFile()) {
+                fs.unlinkSync(fullPath);
+              }
+
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ success: true, message: `File ${sanitized} eliminato` }));
+            } catch (err) {
+              res.statusCode = 500;
+              res.end(JSON.stringify({ error: (err as Error).message }));
+            }
+          });
+          return;
+        }
+
         next();
       });
     }
