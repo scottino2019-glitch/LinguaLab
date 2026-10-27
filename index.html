@@ -5,16 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script>
       // Suppress Vite HMR WebSocket closing noise in embedded iframe sandbox
-      window.addEventListener('error', function(event) {
-        if (event.message && (event.message.indexOf('WebSocket') !== -1 || event.message.indexOf('ws://') !== -1 || event.message.indexOf('wss://') !== -1)) {
-          event.stopImmediatePropagation();
+      (function() {
+        const originalConsoleError = console.error;
+        console.error = function(...args) {
+          const msg = args.map(a => (a && (a.message || a.stack || String(a))) || '').join(' ');
+          if (msg.includes('WebSocket') || msg.includes('vite') || msg.includes('vite-hmr')) {
+            return;
+          }
+          originalConsoleError.apply(console, args);
+        };
+
+        window.addEventListener('error', function(event) {
+          const msg = event.message || '';
+          if (msg.includes('WebSocket') || msg.includes('ws://') || msg.includes('wss://') || msg.includes('vite')) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+          }
+        }, true);
+
+        window.addEventListener('unhandledrejection', function(event) {
+          const msg = String(event.reason?.message || event.reason || '');
+          if (msg.includes('WebSocket') || msg.includes('ws://') || msg.includes('wss://') || msg.includes('vite')) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+          }
+        }, true);
+
+        if (typeof window !== 'undefined' && window.WebSocket) {
+          const NativeWebSocket = window.WebSocket;
+          window.WebSocket = function(url, protocols) {
+            const isViteHmr = protocols === 'vite-hmr' || 
+              (Array.isArray(protocols) && protocols.includes('vite-hmr')) ||
+              (typeof url === 'string' && (url.includes('vite-hmr') || url.includes('/@vite/client')));
+
+            if (isViteHmr) {
+              const fakeWs = {
+                url: String(url),
+                readyState: 1,
+                send: function() {},
+                close: function() {},
+                addEventListener: function(event, handler) {
+                  if (event === 'open' && typeof handler === 'function') {
+                    setTimeout(() => handler({ type: 'open' }), 10);
+                  }
+                },
+                removeEventListener: function() {},
+                dispatchEvent: function() { return false; },
+                onopen: null,
+                onclose: null,
+                onerror: null,
+                onmessage: null
+              };
+              setTimeout(() => {
+                if (fakeWs.onopen) fakeWs.onopen({ type: 'open' });
+              }, 10);
+              return fakeWs;
+            }
+            return new NativeWebSocket(url, protocols);
+          };
+          window.WebSocket.prototype = NativeWebSocket.prototype;
+          window.WebSocket.CONNECTING = NativeWebSocket.CONNECTING;
+          window.WebSocket.OPEN = NativeWebSocket.OPEN;
+          window.WebSocket.CLOSING = NativeWebSocket.CLOSING;
+          window.WebSocket.CLOSED = NativeWebSocket.CLOSED;
         }
-      });
-      window.addEventListener('unhandledrejection', function(event) {
-        if (event.reason && (String(event.reason).indexOf('WebSocket') !== -1 || String(event.reason?.message).indexOf('WebSocket') !== -1)) {
-          event.stopImmediatePropagation();
-        }
-      });
+      })();
     </script>
     <title>LinguaHub PWA</title>
     <meta name="description" content="PWA modulare per raccogliere e consultare fogli HTML per cinese, giapponese, coreano, russo e altre lingue con caricamento automatico da cartella public." />
