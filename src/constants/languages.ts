@@ -154,10 +154,22 @@ export function getCategoryMeta(catId: string): CategoryDef {
   const found = CATEGORIES.find(c => c.id === norm || c.label.toLowerCase() === norm);
   if (found) return found;
 
+  // Smart icons based on custom category keyword
+  let icon = '📁';
+  if (/cultur|storia|tradizion/i.test(norm)) icon = '🏛️';
+  else if (/music|canzon|audio|sound/i.test(norm)) icon = '🎵';
+  else if (/ascolt|listening|podcast/i.test(norm)) icon = '🎧';
+  else if (/dialog|conversazion|chat/i.test(norm)) icon = '💬';
+  else if (/quiz|test|sfida/i.test(norm)) icon = '🎯';
+  else if (/fras|espression/i.test(norm)) icon = '🗣️';
+  else if (/kanji|hanzi|scrittur|caratter/i.test(norm)) icon = '🖌️';
+  else if (/verb|coniugaz/i.test(norm)) icon = '⚡';
+  else if (/vide|film|cinema/i.test(norm)) icon = '🎬';
+
   return {
     id: norm || 'generale',
     label: catId ? catId.charAt(0).toUpperCase() + catId.slice(1) : 'Generale',
-    icon: '📁',
+    icon,
     description: 'Fogli e risorse per lo studio',
     color: 'slate',
     cardBg: 'bg-[#2d3542] hover:bg-[#343e4d]',
@@ -165,7 +177,7 @@ export function getCategoryMeta(catId: string): CategoryDef {
     cardHeaderBg: 'bg-[#364151] text-[#e2e8f0] border-b border-[#424e60]',
     badgeClass: 'bg-[#242b36] text-[#cbd5e1] border border-[#3b4757]',
     tagClass: 'bg-[#222833] text-[#cbd5e1] border border-[#35404f]',
-    actionBtn: 'bg-[#475569] hover:bg-[#334155] text-white',
-    accentBar: 'bg-[#64748b]'
+    actionBtn: 'bg-[#4f46e5] hover:bg-[#4338ca] text-white',
+    accentBar: 'bg-[#6366f1]'
   };
 }

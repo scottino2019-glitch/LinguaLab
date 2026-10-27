@@ -40,6 +40,42 @@ function parseHtmlMetadata(html, fallbackName) {
   return { title: rawTitle, description, language, category, difficulty, icon, keywords };
 }
 
+function inferLanguageAndCategory(relFromPublic, metaLang, metaCat) {
+  const parts = relFromPublic.split('/').filter(Boolean);
+  const dirs = parts.slice(0, -1);
+  let folderLang = 'altre';
+  let folderCat = 'generale';
+
+  if (dirs.length > 0 && dirs[0].toLowerCase() === 'langs') {
+    if (dirs.length >= 3) {
+      folderLang = dirs[1].toLowerCase();
+      folderCat = dirs[2].toLowerCase();
+    } else if (dirs.length === 2) {
+      folderLang = dirs[1].toLowerCase();
+      folderCat = 'generale';
+    }
+  } else if (dirs.length >= 2) {
+    folderLang = dirs[0].toLowerCase();
+    folderCat = dirs[1].toLowerCase();
+  } else if (dirs.length === 1) {
+    const singleDir = dirs[0].toLowerCase();
+    const knownCategories = ['giochi', 'grammatica', 'esercizi', 'vocabolario', 'letture', 'quiz'];
+    if (knownCategories.includes(singleDir)) {
+      folderLang = 'altre';
+      folderCat = singleDir;
+    } else {
+      folderLang = singleDir;
+      folderCat = 'generale';
+    }
+  }
+
+  const finalLang = (metaLang && metaLang.trim()) ? metaLang.toLowerCase().trim() : folderLang;
+  let finalCat = (metaCat && metaCat.trim()) ? metaCat.toLowerCase().trim() : folderCat;
+  finalCat = finalCat.replace(/\.html?$/i, '').trim() || 'generale';
+
+  return { finalLang, finalCat };
+}
+
 function scanPublic() {
   const results = [];
   if (!fs.existsSync(publicDir)) {
@@ -61,20 +97,7 @@ function scanPublic() {
           const rawContent = fs.readFileSync(fullPath, 'utf8');
           const meta = parseHtmlMetadata(rawContent, entry.name);
 
-          const segments = relFromPublic.split('/');
-          let folderLang = 'altre';
-          let folderCat = 'generale';
-
-          if (segments[0] === 'langs' && segments.length >= 3) {
-            folderLang = segments[1].toLowerCase();
-            folderCat = segments[2].toLowerCase();
-          } else if (segments.length >= 2) {
-            folderLang = segments[0].toLowerCase();
-            folderCat = segments[1].toLowerCase();
-          }
-
-          const finalLang = (meta.language || folderLang).toLowerCase();
-          const finalCat = (meta.category || folderCat).toLowerCase();
+          const { finalLang, finalCat } = inferLanguageAndCategory(relFromPublic, meta.language, meta.category);
 
           const fileObj = {
             id: `pub_${relFromPublic.replace(/[^a-zA-Z0-9_-]/g, '_')}`,
@@ -91,7 +114,8 @@ function scanPublic() {
             fileSize: stats.size,
             formattedSize: formatBytes(stats.size),
             lastModified: stats.mtime.toISOString(),
-            isCustom: false
+            isCustom: false,
+            content: rawContent
           };
 
           results.push(fileObj);

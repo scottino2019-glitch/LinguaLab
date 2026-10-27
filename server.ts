@@ -24,6 +24,28 @@ async function startServer() {
     }
   });
 
+  // API: Get content of a specific file from public directory
+  app.get('/api/file-content', (req, res) => {
+    try {
+      const rawParam = (req.query.url as string || req.query.path as string || '').trim();
+      const sanitized = rawParam.replace(/^\/+/, '').replace(/\.\./g, '');
+      if (!sanitized) {
+        return res.status(400).json({ error: 'Parametro percorso non valido' });
+      }
+
+      const fullPath = path.resolve(process.cwd(), 'public', sanitized);
+      if (!fs.existsSync(fullPath) || !fs.statSync(fullPath).isFile()) {
+        return res.status(404).json({ error: `File non trovato in public: ${sanitized}` });
+      }
+
+      const content = fs.readFileSync(fullPath, 'utf8');
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.send(content);
+    } catch (err) {
+      res.status(500).json({ error: (err as Error).message });
+    }
+  });
+
   // API: Upload / Save HTML file to public/langs/<lang>/<cat>/<filename>
   app.post('/api/upload', (req, res) => {
     try {
@@ -51,7 +73,14 @@ async function startServer() {
   });
 
   // Serve static files from public
-  app.use(express.static(path.resolve(__dirname, 'public')));
+  app.use(express.static(path.resolve(__dirname, 'public'), {
+    maxAge: '1h',
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith('.html')) {
+        res.setHeader('Cache-Control', 'no-cache');
+      }
+    }
+  }));
 
   if (!isProd) {
     const { createServer: createViteServer } = await import('vite');

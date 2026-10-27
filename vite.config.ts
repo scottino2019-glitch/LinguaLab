@@ -25,6 +25,34 @@ function publicLangsApiPlugin(): Plugin {
           return;
         }
 
+        if (req.url.startsWith('/api/file-content') && req.method === 'GET') {
+          try {
+            const parsedUrl = new URL(req.url, 'http://localhost');
+            const targetUrl = (parsedUrl.searchParams.get('url') || parsedUrl.searchParams.get('path') || '').trim();
+            const sanitized = targetUrl.replace(/^\/+/, '').replace(/\.\./g, '');
+            if (!sanitized) {
+              res.statusCode = 400;
+              res.end(JSON.stringify({ error: 'Parametro percorso mancante' }));
+              return;
+            }
+
+            const fullPath = path.resolve(process.cwd(), 'public', sanitized);
+            if (!fs.existsSync(fullPath) || !fs.statSync(fullPath).isFile()) {
+              res.statusCode = 404;
+              res.end(JSON.stringify({ error: `File non trovato: ${sanitized}` }));
+              return;
+            }
+
+            const content = fs.readFileSync(fullPath, 'utf8');
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+            res.end(content);
+          } catch (err) {
+            res.statusCode = 500;
+            res.end(JSON.stringify({ error: (err as Error).message }));
+          }
+          return;
+        }
+
         if (req.url.startsWith('/api/upload') && req.method === 'POST') {
           let body = '';
           req.on('data', chunk => {
@@ -108,7 +136,8 @@ export default defineConfig(() => {
           ]
         },
         workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}']
+          globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
+          navigateFallbackDenylist: [/^\/langs\//, /^\/api\//, /\.html$/]
         },
         devOptions: {
           enabled: true,

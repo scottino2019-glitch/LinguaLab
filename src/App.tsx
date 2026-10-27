@@ -208,6 +208,21 @@ export default function App() {
     return [...LANGUAGES, ...extraDefs];
   }, [files]);
 
+  const dynamicCategories = useMemo(() => {
+    const knownIds = new Set(CATEGORIES.map(c => c.id));
+    const extraCatIds = new Set<string>();
+
+    files.forEach(f => {
+      const c = f.category.toLowerCase().trim();
+      if (c && !knownIds.has(c) && c !== 'generale') {
+        extraCatIds.add(c);
+      }
+    });
+
+    const extraDefs = Array.from(extraCatIds).map(id => getCategoryMeta(id));
+    return [...CATEGORIES, ...extraDefs];
+  }, [files]);
+
   const filteredFiles = useMemo(() => {
     return files.filter(f => {
       if (selectedLanguage !== 'all') {
@@ -431,7 +446,7 @@ export default function App() {
               <span>Tutte le cartelle</span>
             </button>
 
-            {CATEGORIES.map((cat) => {
+            {dynamicCategories.map((cat) => {
               const count = stats.catCounts[cat.id] || 0;
               const isSelected = selectedCategory.toLowerCase() === cat.id.toLowerCase();
 

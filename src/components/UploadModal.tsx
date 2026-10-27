@@ -132,6 +132,7 @@ export const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose, onFil
           formattedSize: formatBytes(fileContent.length),
           lastModified: new Date().toISOString(),
           isCustom: false,
+          content: fileContent,
         };
         onFileSaved(newFile);
         onClose();
