@@ -96,17 +96,17 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
   const iframeSrcDoc = file.content ? file.content : undefined;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-3 md:p-6 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-3 md:p-6 animate-in fade-in duration-200">
       <div
-        className={`w-full h-full bg-[#161a22] border-2 border-slate-500/80 rounded-2xl flex flex-col overflow-hidden shadow-[0_25px_70px_rgba(0,0,0,0.95)] ring-4 ring-black/60 transition-all ${
-          isFullscreen ? 'fixed inset-0 rounded-none border-none ring-0' : 'max-w-6xl max-h-[92vh]'
+        className={`w-full h-full bg-[#242c37] border-2 border-[#475569] rounded-2xl flex flex-col overflow-hidden shadow-2xl transition-all ${
+          isFullscreen ? 'fixed inset-0 rounded-none border-none' : 'max-w-6xl max-h-[92vh]'
         }`}
       >
         {/* Category Accent Stripe on top */}
         <div className={`h-1.5 w-full shrink-0 ${catMeta.accentBar}`} />
 
         {/* Top App Bar */}
-        <div className="bg-[#12151c] border-b-2 border-slate-700/80 px-4 py-3 flex items-center justify-between gap-3 shrink-0">
+        <div className="bg-[#2d3542] border-b border-[#475569] px-4 py-3 flex items-center justify-between gap-3 shrink-0">
           {/* File Meta info */}
           <div className="flex items-center gap-3 min-w-0">
             <span className="text-2xl shrink-0 select-none">{langMeta.flag}</span>
@@ -118,7 +118,7 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
                 <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${catMeta.badgeClass}`}>
                   {catMeta.icon} {catMeta.label}
                 </span>
-                <span className="text-[10px] text-slate-400 font-mono hidden sm:inline">
+                <span className="text-[10px] text-slate-300 font-mono hidden sm:inline">
                   {file.formattedSize}
                 </span>
               </div>
@@ -136,7 +136,7 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
               className={`p-2 rounded-xl border transition ${
                 isSpeaking
                   ? 'bg-indigo-600 text-white border-indigo-400 animate-pulse'
-                  : 'bg-[#222731] border-[#363e4d] text-slate-300 hover:text-white hover:bg-[#2b313e]'
+                  : 'bg-[#394353] border-[#4e5c70] text-slate-200 hover:text-white hover:bg-[#434f62]'
               }`}
               title={isSpeaking ? 'Ferma sintesi vocale' : 'Ascolta titolo e descrizione'}
             >
@@ -149,7 +149,7 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
               className={`p-2 rounded-xl border transition ${
                 file.favorite
                   ? 'bg-amber-950/80 text-amber-300 border-amber-600/70'
-                  : 'bg-[#222731] border-[#363e4d] text-slate-300 hover:text-amber-400 hover:bg-[#2b313e]'
+                  : 'bg-[#394353] border-[#4e5c70] text-slate-200 hover:text-amber-400 hover:bg-[#434f62]'
               }`}
               title="Aggiungi o rimuovi dai preferiti"
             >
@@ -162,7 +162,7 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
               className={`p-2 rounded-xl border transition ${
                 file.completed
                   ? 'bg-emerald-950/80 text-emerald-300 border-emerald-600/70'
-                  : 'bg-[#222731] border-[#363e4d] text-slate-300 hover:text-emerald-400 hover:bg-[#2b313e]'
+                  : 'bg-[#394353] border-[#4e5c70] text-slate-200 hover:text-emerald-400 hover:bg-[#434f62]'
               }`}
               title="Segna come completato"
             >
@@ -175,7 +175,7 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
               className={`p-2 rounded-xl border transition ${
                 showNotes || notes.trim()
                   ? 'bg-purple-950/80 text-purple-300 border-purple-600/70'
-                  : 'bg-[#222731] border-[#363e4d] text-slate-300 hover:text-purple-300 hover:bg-[#2b313e]'
+                  : 'bg-[#394353] border-[#4e5c70] text-slate-200 hover:text-purple-300 hover:bg-[#434f62]'
               }`}
               title="Appunti personali di studio"
             >
@@ -185,7 +185,7 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
             {/* Reload iframe */}
             <button
               onClick={handleReloadIframe}
-              className="p-2 rounded-xl bg-[#222731] hover:bg-[#2b313e] border border-[#363e4d] text-slate-300 hover:text-white transition"
+              className="p-2 rounded-xl bg-[#394353] hover:bg-[#434f62] border border-[#4e5c70] text-slate-200 hover:text-white transition"
               title="Ricarica foglio"
             >
               <RotateCw className="w-4 h-4" />
@@ -196,7 +196,7 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
               href={file.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-xl bg-[#222731] hover:bg-[#2b313e] border border-[#363e4d] text-slate-300 hover:text-white transition"
+              className="p-2 rounded-xl bg-[#394353] hover:bg-[#434f62] border border-[#4e5c70] text-slate-200 hover:text-white transition"
               title="Apri a schermo intero in nuova scheda"
             >
               <ExternalLink className="w-4 h-4" />
@@ -205,7 +205,7 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
             {/* Fullscreen toggle */}
             <button
               onClick={() => setIsFullscreen(!isFullscreen)}
-              className="p-2 rounded-xl bg-[#222731] hover:bg-[#2b313e] border border-[#363e4d] text-slate-300 hover:text-white transition hidden sm:flex"
+              className="p-2 rounded-xl bg-[#394353] hover:bg-[#434f62] border border-[#4e5c70] text-slate-200 hover:text-white transition hidden sm:flex"
               title={isFullscreen ? 'Riduci' : 'Massimizza'}
             >
               {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -225,7 +225,7 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
 
         {/* Content Area */}
         <div className="flex-1 flex overflow-hidden relative">
-          <div className="flex-1 bg-[#0b0d11] overflow-hidden relative border-t border-b border-slate-800">
+          <div className="flex-1 bg-[#1e242d] overflow-hidden relative border-t border-b border-[#475569]">
             <iframe
               ref={iframeRef}
               src={iframeSrc}
@@ -238,8 +238,8 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
 
           {/* Notes Sidebar */}
           {showNotes && (
-            <div className="w-80 md:w-96 bg-[#161a22] border-l-2 border-slate-700/80 flex flex-col p-4 z-20 shrink-0">
-              <div className="flex items-center justify-between pb-3 border-b border-[#2d3340] mb-3">
+            <div className="w-80 md:w-96 bg-[#242c37] border-l border-[#475569] flex flex-col p-4 z-20 shrink-0">
+              <div className="flex items-center justify-between pb-3 border-b border-[#3b4757] mb-3">
                 <div className="flex items-center gap-2">
                   <StickyNote className="w-4 h-4 text-purple-400" />
                   <h4 className="text-sm font-bold text-white">Appunti di Studio</h4>
@@ -256,24 +256,24 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
                 value={notes}
                 onChange={(e) => handleNotesChange(e.target.value)}
                 placeholder="Scrivi qui vocaboli nuovi, dubbi, regole o frasi da ricordare per questo foglio... (Salvataggio automatico locale)"
-                className="flex-1 w-full bg-[#222731] border border-[#363e4d] rounded-xl p-3 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-400 resize-none font-sans"
+                className="flex-1 w-full bg-[#2e3745] border border-[#475569] rounded-xl p-3 text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-purple-400 resize-none font-sans"
               />
 
-              <div className="mt-3 text-[11px] text-slate-400 flex justify-between items-center font-medium">
+              <div className="mt-3 text-[11px] text-slate-300 flex justify-between items-center font-medium">
                 <span>Salvati sul tuo dispositivo (PWA)</span>
-                {notes.trim() && <span className="text-purple-400 font-bold">✓ Salvato</span>}
+                {notes.trim() && <span className="text-purple-300 font-bold">✓ Salvato</span>}
               </div>
             </div>
           )}
         </div>
 
         {/* Bottom Sub-bar */}
-        <div className="bg-[#12151c] border-t-2 border-slate-700/80 px-4 py-2.5 flex flex-wrap items-center justify-between text-xs text-slate-300 gap-2 shrink-0">
+        <div className="bg-[#2d3542] border-t border-[#475569] px-4 py-2.5 flex flex-wrap items-center justify-between text-xs text-slate-200 gap-2 shrink-0">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-indigo-300 font-bold bg-[#1b202a] px-2.5 py-1 rounded-lg border border-[#2d3545]">public/{file.relPath}</span>
+            <span className="font-mono text-indigo-200 font-bold bg-[#394353] px-2.5 py-1 rounded-lg border border-[#4e5c70]">public/{file.relPath}</span>
             <button
               onClick={handleCopyPath}
-              className="px-2.5 py-1 bg-[#252b36] hover:bg-[#2d3442] border border-[#3b4456] rounded-lg text-slate-200 transition flex items-center gap-1 text-[11px] font-bold"
+              className="px-2.5 py-1 bg-[#394353] hover:bg-[#434f62] border border-[#4e5c70] rounded-lg text-slate-100 transition flex items-center gap-1 text-[11px] font-bold"
               title="Copia percorso file"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
@@ -282,7 +282,7 @@ export const SheetViewerModal: React.FC<SheetViewerModalProps> = ({
           </div>
           <div className="text-slate-300 text-xs flex items-center gap-2">
             <span>Tasti rapidi:</span>
-            <kbd className="px-2 py-0.5 bg-[#252b36] rounded border border-[#3b4456] text-slate-200 font-semibold font-mono text-[11px]">Esc</kbd> per chiudere
+            <kbd className="px-2 py-0.5 bg-[#394353] rounded border border-[#4e5c70] text-slate-100 font-semibold font-mono text-[11px]">Esc</kbd> per chiudere
           </div>
         </div>
       </div>

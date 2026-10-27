@@ -39,8 +39,8 @@ export const FolderTreeView: React.FC<FolderTreeViewProps> = ({ files, onOpen })
   };
 
   return (
-    <div className="bg-[#1b2029] border border-[#2d3545] rounded-2xl p-6 shadow-md">
-      <div className="flex items-center gap-2 pb-4 mb-4 border-b border-[#2d3545] text-sm font-bold text-white">
+    <div className="bg-[#333b47] border border-[#475263] rounded-2xl p-6 shadow-sm">
+      <div className="flex items-center gap-2 pb-4 mb-4 border-b border-[#475263] text-sm font-bold text-white">
         <Folder className="w-5 h-5 text-indigo-400" />
         <span>Esplora Albero Cartelle (<code className="text-indigo-400 font-mono">public/langs/</code>)</span>
       </div>
@@ -53,7 +53,7 @@ export const FolderTreeView: React.FC<FolderTreeViewProps> = ({ files, onOpen })
           const totalFiles = Object.values(categories).reduce((acc, curr) => acc + curr.length, 0);
 
           return (
-            <div key={langKey} className="border border-[#2d3545] rounded-xl p-3 bg-[#222733]">
+            <div key={langKey} className="border border-[#475263] rounded-xl p-3 bg-[#2b333e]">
               <div
                 onClick={() => toggleLang(langKey)}
                 className="flex items-center justify-between cursor-pointer py-1 text-slate-200 hover:text-indigo-300 select-none"

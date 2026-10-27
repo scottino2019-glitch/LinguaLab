@@ -7,8 +7,8 @@ export const LANGUAGES: LanguageDef[] = [
     nativeLabel: '中文',
     flag: '🇨🇳',
     code: 'zh',
-    accentColor: '#f59e0b',
-    badgeBg: 'bg-[#3b2910] border-[#6b4716] text-[#fde68a]',
+    accentColor: '#d97706',
+    badgeBg: 'bg-[#403525] border-[#574833] text-[#fde68a]',
     badgeText: 'text-[#fde68a]',
     greeting: '你好 (Nǐ hǎo)'
   },
@@ -18,8 +18,8 @@ export const LANGUAGES: LanguageDef[] = [
     nativeLabel: '日本語',
     flag: '🇯🇵',
     code: 'ja',
-    accentColor: '#f43f5e',
-    badgeBg: 'bg-[#3b1722] border-[#6b283b] text-[#fecdd3]',
+    accentColor: '#e11d48',
+    badgeBg: 'bg-[#422e35] border-[#5c3e49] text-[#fecdd3]',
     badgeText: 'text-[#fecdd3]',
     greeting: 'こんにちは (Konnichiwa)'
   },
@@ -29,8 +29,8 @@ export const LANGUAGES: LanguageDef[] = [
     nativeLabel: '한국어',
     flag: '🇰🇷',
     code: 'ko',
-    accentColor: '#06b6d4',
-    badgeBg: 'bg-[#122e38] border-[#1d4c5c] text-[#a5f3fc]',
+    accentColor: '#0891b2',
+    badgeBg: 'bg-[#283842] border-[#384f5d] text-[#a5f3fc]',
     badgeText: 'text-[#a5f3fc]',
     greeting: '안녕하세요 (Annyeonghaseyo)'
   },
@@ -40,8 +40,8 @@ export const LANGUAGES: LanguageDef[] = [
     nativeLabel: 'Русский',
     flag: '🇷🇺',
     code: 'ru',
-    accentColor: '#38bdf8',
-    badgeBg: 'bg-[#152e42] border-[#204a69] text-[#bae6fd]',
+    accentColor: '#2563eb',
+    badgeBg: 'bg-[#283445] border-[#394a63] text-[#bae6fd]',
     badgeText: 'text-[#bae6fd]',
     greeting: 'Здравствуйте (Zdravstvuyte)'
   },
@@ -51,8 +51,8 @@ export const LANGUAGES: LanguageDef[] = [
     nativeLabel: 'Altre',
     flag: '🌐',
     code: 'other',
-    accentColor: '#10b981',
-    badgeBg: 'bg-[#133325] border-[#1f533c] text-[#a7f3d0]',
+    accentColor: '#059669',
+    badgeBg: 'bg-[#293830] border-[#3b4f44] text-[#a7f3d0]',
     badgeText: 'text-[#a7f3d0]',
     greeting: 'Hello / Bonjour / Hola'
   }
@@ -65,13 +65,13 @@ export const CATEGORIES: CategoryDef[] = [
     icon: '🎮',
     description: 'Quiz interattivi, sfide a tempo e memory per allenarsi giocando.',
     color: 'emerald',
-    cardBg: 'bg-[#132c23] hover:bg-[#16342a]',
-    cardBorder: 'border-2 border-[#10b981] hover:border-[#34d399]',
-    cardHeaderBg: 'bg-[#193a2e] text-[#6ee7b7] border-b border-[#245342]',
-    badgeClass: 'bg-[#059669] text-white border-transparent',
-    tagClass: 'bg-[#193a2e] text-[#a7f3d0] border border-[#245342]',
+    cardBg: 'bg-[#28362f] hover:bg-[#2f4037]',
+    cardBorder: 'border border-[#3c5146]',
+    cardHeaderBg: 'bg-[#32443a] text-[#a7f3d0] border-b border-[#3c5146]',
+    badgeClass: 'bg-[#203429] text-[#86efac] border border-[#334e3f]',
+    tagClass: 'bg-[#1e2f26] text-[#86efac] border border-[#2f4639]',
     actionBtn: 'bg-[#059669] hover:bg-[#047857] text-white',
-    accentBar: 'bg-[#10b981]'
+    accentBar: 'bg-[#059669]'
   },
   {
     id: 'esercizi',
@@ -79,13 +79,13 @@ export const CATEGORIES: CategoryDef[] = [
     icon: '✏️',
     description: 'Test grammaticali, particelle, declinazioni e verifica rapida.',
     color: 'blue',
-    cardBg: 'bg-[#13283c] hover:bg-[#163048]',
-    cardBorder: 'border-2 border-[#0ea5e9] hover:border-[#38bdf8]',
-    cardHeaderBg: 'bg-[#1a3551] text-[#7dd3fc] border-b border-[#254a70]',
-    badgeClass: 'bg-[#0284c7] text-white border-transparent',
-    tagClass: 'bg-[#1a3551] text-[#bae6fd] border border-[#254a70]',
+    cardBg: 'bg-[#263342] hover:bg-[#2d3c4e]',
+    cardBorder: 'border border-[#384b61]',
+    cardHeaderBg: 'bg-[#2f3f52] text-[#bae6fd] border-b border-[#384b61]',
+    badgeClass: 'bg-[#1d2d3e] text-[#7dd3fc] border border-[#2f445c]',
+    tagClass: 'bg-[#1b2938] text-[#7dd3fc] border border-[#2b3d52]',
     actionBtn: 'bg-[#0284c7] hover:bg-[#0369a1] text-white',
-    accentBar: 'bg-[#0ea5e9]'
+    accentBar: 'bg-[#0284c7]'
   },
   {
     id: 'grammatica',
@@ -93,13 +93,13 @@ export const CATEGORIES: CategoryDef[] = [
     icon: '📖',
     description: 'Regole sintattiche, coniugazioni verbali, particelle e formule.',
     color: 'purple',
-    cardBg: 'bg-[#26173a] hover:bg-[#2e1c46]',
-    cardBorder: 'border-2 border-[#a855f7] hover:border-[#c084fc]',
-    cardHeaderBg: 'bg-[#341f4e] text-[#d8b4fe] border-b border-[#492d6e]',
-    badgeClass: 'bg-[#7e22ce] text-white border-transparent',
-    tagClass: 'bg-[#341f4e] text-[#e9d5ff] border border-[#492d6e]',
+    cardBg: 'bg-[#33283c] hover:bg-[#3d3047]',
+    cardBorder: 'border border-[#4a3b57]',
+    cardHeaderBg: 'bg-[#3d3048] text-[#e9d5ff] border-b border-[#4a3b57]',
+    badgeClass: 'bg-[#2b1f33] text-[#d8b4fe] border border-[#402f4d]',
+    tagClass: 'bg-[#261c2e] text-[#d8b4fe] border border-[#3a2a46]',
     actionBtn: 'bg-[#7e22ce] hover:bg-[#6b21a8] text-white',
-    accentBar: 'bg-[#a855f7]'
+    accentBar: 'bg-[#7e22ce]'
   },
   {
     id: 'vocabolario',
@@ -107,13 +107,13 @@ export const CATEGORIES: CategoryDef[] = [
     icon: '🗂️',
     description: 'Flashcard tematiche, liste parole frequenti e termini utili con audio.',
     color: 'amber',
-    cardBg: 'bg-[#33210b] hover:bg-[#3d280d]',
-    cardBorder: 'border-2 border-[#f59e0b] hover:border-[#fbbf24]',
-    cardHeaderBg: 'bg-[#452e10] text-[#fcd34d] border-b border-[#5e3f16]',
-    badgeClass: 'bg-[#d97706] text-white border-transparent',
-    tagClass: 'bg-[#452e10] text-[#fde68a] border border-[#5e3f16]',
+    cardBg: 'bg-[#372e22] hover:bg-[#413729]',
+    cardBorder: 'border border-[#4e4231]',
+    cardHeaderBg: 'bg-[#423729] text-[#fde68a] border-b border-[#4e4231]',
+    badgeClass: 'bg-[#2e261b] text-[#fcd34d] border border-[#453725]',
+    tagClass: 'bg-[#282015] text-[#fcd34d] border border-[#3d3120]',
     actionBtn: 'bg-[#d97706] hover:bg-[#b45309] text-white',
-    accentBar: 'bg-[#f59e0b]'
+    accentBar: 'bg-[#d97706]'
   },
   {
     id: 'letture',
@@ -121,13 +121,13 @@ export const CATEGORIES: CategoryDef[] = [
     icon: '📜',
     description: 'Brani graduati con trascrizione fonetica, traduzione a fronte e audio.',
     color: 'rose',
-    cardBg: 'bg-[#33141d] hover:bg-[#3e1923]',
-    cardBorder: 'border-2 border-[#f43f5e] hover:border-[#fb7185]',
-    cardHeaderBg: 'bg-[#461a28] text-[#fda4af] border-b border-[#602538]',
-    badgeClass: 'bg-[#e11d48] text-white border-transparent',
-    tagClass: 'bg-[#461a28] text-[#fecdd3] border border-[#602538]',
+    cardBg: 'bg-[#37262c] hover:bg-[#412e35]',
+    cardBorder: 'border border-[#513841]',
+    cardHeaderBg: 'bg-[#412d34] text-[#fecdd3] border-b border-[#513841]',
+    badgeClass: 'bg-[#2d1d23] text-[#fda4af] border border-[#462b35]',
+    tagClass: 'bg-[#27181e] text-[#fda4af] border border-[#3e242f]',
     actionBtn: 'bg-[#e11d48] hover:bg-[#be123c] text-white',
-    accentBar: 'bg-[#f43f5e]'
+    accentBar: 'bg-[#e11d48]'
   }
 ];
 
@@ -142,9 +142,9 @@ export function getLanguageMeta(langId: string): LanguageDef {
     nativeLabel: 'Lingua',
     flag: '🌐',
     code: 'other',
-    accentColor: '#6366f1',
-    badgeBg: 'bg-[#1f242d] border-[#373e4b] text-[#cbd5e1]',
-    badgeText: 'text-[#cbd5e1]',
+    accentColor: '#4f46e5',
+    badgeBg: 'bg-[#333b47] border-[#475263] text-[#e2e8f0]',
+    badgeText: 'text-[#e2e8f0]',
     greeting: 'Benvenuto'
   };
 }
@@ -160,11 +160,11 @@ export function getCategoryMeta(catId: string): CategoryDef {
     icon: '📁',
     description: 'Fogli e risorse per lo studio',
     color: 'slate',
-    cardBg: 'bg-[#1f242d] hover:bg-[#282e39]',
-    cardBorder: 'border-2 border-[#475569] hover:border-[#64748b]',
-    cardHeaderBg: 'bg-[#29303d] text-[#cbd5e1] border-b border-[#3b4455]',
-    badgeClass: 'bg-[#475569] text-white border-transparent',
-    tagClass: 'bg-[#29303d] text-[#cbd5e1] border border-[#3b4455]',
+    cardBg: 'bg-[#2d3542] hover:bg-[#343e4d]',
+    cardBorder: 'border border-[#424e60]',
+    cardHeaderBg: 'bg-[#364151] text-[#e2e8f0] border-b border-[#424e60]',
+    badgeClass: 'bg-[#242b36] text-[#cbd5e1] border border-[#3b4757]',
+    tagClass: 'bg-[#222833] text-[#cbd5e1] border border-[#35404f]',
     actionBtn: 'bg-[#475569] hover:bg-[#334155] text-white',
     accentBar: 'bg-[#64748b]'
   };

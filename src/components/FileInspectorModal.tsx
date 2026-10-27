@@ -24,19 +24,19 @@ export const FileInspectorModal: React.FC<FileInspectorModalProps> = ({ file, on
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="w-full max-w-lg bg-[#161a22] border-2 border-indigo-500/80 rounded-3xl p-6 shadow-[0_25px_70px_rgba(0,0,0,0.95)] ring-4 ring-black/60 text-slate-200 relative overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+      <div className="w-full max-w-lg bg-[#242c37] border-2 border-[#475569] rounded-2xl p-6 shadow-2xl text-slate-200 relative overflow-hidden">
         {/* Category Accent Stripe */}
         <div className={`h-1.5 -mx-6 -mt-6 mb-4 ${catMeta.accentBar}`} />
 
-        <div className="flex items-center justify-between pb-3 border-b border-[#2d3340] mb-4">
+        <div className="flex items-center justify-between pb-3 border-b border-[#3b4757] mb-4">
           <div className="flex items-center gap-2 text-indigo-400 font-extrabold text-sm">
             <FileCode className="w-4 h-4" />
             <span>Dettagli File HTML</span>
           </div>
           <button
             onClick={onClose}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs transition shadow-sm"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs transition shadow-sm"
           >
             <X className="w-3.5 h-3.5" />
             <span>Chiudi</span>
@@ -45,15 +45,15 @@ export const FileInspectorModal: React.FC<FileInspectorModalProps> = ({ file, on
 
         <div className="space-y-3 text-xs">
           <div>
-            <span className="text-slate-400 font-semibold block mb-1">Titolo Riconosciuto:</span>
-            <div className="text-sm font-bold text-white bg-[#222731] p-2.5 rounded-xl border border-[#343c4d]">
+            <span className="text-slate-300 font-semibold block mb-1">Titolo Riconosciuto:</span>
+            <div className="text-sm font-bold text-white bg-[#2e3745] p-2.5 rounded-xl border border-[#475569]">
               {file.title}
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <div className="bg-[#222731] p-2.5 rounded-xl border border-[#343c4d]">
-              <span className="text-slate-400 font-semibold block mb-1">Lingua / Riconoscimento</span>
+            <div className="bg-[#2e3745] p-2.5 rounded-xl border border-[#475569]">
+              <span className="text-slate-300 font-semibold block mb-1">Lingua / Riconoscimento</span>
               <span className="font-bold text-white flex items-center gap-1.5">
                 <span>{langMeta.flag}</span>
                 <span>{langMeta.label}</span>

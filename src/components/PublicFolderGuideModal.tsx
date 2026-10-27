@@ -43,20 +43,20 @@ export const PublicFolderGuideModal: React.FC<PublicFolderGuideModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="w-full max-w-3xl bg-[#161a22] border-2 border-indigo-500/80 rounded-3xl p-6 md:p-8 shadow-[0_25px_70px_rgba(0,0,0,0.95)] ring-4 ring-black/60 max-h-[90vh] flex flex-col text-slate-200 relative overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+      <div className="w-full max-w-3xl bg-[#242c37] border-2 border-[#475569] rounded-2xl p-6 md:p-8 shadow-2xl max-h-[90vh] flex flex-col text-slate-200 relative overflow-hidden">
         {/* Accent Stripe */}
-        <div className="h-1.5 -mx-8 -mt-8 mb-6 bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 shrink-0" />
+        <div className="h-1.5 -mx-8 -mt-8 mb-6 bg-indigo-600 shrink-0" />
 
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-[#2d3340] shrink-0">
+        <div className="flex items-center justify-between pb-4 border-b border-[#3b4757] shrink-0">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-[#242933] text-indigo-400 border border-[#384050]">
+            <div className="p-2.5 rounded-xl bg-[#2e3745] text-indigo-300 border border-[#475569]">
               <FolderTree className="w-6 h-6" />
             </div>
             <div>
               <h3 className="text-xl font-extrabold text-white">
-                Guida: Caricamento Automatico da Cartella <code className="text-indigo-400 font-mono">public/langs/</code>
+                Guida: Caricamento Automatico da Cartella <code className="text-indigo-300 font-mono">public/langs/</code>
               </h3>
               <p className="text-xs text-slate-400 mt-0.5 font-medium">
                 Nessuna configurazione: basta posizionare il file HTML e l'app fa tutto il resto!

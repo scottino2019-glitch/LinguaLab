@@ -20,6 +20,7 @@ import {
 
 import { LanguageFile, ScanResult } from './types';
 import { LANGUAGES, CATEGORIES, getLanguageMeta, getCategoryMeta } from './constants/languages';
+import { PRELOADED_FILES } from './constants/preloadedFiles';
 import { LanguageCard } from './components/LanguageCard';
 import { SheetViewerModal } from './components/SheetViewerModal';
 import { UploadModal } from './components/UploadModal';
@@ -38,9 +39,36 @@ import {
   recordRecentFile
 } from './utils/localStore';
 
+function getInitialFiles(): LanguageFile[] {
+  try {
+    const favIds = new Set(getFavoriteIds());
+    const compIds = new Set(getCompletedIds());
+    const customFiles = getCustomFiles();
+
+    const baseFiles = PRELOADED_FILES.map(f => ({
+      ...f,
+      favorite: favIds.has(f.id),
+      completed: compIds.has(f.id)
+    }));
+
+    const existingIds = new Set(baseFiles.map(f => f.id));
+    const filteredCustom = customFiles
+      .filter(c => !existingIds.has(c.id))
+      .map(c => ({
+        ...c,
+        favorite: favIds.has(c.id),
+        completed: compIds.has(c.id)
+      }));
+
+    return [...baseFiles, ...filteredCustom];
+  } catch {
+    return PRELOADED_FILES;
+  }
+}
+
 export default function App() {
-  const [files, setFiles] = useState<LanguageFile[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [files, setFiles] = useState<LanguageFile[]>(getInitialFiles);
+  const [loading, setLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string>('all');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -65,15 +93,46 @@ export default function App() {
   const loadFiles = useCallback(async (isManualRescan = false) => {
     if (isManualRescan) setIsRefreshing(true);
     try {
-      const res = await fetch('/api/files');
-      if (!res.ok) throw new Error('API server unreachable');
-      const data: ScanResult = await res.json();
+      let rawFiles: LanguageFile[] = [];
+
+      // 1. Try local/configured API (/api/files is rewritten on Vercel or handled by node server)
+      try {
+        const res = await fetch('/api/files', { cache: 'no-store' });
+        if (res.ok) {
+          const data: ScanResult = await res.json();
+          if (data && Array.isArray(data.files) && data.files.length > 0) {
+            rawFiles = data.files;
+          }
+        }
+      } catch {
+        // Fallback to static manifest
+      }
+
+      // 2. Try static manifest (/files-manifest.json works directly on Vercel & Netlify)
+      if (rawFiles.length === 0) {
+        try {
+          const mRes = await fetch('/files-manifest.json', { cache: 'no-store' });
+          if (mRes.ok) {
+            const mData = await mRes.json();
+            if (mData && Array.isArray(mData.files) && mData.files.length > 0) {
+              rawFiles = mData.files;
+            }
+          }
+        } catch {
+          // Fallback to bundled files
+        }
+      }
+
+      // 3. Fallback to bundled preloaded files (guarantees offline & instant load)
+      if (rawFiles.length === 0) {
+        rawFiles = PRELOADED_FILES;
+      }
 
       const favIds = new Set(getFavoriteIds());
       const compIds = new Set(getCompletedIds());
       const customFiles = getCustomFiles();
 
-      const serverFiles: LanguageFile[] = (data.files || []).map(f => ({
+      const serverFiles: LanguageFile[] = rawFiles.map(f => ({
         ...f,
         favorite: favIds.has(f.id),
         completed: compIds.has(f.id)
@@ -95,20 +154,7 @@ export default function App() {
         showToast(`Cartella aggiornata: rilevati ${merged.length} fogli HTML!`);
       }
     } catch (err) {
-      console.warn('Cannot fetch from /api/files (using local cache):', err);
-      const customFiles = getCustomFiles();
-      const favIds = new Set(getFavoriteIds());
-      const compIds = new Set(getCompletedIds());
-
-      setFiles(customFiles.map(c => ({
-        ...c,
-        favorite: favIds.has(c.id),
-        completed: compIds.has(c.id)
-      })));
-
-      if (isManualRescan) {
-        showToast('Modalità Offline: caricati i fogli salvati in locale.');
-      }
+      console.warn('Error loading files, maintaining current catalog:', err);
     } finally {
       setLoading(false);
       setIsRefreshing(false);
@@ -217,32 +263,32 @@ export default function App() {
   const activeLangMeta = selectedLanguage !== 'all' ? getLanguageMeta(selectedLanguage) : null;
 
   return (
-    <div className="min-h-screen bg-[#c5ced8] text-slate-900 flex flex-col antialiased selection:bg-indigo-600 selection:text-white">
+    <div className="min-h-screen bg-[#cfd6df] text-slate-900 flex flex-col antialiased selection:bg-indigo-600 selection:text-white">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-5 right-5 z-50 flex items-center gap-2 rounded-xl bg-[#1b2029] px-4 py-2.5 text-xs md:text-sm font-semibold text-white shadow-2xl border border-[#3a4456] animate-in slide-in-from-top duration-200">
-          <Sparkles className="w-4 h-4 text-amber-400" />
+        <div className="fixed top-5 right-5 z-50 flex items-center gap-2 rounded-xl bg-[#333b47] px-4 py-2.5 text-xs md:text-sm font-semibold text-white shadow-xl border border-[#4a5568] animate-in slide-in-from-top duration-200">
+          <CheckCircle className="w-4 h-4 text-emerald-400" />
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Main Header with Sleek Dark Slate Look (No white, no blue notte, no glare) */}
-      <header className="sticky top-0 z-30 bg-[#1b2029]/95 backdrop-blur-md border-b border-[#2d3545] px-4 md:px-8 py-3.5 shadow-md">
+      {/* Main Header with Balanced Neutral Slate Look (Not jet black, not pure white, no glare) */}
+      <header className="sticky top-0 z-30 bg-[#333b47] border-b border-[#475263] px-4 md:px-8 py-3.5 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
           {/* Brand */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#252b36] border border-[#3b4456] flex items-center justify-center text-white font-black text-xl shadow-xs">
+              <div className="w-10 h-10 rounded-xl bg-[#3e4756] border border-[#4f5b6e] flex items-center justify-center text-white font-black text-xl shadow-xs">
                 文
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <h1 className="text-lg md:text-xl font-extrabold text-white tracking-tight">
-                    LinguaHub <span className="text-indigo-400 font-mono text-xs px-2 py-0.5 rounded-md bg-[#252b36] border border-[#373f4e] font-bold">PWA</span>
+                    LinguaHub <span className="text-indigo-300 font-mono text-xs px-2 py-0.5 rounded-md bg-[#3e4756] border border-[#4f5b6e] font-bold">PWA</span>
                   </h1>
                 </div>
                 <p className="text-[11px] text-slate-300 font-medium">
-                  Raccoglitore dinamico di fogli HTML in <code className="text-indigo-300 font-mono font-semibold">public/langs/</code>
+                  Raccoglitore dinamico di fogli HTML in <code className="text-indigo-200 font-mono font-semibold">public/langs/</code>
                 </p>
               </div>
             </div>
@@ -253,10 +299,10 @@ export default function App() {
               <button
                 onClick={() => loadFiles(true)}
                 disabled={isRefreshing}
-                className="p-2 rounded-xl bg-[#252b36] border border-[#3b4456] text-slate-200 hover:bg-[#2d3442]"
+                className="p-2 rounded-xl bg-[#3e4756] border border-[#4f5b6e] text-slate-100 hover:bg-[#485365]"
                 title="Riscansiona"
               >
-                <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-indigo-400' : ''}`} />
+                <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin text-indigo-300' : ''}`} />
               </button>
             </div>
           </div>
@@ -266,10 +312,10 @@ export default function App() {
             {/* Guide Button */}
             <button
               onClick={() => setIsGuideOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#252b36] hover:bg-[#2d3442] border border-[#3b4456] text-xs font-bold text-slate-200 transition shadow-xs"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#3e4756] hover:bg-[#485365] border border-[#4f5b6e] text-xs font-bold text-slate-100 transition shadow-xs"
               title="Come organizzare i file in public/"
             >
-              <FolderTree className="w-3.5 h-3.5 text-indigo-400" />
+              <FolderTree className="w-3.5 h-3.5 text-indigo-300" />
               <span className="hidden sm:inline">Guida</span> Cartella public
             </button>
 
@@ -277,17 +323,17 @@ export default function App() {
             <button
               onClick={() => loadFiles(true)}
               disabled={isRefreshing}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#252b36] hover:bg-[#2d3442] border border-[#3b4456] text-xs font-bold text-slate-200 transition shadow-xs disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#3e4756] hover:bg-[#485365] border border-[#4f5b6e] text-xs font-bold text-slate-100 transition shadow-xs disabled:opacity-50"
               title="Riscansiona cartella public per nuovi file aggiunti"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-indigo-400' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-indigo-300' : ''}`} />
               <span className="hidden sm:inline">Riscansiona</span>
             </button>
 
             {/* Add File / Template Button */}
             <button
               onClick={() => setIsUploadOpen(true)}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white shadow-sm transition active:scale-95"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white shadow-xs transition active:scale-95"
             >
               <FolderPlus className="w-4 h-4" />
               <span>Aggiungi Foglio</span>
@@ -320,14 +366,14 @@ export default function App() {
               onClick={() => setSelectedLanguage('all')}
               className={`px-4 py-2 rounded-xl text-xs md:text-sm font-bold shrink-0 transition flex items-center gap-2 border shadow-xs ${
                 selectedLanguage === 'all'
-                  ? 'bg-indigo-600 text-white border-indigo-500 shadow-md ring-2 ring-indigo-400/40'
-                  : 'bg-[#1b2029] border-[#2d3545] text-slate-200 hover:bg-[#252b36] hover:text-white'
+                  ? 'bg-indigo-600 text-white border-indigo-500 shadow-sm'
+                  : 'bg-[#333b47] border-[#475263] text-slate-100 hover:bg-[#3e4756] hover:text-white'
               }`}
             >
               <span>🌐</span>
               <span>Tutte le Lingue</span>
               <span className={`ml-1 px-1.5 py-0.2 rounded-full text-[11px] font-mono ${
-                selectedLanguage === 'all' ? 'bg-indigo-800 text-indigo-100' : 'bg-[#131720] text-slate-300'
+                selectedLanguage === 'all' ? 'bg-indigo-800 text-indigo-100' : 'bg-[#282f3a] text-slate-200'
               }`}>
                 {stats.total}
               </span>
@@ -343,8 +389,8 @@ export default function App() {
                   onClick={() => setSelectedLanguage(isSelected ? 'all' : lang.id)}
                   className={`px-4 py-2 rounded-xl text-xs md:text-sm font-bold shrink-0 transition flex items-center gap-2 border shadow-xs ${
                     isSelected
-                      ? 'bg-indigo-600 text-white border-indigo-500 shadow-md ring-2 ring-indigo-400/40'
-                      : 'bg-[#1b2029] border-[#2d3545] text-slate-200 hover:bg-[#252b36] hover:text-white'
+                      ? 'bg-indigo-600 text-white border-indigo-500 shadow-sm'
+                      : 'bg-[#333b47] border-[#475263] text-slate-100 hover:bg-[#3e4756] hover:text-white'
                   }`}
                 >
                   <span className="text-base">{lang.flag}</span>
@@ -352,7 +398,7 @@ export default function App() {
                   <span className="text-[11px] opacity-75 font-normal hidden sm:inline">({lang.nativeLabel})</span>
                   <span
                     className={`ml-1 px-1.5 py-0.2 rounded-full text-[11px] font-mono ${
-                      isSelected ? 'bg-indigo-800 text-indigo-100' : 'bg-[#131720] text-slate-300'
+                      isSelected ? 'bg-indigo-800 text-indigo-100' : 'bg-[#282f3a] text-slate-200'
                     }`}
                   >
                     {count}
@@ -377,8 +423,8 @@ export default function App() {
               onClick={() => setSelectedCategory('all')}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 transition flex items-center gap-1.5 border shadow-xs ${
                 selectedCategory === 'all'
-                  ? 'bg-indigo-600 text-white border-indigo-500 shadow-md ring-2 ring-indigo-400/40'
-                  : 'bg-[#1b2029] border-[#2d3545] text-slate-200 hover:bg-[#252b36] hover:text-white'
+                  ? 'bg-indigo-600 text-white border-indigo-500 shadow-sm'
+                  : 'bg-[#333b47] border-[#475263] text-slate-100 hover:bg-[#3e4756] hover:text-white'
               }`}
             >
               <span>📁</span>
@@ -393,10 +439,10 @@ export default function App() {
                 <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(isSelected ? 'all' : cat.id)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 transition flex items-center gap-1.5 border shadow-sm ${
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 transition flex items-center gap-1.5 border shadow-xs ${
                     isSelected
-                      ? `${cat.cardHeaderBg} border-2 ${cat.cardBorder.split(' ')[1]} ring-2 ring-white/40 scale-102`
-                      : `${cat.cardBg} ${cat.cardBorder} hover:scale-102 opacity-90 hover:opacity-100`
+                      ? `${cat.cardHeaderBg} ${cat.cardBorder} shadow-sm`
+                      : `${cat.cardBg} ${cat.cardBorder} opacity-95 hover:opacity-100`
                   }`}
                 >
                   <span className="text-sm">{cat.icon}</span>
@@ -411,7 +457,7 @@ export default function App() {
         </section>
 
         {/* Search, Filter Toolbar, View mode switcher */}
-        <section className="bg-[#1b2029] border border-[#2d3545] rounded-2xl p-3.5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 shadow-md">
+        <section className="bg-[#333b47] border border-[#475263] rounded-2xl p-3.5 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 shadow-sm">
           {/* Search Input */}
           <div className="relative flex-1">
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -420,7 +466,7 @@ export default function App() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cerca per titolo, vocabolo, grammatica o tag..."
-              className="w-full bg-[#242933] border border-[#3a4252] rounded-xl pl-9.5 pr-4 py-2 text-xs md:text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-400 transition"
+              className="w-full bg-[#282f3a] border border-[#475263] rounded-xl pl-9.5 pr-4 py-2 text-xs md:text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-400 transition"
             />
             {searchQuery && (
               <button
@@ -438,7 +484,7 @@ export default function App() {
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="bg-[#242933] border border-[#3a4252] rounded-xl px-3 py-2 text-xs font-semibold text-slate-200 focus:outline-none focus:border-indigo-400 cursor-pointer"
+              className="bg-[#282f3a] border border-[#475263] rounded-xl px-3 py-2 text-xs font-semibold text-slate-100 focus:outline-none focus:border-indigo-400 cursor-pointer"
             >
               <option value="all">Tutti i Livelli</option>
               <option value="Principiante">Principiante</option>
@@ -452,7 +498,7 @@ export default function App() {
               className={`p-2 rounded-xl border text-xs font-bold transition flex items-center gap-1.5 shadow-xs ${
                 showOnlyFavorites
                   ? 'bg-amber-950/70 border-amber-500/80 text-amber-300'
-                  : 'bg-[#242933] border-[#3a4252] text-slate-300 hover:bg-[#2c333f]'
+                  : 'bg-[#282f3a] border-[#475263] text-slate-200 hover:bg-[#323a48]'
               }`}
               title="Filtra solo i preferiti"
             >
@@ -467,7 +513,7 @@ export default function App() {
               className={`p-2 rounded-xl border text-xs font-bold transition flex items-center gap-1.5 shadow-xs ${
                 showOnlyCompleted
                   ? 'bg-emerald-950/70 border-emerald-500/80 text-emerald-300'
-                  : 'bg-[#242933] border-[#3a4252] text-slate-300 hover:bg-[#2c333f]'
+                  : 'bg-[#282f3a] border-[#475263] text-slate-200 hover:bg-[#323a48]'
               }`}
               title="Filtra solo completati"
             >
@@ -476,11 +522,11 @@ export default function App() {
             </button>
 
             {/* View Mode Switcher */}
-            <div className="flex bg-[#242933] border border-[#3a4252] rounded-xl p-0.5">
+            <div className="flex bg-[#282f3a] border border-[#475263] rounded-xl p-0.5">
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-1.5 rounded-lg transition ${
-                  viewMode === 'grid' ? 'bg-[#3c4656] text-white font-bold' : 'text-slate-400 hover:text-white'
+                  viewMode === 'grid' ? 'bg-[#485365] text-white font-bold' : 'text-slate-400 hover:text-white'
                 }`}
                 title="Vista a Griglia (Card)"
               >
@@ -489,7 +535,7 @@ export default function App() {
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-1.5 rounded-lg transition ${
-                  viewMode === 'list' ? 'bg-[#3c4656] text-white font-bold' : 'text-slate-400 hover:text-white'
+                  viewMode === 'list' ? 'bg-[#485365] text-white font-bold' : 'text-slate-400 hover:text-white'
                 }`}
                 title="Vista a Elenco Compatto"
               >
@@ -498,7 +544,7 @@ export default function App() {
               <button
                 onClick={() => setViewMode('tree')}
                 className={`p-1.5 rounded-lg transition ${
-                  viewMode === 'tree' ? 'bg-[#3c4656] text-white font-bold' : 'text-slate-400 hover:text-white'
+                  viewMode === 'tree' ? 'bg-[#485365] text-white font-bold' : 'text-slate-400 hover:text-white'
                 }`}
                 title="Vista ad Albero Cartelle"
               >
@@ -511,17 +557,14 @@ export default function App() {
         {/* Selected Context Hero / Banner */}
         {activeLangMeta && (
           <div
-            className="rounded-2xl p-5 border-2 relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all bg-[#1b2029] shadow-md"
-            style={{
-              borderColor: activeLangMeta.accentColor
-            }}
+            className="rounded-2xl p-5 border relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all bg-[#333b47] border-[#475263] shadow-sm"
           >
             <div className="flex items-center gap-4">
               <span className="text-4xl">{activeLangMeta.flag}</span>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-xl font-black text-white">{activeLangMeta.label}</h2>
-                  <span className="text-sm font-bold" style={{ color: activeLangMeta.accentColor }}>
+                  <h2 className="text-xl font-bold text-white">{activeLangMeta.label}</h2>
+                  <span className="text-sm font-semibold" style={{ color: activeLangMeta.accentColor }}>
                     {activeLangMeta.nativeLabel}
                   </span>
                 </div>
@@ -532,12 +575,12 @@ export default function App() {
             </div>
 
             <div className="flex items-center gap-3 text-xs text-slate-300">
-              <span className="bg-[#252b36] px-3 py-1.5 rounded-xl border border-[#3b4456] font-medium">
-                Cartella: <code className="text-indigo-300 font-mono font-bold">public/langs/{activeLangMeta.id}/</code>
+              <span className="bg-[#282f3a] px-3 py-1.5 rounded-xl border border-[#475263] font-medium">
+                Cartella: <code className="text-indigo-200 font-mono font-bold">public/langs/{activeLangMeta.id}/</code>
               </span>
               <button
                 onClick={() => setSelectedLanguage('all')}
-                className="text-xs text-indigo-400 hover:text-indigo-300 font-bold"
+                className="text-xs text-indigo-300 hover:text-indigo-200 font-bold"
               >
                 Mostra tutte le lingue
               </button>
@@ -554,13 +597,13 @@ export default function App() {
             </div>
           ) : filteredFiles.length === 0 ? (
             /* Empty State */
-            <div className="bg-[#1b2029] border border-[#2d3545] rounded-3xl p-12 text-center max-w-xl mx-auto space-y-4 shadow-lg text-white">
-              <div className="w-16 h-16 rounded-2xl bg-[#252b36] border border-[#3b4456] flex items-center justify-center mx-auto text-2xl">
+            <div className="bg-[#333b47] border border-[#475263] rounded-3xl p-12 text-center max-w-xl mx-auto space-y-4 shadow-sm text-white">
+              <div className="w-16 h-16 rounded-2xl bg-[#282f3a] border border-[#475263] flex items-center justify-center mx-auto text-2xl">
                 📂
               </div>
               <h3 className="text-lg font-bold text-white">Nessun foglio trovato con i filtri selezionati</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                Nessun file HTML corrisponde alla ricerca corrente. Prova ad azzerare i filtri oppure inserisci un nuovo file nella cartella <code className="text-indigo-400 font-mono font-bold">public/langs/</code>.
+                Nessun file HTML corrisponde alla ricerca corrente. Prova ad azzerare i filtri oppure inserisci un nuovo file nella cartella <code className="text-indigo-300 font-mono font-bold">public/langs/</code>.
               </p>
               <div className="flex justify-center gap-3 pt-2">
                 <button
@@ -572,7 +615,7 @@ export default function App() {
                     setShowOnlyCompleted(false);
                     setSearchQuery('');
                   }}
-                  className="px-4 py-2 rounded-xl bg-[#252b36] hover:bg-[#2d3442] text-xs font-bold text-slate-200 border border-[#3b4456]"
+                  className="px-4 py-2 rounded-xl bg-[#282f3a] hover:bg-[#323a48] text-xs font-bold text-slate-200 border border-[#475263]"
                 >
                   Azzera Tutti i Filtri
                 </button>
@@ -589,7 +632,7 @@ export default function App() {
             <FolderTreeView files={filteredFiles} onOpen={handleOpenFile} />
           ) : viewMode === 'list' ? (
             /* Compact List View */
-            <div className="bg-[#1b2029] border border-[#2d3545] rounded-2xl overflow-hidden divide-y divide-[#2d3545] shadow-md">
+            <div className="bg-[#333b47] border border-[#475263] rounded-2xl overflow-hidden divide-y divide-[#475263] shadow-sm">
               {filteredFiles.map((f) => {
                 const lang = getLanguageMeta(f.language);
                 const cat = getCategoryMeta(f.category);
@@ -598,7 +641,7 @@ export default function App() {
                   <div
                     key={f.id}
                     onClick={() => handleOpenFile(f)}
-                    className="p-4 hover:bg-[#252b36] flex items-center justify-between gap-4 cursor-pointer transition group"
+                    className="p-4 hover:bg-[#3a4452] flex items-center justify-between gap-4 cursor-pointer transition group"
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <span className="text-2xl shrink-0">{lang.flag}</span>
@@ -610,14 +653,14 @@ export default function App() {
                           <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${cat.badgeClass}`}>
                             {cat.icon} {cat.label}
                           </span>
-                          <span className="text-[10px] text-slate-400 font-mono">
+                          <span className="text-[10px] text-slate-300 font-mono">
                             {f.formattedSize}
                           </span>
                         </div>
-                        <h4 className="text-sm font-bold text-white group-hover:text-amber-200 transition truncate mt-0.5">
+                        <h4 className="text-sm font-bold text-white group-hover:text-slate-100 transition truncate mt-0.5">
                           {f.title}
                         </h4>
-                        <p className="text-xs text-slate-300 truncate mt-0.5">{f.description}</p>
+                        <p className="text-xs text-slate-200 truncate mt-0.5">{f.description}</p>
                       </div>
                     </div>
 

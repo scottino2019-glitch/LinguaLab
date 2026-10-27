@@ -53,7 +53,7 @@ export const LanguageCard: React.FC<LanguageCardProps> = ({
   return (
     <div
       onClick={() => onOpen(file)}
-      className={`group relative rounded-2xl transition-all duration-200 shadow-md hover:shadow-xl flex flex-col justify-between cursor-pointer overflow-hidden ${catMeta.cardBg} ${catMeta.cardBorder}`}
+      className={`group relative rounded-2xl transition-all duration-150 shadow-sm hover:shadow-md flex flex-col justify-between cursor-pointer overflow-hidden ${catMeta.cardBg} ${catMeta.cardBorder}`}
     >
       {/* Category Header Strip: solid distinct category bar */}
       <div className={`px-4 py-2.5 flex items-center justify-between gap-2 ${catMeta.cardHeaderBg}`}>
@@ -101,29 +101,29 @@ export const LanguageCard: React.FC<LanguageCardProps> = ({
       <div className="p-4 md:p-5 flex-1 flex flex-col justify-between">
         <div>
           {/* Title */}
-          <h3 className="text-base font-black text-white group-hover:text-amber-200 transition-colors line-clamp-2 leading-snug flex items-start gap-1.5">
+          <h3 className="text-base font-bold text-white group-hover:text-slate-100 transition-colors line-clamp-2 leading-snug flex items-start gap-1.5">
             {file.icon && <span className="text-lg leading-none shrink-0">{file.icon}</span>}
             <span>{file.title}</span>
           </h3>
 
-          {/* Description: soft, clear, highly legible text */}
-          <p className="text-xs text-slate-200/90 mt-2 line-clamp-2 leading-relaxed font-normal">
+          {/* Description: comfortable, larger, highly legible font */}
+          <p className="text-sm text-slate-100 mt-2.5 line-clamp-3 leading-relaxed font-normal">
             {file.description || 'Foglio HTML pronto per la consultazione e la pratica.'}
           </p>
 
           {/* Tags */}
           {file.keywords && file.keywords.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mt-3">
+            <div className="flex flex-wrap gap-1.5 mt-3.5">
               {file.keywords.slice(0, 3).map((kw, i) => (
                 <span
                   key={i}
-                  className={`px-2 py-0.5 rounded-md text-[11px] font-mono font-semibold ${catMeta.tagClass}`}
+                  className={`px-2 py-0.5 rounded-md text-xs font-mono font-medium ${catMeta.tagClass}`}
                 >
                   #{kw}
                 </span>
               ))}
               {file.keywords.length > 3 && (
-                <span className="text-[10px] text-slate-400 self-center">
+                <span className="text-xs text-slate-400 self-center">
                   +{file.keywords.length - 3}
                 </span>
               )}

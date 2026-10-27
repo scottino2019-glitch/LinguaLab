@@ -1,0 +1,3 @@
+/langs/*  /langs/:splat  200
+/api/files /files-manifest.json 200
+/*        /index.html    200

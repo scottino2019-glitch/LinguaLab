@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/langs/(.*)",
+      "destination": "/langs/$1"
+    },
+    {
+      "source": "/files-manifest.json",
+      "destination": "/files-manifest.json"
+    },
+    {
+      "source": "/api/files",
+      "destination": "/files-manifest.json"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
