@@ -2,12 +2,12 @@
   <script type="module" src="/@vite/client"></script>
 
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>Taccuino Classico Stile Moleskine</title>
-   <meta name="category" content="blocknote">
-  <meta name="description" content="Taccuino sfogliabile classico stile Moleskine in un unico file HTML, con copertina singola, tasca a soffietto posteriore fisica espandibile, e alternanza libera di fogli a righe, quadretti e bianchi.">
+<meta name="category" content="blocknote">
+  <meta name="description" content="Taccuino sfogliabile classico stile Moleskine interamente responsive in un unico file HTML, con copertina singola, tasca a soffietto posteriore fisica, e alternanza libera di fogli a righe, quadretti e bianchi.">
   <meta property="og:title" content="Taccuino Classico Stile Moleskine">
-  <meta property="og:description" content="Taccuino sfogliabile classico stile Moleskine in un unico file HTML, con copertina singola, tasca a soffietto posteriore fisica espandibile, e alternanza libera di fogli a righe, quadretti e bianchi.">
+  <meta property="og:description" content="Taccuino sfogliabile classico stile Moleskine interamente responsive in un unico file HTML, con copertina singola, tasca a soffietto posteriore fisica, e alternanza libera di fogli a righe, quadretti e bianchi.">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -57,17 +57,18 @@
       user-select: none;
     }
 
-    /* TOP BAR */
+    /* TOP BAR (Responsive 3-Zone Clean Header) */
     .top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1.5rem;
-      padding: 0.85rem 1.75rem;
-      background: rgba(18, 16, 14, 0.92);
+      gap: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: rgba(18, 16, 14, 0.94);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.07);
       z-index: 100;
+      min-height: 52px;
     }
 
     .brand-wordmark {
@@ -79,15 +80,16 @@
       text-transform: uppercase;
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.5rem;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .brand-badge {
       font-family: 'DM Sans', sans-serif;
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       letter-spacing: 0.12em;
-      padding: 0.15rem 0.45rem;
+      padding: 0.12rem 0.4rem;
       border: 1px solid rgba(198, 166, 100, 0.4);
       color: var(--gold-accent);
       border-radius: 3px;
@@ -96,24 +98,34 @@
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
+      gap: 0.45rem;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .nav-actions::-webkit-scrollbar {
+      display: none;
     }
 
     .btn-action {
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.12);
       color: #ede6dc;
-      padding: 0.45rem 0.85rem;
+      padding: 0.4rem 0.75rem;
       border-radius: 6px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 500;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
+      gap: 0.4rem;
       transition: all 0.18s ease;
       white-space: nowrap;
+      flex-shrink: 0;
+      min-height: 34px;
     }
 
     .btn-action:hover {
@@ -147,36 +159,49 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 1.25rem 1rem 1.75rem 1rem;
+      padding: 1rem 0.75rem 1.5rem 0.75rem;
       position: relative;
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
     }
 
     /* FLOATING QUICK TOOLS */
     .toolbar-dock {
-      margin-bottom: 1.15rem;
-      background: rgba(24, 21, 18, 0.88);
+      margin-bottom: 0.85rem;
+      background: rgba(24, 21, 18, 0.9);
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 10px;
-      padding: 0.4rem 0.75rem;
+      padding: 0.35rem 0.65rem;
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.65rem;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
       z-index: 20;
       transition: opacity 0.2s ease, transform 0.2s ease;
+      max-width: 96vw;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .toolbar-dock::-webkit-scrollbar {
+      display: none;
     }
 
     .dock-group {
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.3rem;
+      flex-shrink: 0;
     }
 
     .dock-divider {
       width: 1px;
       height: 18px;
       background: rgba(255, 255, 255, 0.12);
+      flex-shrink: 0;
     }
 
     .tool-btn {
@@ -190,8 +215,9 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       transition: all 0.15s ease;
+      flex-shrink: 0;
     }
 
     .tool-btn:hover {
@@ -209,11 +235,12 @@
       background: rgba(0, 0, 0, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.15);
       color: #ede6dc;
-      padding: 0.35rem 0.6rem;
+      padding: 0.3rem 0.55rem;
       border-radius: 6px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       outline: none;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     /* THE MOLESKINE NOTEBOOK CONTAINER */
@@ -223,7 +250,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: clamp(520px, 74vh, 700px);
+      width: 100%;
     }
 
     /* NAVIGATION BUTTONS ON DESK */
@@ -234,8 +261,8 @@
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      background: rgba(20, 18, 16, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(20, 18, 16, 0.92);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       color: #ede6dc;
       display: flex;
       align-items: center;
@@ -254,19 +281,19 @@
     }
 
     .page-nav-prev {
-      left: -24px;
+      left: -22px;
     }
 
     .page-nav-next {
-      right: -24px;
+      right: -22px;
     }
 
     /* =========================================================
        1. STANDALONE COVER VIEW (Copertina che sta da sola)
        ========================================================= */
     .standalone-cover {
-      width: min(90vw, 470px);
-      height: clamp(520px, 74vh, 690px);
+      width: min(90vw, 460px);
+      height: clamp(480px, 72vh, 680px);
       background: linear-gradient(145deg, #181716 0%, #111010 100%);
       border-radius: 20px;
       position: relative;
@@ -279,9 +306,9 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 3rem 2.5rem 2.5rem 2.5rem;
+      padding: clamp(1.8rem, 4vw, 3rem) clamp(1.5rem, 3.5vw, 2.5rem);
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-      animation: coverEntrance 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: coverEntrance 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @keyframes coverEntrance {
@@ -322,7 +349,7 @@
 
     .cover-elastic-band {
       position: absolute;
-      right: 42px;
+      right: clamp(24px, 7vw, 42px);
       top: -3px;
       bottom: -3px;
       width: 17px;
@@ -344,7 +371,7 @@
     .cover-ribbon-tail {
       position: absolute;
       bottom: -16px;
-      left: 65px;
+      left: 60px;
       width: 15px;
       height: 28px;
       background: linear-gradient(90deg, #6c1417 0%, #8b1e22 50%, #520f12 100%);
@@ -387,7 +414,7 @@
 
     .cover-brand-title {
       font-family: 'Playfair Display', serif;
-      font-size: 2.15rem;
+      font-size: clamp(1.75rem, 5vw, 2.25rem);
       font-weight: 700;
       letter-spacing: 0.12em;
       color: #ede2d0;
@@ -396,7 +423,7 @@
     }
 
     .cover-subtitle {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       letter-spacing: 0.08em;
       color: #8c8376;
       margin-top: 0.4rem;
@@ -404,8 +431,8 @@
 
     .cover-center-badge {
       align-self: center;
-      width: 64px;
-      height: 64px;
+      width: 58px;
+      height: 58px;
       border: 1px solid rgba(198, 166, 100, 0.35);
       border-radius: 50%;
       display: flex;
@@ -427,7 +454,7 @@
       z-index: 2;
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.5rem;
     }
 
     .btn-open-notebook {
@@ -436,7 +463,7 @@
       color: #f7eedf;
       padding: 0.75rem 1.25rem;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
       letter-spacing: 0.05em;
       cursor: pointer;
@@ -445,6 +472,7 @@
       justify-content: center;
       gap: 0.6rem;
       transition: all 0.2s ease;
+      min-height: 44px;
     }
 
     .btn-open-notebook:hover {
@@ -455,12 +483,12 @@
     }
 
     /* =========================================================
-       2. OPEN TWO-PAGE SPREAD VIEW (Pagine del taccuino)
+       2. OPEN TWO-PAGE SPREAD & SINGLE-PAGE RESPONSIVE CONTAINER
        ========================================================= */
     .notebook-spread-container {
       position: relative;
       width: min(94vw, 1140px);
-      height: clamp(520px, 74vh, 700px);
+      height: clamp(480px, 74vh, 700px);
       background: var(--cover-leather);
       border-radius: 18px;
       box-shadow: 
@@ -471,6 +499,7 @@
       padding: 12px 14px;
       display: flex;
       animation: bookOpenAnim 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      touch-action: pan-y pinch-zoom;
     }
 
     @keyframes bookOpenAnim {
@@ -478,7 +507,7 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    /* BOOK SPREAD (TWO PAGES) */
+    /* BOOK SPREAD */
     .book-spread {
       flex: 1;
       display: flex;
@@ -497,7 +526,7 @@
       top: 0;
       bottom: 0;
       left: 50%;
-      width: 48px;
+      width: 44px;
       transform: translateX(-50%);
       background: linear-gradient(
         90deg,
@@ -583,7 +612,6 @@
     }
 
     /* PAPER TEXTURES & RULINGS */
-    /* 1. Righe */
     .paper-righe {
       background-color: var(--paper-cream);
       background-image: 
@@ -598,7 +626,6 @@
       background-size: 100% 100%, 100% 28px;
     }
 
-    /* 2. Quadretti (5mm) */
     .paper-quadretti {
       background-color: var(--paper-cream);
       background-image: 
@@ -619,7 +646,6 @@
       background-size: 19px 19px;
     }
 
-    /* 3. Fogli Bianchi */
     .paper-bianco {
       background-color: var(--paper-cream);
       background-image: 
@@ -627,7 +653,6 @@
         linear-gradient(to right, rgba(0,0,0,0.03), transparent 8%, transparent 92%, rgba(0,0,0,0.03));
     }
 
-    /* 4. Puntinato (Dot Grid) */
     .paper-puntinato {
       background-color: var(--paper-cream);
       background-image: radial-gradient(var(--paper-dot) 1px, transparent 1px);
@@ -644,23 +669,24 @@
       z-index: 5;
     }
 
-    /* PAGE HEADER / METADATA AREA WITH DIRECT RULING SELECTOR */
+    /* PAGE HEADER */
     .page-header {
-      padding: 0.75rem 1.6rem 0.35rem 1.6rem;
+      padding: 0.7rem 1.4rem 0.3rem 1.4rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: relative;
       z-index: 10;
       gap: 0.5rem;
+      flex-wrap: nowrap;
     }
 
     .page-left .page-header {
-      padding-right: 2.5rem;
+      padding-right: 2.2rem;
     }
 
     .page-right .page-header {
-      padding-left: 2.5rem;
+      padding-left: 2.2rem;
     }
 
     .page-date-input {
@@ -672,7 +698,8 @@
       background: transparent;
       border: none;
       outline: none;
-      width: 120px;
+      width: 100px;
+      min-width: 80px;
     }
 
     .page-date-input::placeholder {
@@ -688,6 +715,7 @@
       padding: 2px;
       border-radius: 6px;
       gap: 1px;
+      flex-shrink: 0;
     }
 
     .ruling-opt-btn {
@@ -695,14 +723,14 @@
       border: none;
       font-size: 0.68rem;
       color: #7d7061;
-      padding: 2px 7px;
+      padding: 2px 6px;
       border-radius: 4px;
       cursor: pointer;
       font-weight: 500;
       transition: all 0.14s ease;
       display: inline-flex;
       align-items: center;
-      gap: 3px;
+      min-height: 22px;
     }
 
     .ruling-opt-btn:hover {
@@ -728,7 +756,7 @@
 
     .page-text-area {
       flex: 1;
-      padding: 0.3rem 1.75rem 1.5rem 1.75rem;
+      padding: 0.3rem 1.4rem 1.4rem 1.4rem;
       outline: none;
       overflow-y: auto;
       z-index: 8;
@@ -743,11 +771,11 @@
     }
 
     .page-left .page-text-area {
-      padding-right: 2.5rem;
+      padding-right: 2.2rem;
     }
 
     .page-right .page-text-area {
-      padding-left: 2.5rem;
+      padding-left: 2.2rem;
     }
 
     /* FONT CLASSES */
@@ -774,7 +802,7 @@
 
     /* PAGE FOOTER */
     .page-footer {
-      padding: 0.4rem 1.75rem 0.8rem 1.75rem;
+      padding: 0.4rem 1.4rem 0.75rem 1.4rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -784,11 +812,11 @@
     }
 
     .page-left .page-footer {
-      padding-right: 2.5rem;
+      padding-right: 2.2rem;
     }
 
     .page-right .page-footer {
-      padding-left: 2.5rem;
+      padding-left: 2.2rem;
     }
 
     .page-number {
@@ -802,8 +830,8 @@
     .page-corner-curl {
       position: absolute;
       bottom: 0;
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       cursor: pointer;
       z-index: 20;
       opacity: 0.4;
@@ -830,7 +858,7 @@
     /* FLYLEAF COVER */
     .flyleaf-container {
       flex: 1;
-      padding: 3rem 2.5rem;
+      padding: clamp(1.5rem, 3.5vw, 3rem) clamp(1rem, 3vw, 2.5rem);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -842,23 +870,23 @@
 
     .flyleaf-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
+      font-size: clamp(1.2rem, 3vw, 1.5rem);
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       color: #24211c;
       border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-      padding-bottom: 0.5rem;
-      width: 70%;
+      padding-bottom: 0.4rem;
+      width: 75%;
     }
 
     .flyleaf-box {
       border: 1px solid rgba(140, 126, 105, 0.45);
-      padding: 1.75rem 2rem;
-      width: 85%;
+      padding: 1.25rem 1.5rem;
+      width: 90%;
       border-radius: 4px;
       background: rgba(255, 255, 255, 0.4);
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
     .flyleaf-label {
@@ -867,15 +895,15 @@
       text-transform: uppercase;
       font-weight: 600;
       color: #6d6255;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.5rem;
     }
 
     .flyleaf-line {
       border-bottom: 1px solid #7d7060;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
       outline: none;
       font-family: 'Caveat', cursive;
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       min-height: 28px;
       color: var(--ink-black);
     }
@@ -891,7 +919,7 @@
 
     .flyleaf-reward span[contenteditable] {
       border-bottom: 1px solid #7d7060;
-      min-width: 60px;
+      min-width: 50px;
       outline: none;
       font-family: 'Caveat', cursive;
       font-size: 1.15rem;
@@ -905,203 +933,343 @@
     .pocket-page-container {
       flex: 1;
       height: 100%;
-      background: #1c1a17;
+      background: radial-gradient(circle at 65% 25%, #fcf7ed 0%, #f4edd8 60%, #eae0c7 100%);
       position: relative;
       display: flex;
       flex-direction: column;
       border-top-right-radius: 12px;
       border-bottom-right-radius: 12px;
-      box-shadow: inset -10px 0 20px rgba(0, 0, 0, 0.3);
-      padding: 1rem 1.25rem 1.25rem 1.25rem;
+      border-right: 5px solid #1a1715;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      border-bottom: 2px solid #1a1715;
+      box-shadow: 
+        inset 15px 0 25px rgba(0, 0, 0, 0.08),
+        inset -8px 0 16px rgba(0, 0, 0, 0.12);
+      padding: 0.85rem 1.15rem 1.15rem 1.15rem;
       overflow: hidden;
     }
 
-    /* Pocket Top Bar with Close Button */
     .pocket-top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding-bottom: 0.6rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(130, 110, 85, 0.25);
       margin-bottom: 0.75rem;
+      flex-shrink: 0;
+      gap: 0.5rem;
+    }
+
+    .pocket-top-title-group {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .pocket-top-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #dfd0b5;
+      border: 1px solid #b8a280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      flex-shrink: 0;
     }
 
     .pocket-top-title {
       font-family: 'Playfair Display', serif;
       font-size: 0.95rem;
-      color: #ede2d0;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
+      font-weight: 700;
+      color: #2e261d;
+      line-height: 1.2;
     }
 
-    .btn-close-pocket {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #f7eedf;
-      padding: 0.3rem 0.65rem;
-      border-radius: 5px;
-      font-size: 0.75rem;
-      font-weight: 500;
+    .pocket-top-sub {
+      font-size: 0.65rem;
+      color: #7a6a54;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .pocket-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-toggle-bellows {
+      background: #faf6ee;
+      border: 1px solid #c4b396;
+      color: #3b3123;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      transition: all 0.15s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      transition: all 0.16s ease;
+      min-height: 32px;
+    }
+
+    .btn-toggle-bellows:hover {
+      background: #dfd0b5;
+      border-color: #a38d6b;
+      color: #1a150e;
+      transform: translateY(-1px);
+    }
+
+    .btn-close-pocket {
+      background: #2b251e;
+      border: 1px solid #1a1714;
+      color: #faf4e8;
+      padding: 0.35rem 0.85rem;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+      transition: all 0.16s ease;
+      min-height: 32px;
     }
 
     .btn-close-pocket:hover {
-      background: #c6a664;
-      color: #12100e;
-      border-color: #c6a664;
+      background: #a32429;
+      border-color: #7d171b;
+      color: #fff;
+      transform: translateY(-1px);
     }
 
-    /* Heavy kraft cardstock pocket construction */
+    /* THE PHYSICAL POCKET FRAME ON ENDPAPER */
     .physical-pocket {
       flex: 1;
-      background: #2b2722;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 10px;
+      background: linear-gradient(180deg, #13110f 0%, #1c1916 35%, #2a2520 100%);
+      border: 2px solid #b8a280;
+      border-radius: 12px;
       position: relative;
       display: flex;
       flex-direction: column;
       box-shadow: 
-        0 10px 25px rgba(0, 0, 0, 0.5),
-        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+        0 18px 36px rgba(35, 27, 18, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.2),
+        inset 0 18px 28px rgba(0, 0, 0, 0.85);
       overflow: hidden;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Accordion Bellows on Left and Right sides */
+    /* ACCORDION BELLOWS (Soffietti Laterali in Tela Plissettata 3D) */
     .bellows-left, .bellows-right {
       position: absolute;
-      top: 15px;
-      bottom: 15px;
-      width: 22px;
-      background: repeating-linear-gradient(
-        90deg,
-        #211e1b 0px,
-        #151412 5px,
-        #332e29 6px,
-        #1c1a17 11px
-      );
-      box-shadow: inset 0 0 4px rgba(0,0,0,0.6);
-      z-index: 2;
+      top: 10px;
+      bottom: 0;
+      width: 32px;
+      z-index: 8;
+      pointer-events: none;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
     }
 
-    .bellows-left { left: 0; border-right: 1px solid rgba(0,0,0,0.5); }
-    .bellows-right { right: 0; border-left: 1px solid rgba(0,0,0,0.5); }
+    .bellows-left {
+      left: 0;
+      background: repeating-linear-gradient(
+        -68deg,
+        #0e0d0b 0px,
+        #0e0d0b 6px,
+        #3b342b 7px,
+        #5e5445 8px,
+        #1c1a17 9px,
+        #11100e 14px
+      );
+      border-right: 2px solid #54493a;
+      box-shadow: inset -4px 0 8px rgba(0,0,0,0.7), 2px 0 6px rgba(0,0,0,0.4);
+    }
 
-    /* The Front Paper Flap of the Pocket */
+    .bellows-right {
+      right: 0;
+      background: repeating-linear-gradient(
+        68deg,
+        #0e0d0b 0px,
+        #0e0d0b 6px,
+        #3b342b 7px,
+        #5e5445 8px,
+        #1c1a17 9px,
+        #11100e 14px
+      );
+      border-left: 2px solid #54493a;
+      box-shadow: inset 4px 0 8px rgba(0,0,0,0.7), -2px 0 6px rgba(0,0,0,0.4);
+    }
+
+    .physical-pocket.pocket-expanded .bellows-left,
+    .physical-pocket.pocket-expanded .bellows-right {
+      width: 44px;
+    }
+
+    /* FRONT MANILA KRAFT CARDBOARD SLEEVE (Cartoncino Manila Moleskine) */
     .pocket-front-sleeve {
       position: absolute;
-      left: 22px;
-      right: 22px;
+      left: 30px;
+      right: 30px;
       bottom: 0;
       height: 52%;
-      background: linear-gradient(180deg, #38332c 0%, #292520 100%);
-      border-top: 1px solid rgba(255, 255, 255, 0.18);
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
-      box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.4);
-      z-index: 10;
+      background: linear-gradient(150deg, #ede3cb 0%, #dfd0b2 45%, #ccb993 100%);
+      border: 2px solid #b39d7b;
+      border-top: 3px solid #f9f1e1;
+      border-bottom: none;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      box-shadow: 
+        0 -14px 28px rgba(20, 16, 12, 0.45),
+        0 -3px 8px rgba(0, 0, 0, 0.25),
+        inset 0 2px 0 rgba(255, 255, 255, 0.75),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.12);
+      z-index: 12;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 1rem 1.25rem;
+      padding: 0.85rem 1.15rem;
       cursor: pointer;
-      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      outline: 1px dashed rgba(100, 75, 40, 0.4);
+      outline-offset: -6px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    }
+
+    .pocket-front-sleeve:hover {
+      box-shadow: 
+        0 -18px 34px rgba(20, 16, 12, 0.55),
+        0 -4px 10px rgba(0, 0, 0, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.9);
     }
 
     .pocket-finger-notch {
       position: absolute;
-      top: -1px;
+      top: -3px;
       left: 50%;
       transform: translateX(-50%);
-      width: 60px;
+      width: 62px;
       height: 18px;
-      background: #2b2722;
-      border-bottom-left-radius: 30px;
-      border-bottom-right-radius: 30px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: inset 0 -3px 6px rgba(0, 0, 0, 0.4);
+      background: #181512;
+      border-bottom-left-radius: 31px;
+      border-bottom-right-radius: 31px;
+      border: 2px solid #b39d7b;
+      border-top: none;
+      box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.7);
     }
 
     .pocket-sleeve-label {
       font-family: 'Playfair Display', serif;
-      font-size: 0.95rem;
-      color: #ede2d0;
-      letter-spacing: 0.1em;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #382e21;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       text-align: center;
-      margin-top: 0.6rem;
+      margin-top: 0.35rem;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
     }
 
     .pocket-sleeve-sub {
-      font-size: 0.7rem;
-      color: #9c9182;
-      letter-spacing: 0.05em;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #635440;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       text-align: center;
+      margin-top: 2px;
+    }
+
+    .pocket-flap-hint-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(140, 115, 80, 0.35);
+      border-radius: 20px;
+      padding: 0.25rem 0.65rem;
+      margin: 0 auto;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #4a3e2c;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      transition: all 0.15s ease;
+    }
+
+    .pocket-front-sleeve:hover .pocket-flap-hint-tag {
+      background: #fff;
+      color: #241d15;
+      border-color: #8f7450;
     }
 
     /* SLIPS / CARDS TUCKED INSIDE THE POCKET */
     .pocket-slips-container {
       position: absolute;
-      left: 28px;
-      right: 28px;
+      left: 36px;
+      right: 36px;
       top: 15px;
       bottom: 22%;
-      z-index: 5;
+      z-index: 6;
       display: flex;
       gap: 0.85rem;
       overflow-x: auto;
-      padding-bottom: 1.2rem;
+      padding-bottom: 1.25rem;
       align-items: flex-end;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-x;
     }
 
     .pocket-slip {
       width: 140px;
-      height: 200px;
+      height: 195px;
       border-radius: 6px;
-      padding: 0.75rem 0.65rem;
+      padding: 0.65rem 0.65rem;
       box-shadow: 
-        0 8px 16px rgba(0, 0, 0, 0.35),
-        0 2px 4px rgba(0, 0, 0, 0.2);
+        0 10px 22px rgba(0, 0, 0, 0.45),
+        0 2px 6px rgba(0, 0, 0, 0.25);
       flex-shrink: 0;
       position: relative;
-      transition: transform 0.22s ease, box-shadow 0.22s ease;
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
       display: flex;
       flex-direction: column;
       outline: none;
     }
 
     .pocket-slip:hover {
-      transform: translateY(-24px) scale(1.04);
-      box-shadow: 0 16px 28px rgba(0, 0, 0, 0.5);
-      z-index: 12;
+      transform: translateY(-24px) scale(1.05) !important;
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.6);
+      z-index: 15;
     }
 
-    .slip-yellow { background: #fff8cb; color: #2b2518; border-top: 4px solid #e8dc8e; transform: rotate(-2deg); }
-    .slip-kraft { background: #f0e6d2; color: #29241e; border-top: 4px solid #c9b99e; transform: rotate(1.5deg); }
-    .slip-green { background: #eef7e6; color: #1f2e1a; border-top: 4px solid #b6d4a5; transform: rotate(-1deg); }
-    .slip-rose { background: #fbeee8; color: #2f1d19; border-top: 4px solid #e5b3a3; transform: rotate(2deg); }
-    .slip-blue { background: #e9f2fa; color: #182836; border-top: 4px solid #a3c7e8; transform: rotate(-1.5deg); }
+    .slip-yellow { background: #fff8bf; color: #2b2518; border-top: 5px solid #d8ca6b; transform: rotate(-2deg); }
+    .slip-kraft { background: #f3e9d5; color: #29241e; border-top: 5px solid #b8a584; transform: rotate(1.5deg); }
+    .slip-green { background: #ebf6e1; color: #1f2e1a; border-top: 5px solid #9dc388; transform: rotate(-1deg); }
+    .slip-rose { background: #fcece5; color: #2f1d19; border-top: 5px solid #dca08f; transform: rotate(2deg); }
+    .slip-blue { background: #e5f1fc; color: #182836; border-top: 5px solid #8cbde6; transform: rotate(-1.5deg); }
 
     .slip-header-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.3rem;
       border-bottom: 1px dashed rgba(0, 0, 0, 0.15);
       padding-bottom: 0.2rem;
     }
 
     .slip-header-title {
-      font-size: 0.62rem;
+      font-size: 0.65rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       font-weight: 700;
-      color: rgba(0, 0, 0, 0.5);
+      color: rgba(0, 0, 0, 0.6);
       outline: none;
       flex: 1;
     }
@@ -1110,22 +1278,22 @@
       background: transparent;
       border: none;
       cursor: pointer;
-      color: rgba(0,0,0,0.35);
-      font-size: 0.75rem;
+      color: rgba(0,0,0,0.4);
+      font-size: 0.85rem;
       line-height: 1;
-      padding: 1px 3px;
+      padding: 2px 5px;
       border-radius: 3px;
     }
 
     .slip-delete-btn:hover {
-      background: rgba(0,0,0,0.1);
+      background: rgba(0,0,0,0.12);
       color: #900;
     }
 
     .slip-body {
       flex: 1;
       font-family: 'Caveat', cursive;
-      font-size: 1.05rem;
+      font-size: 1.08rem;
       line-height: 1.35;
       overflow-y: auto;
       outline: none;
@@ -1133,9 +1301,9 @@
     }
 
     .btn-add-slip {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px dashed rgba(255, 255, 255, 0.25);
-      color: #ede6dc;
+      background: rgba(255, 255, 255, 0.88);
+      border: 2px dashed #bba37f;
+      color: #3d3324;
       width: 110px;
       height: 180px;
       border-radius: 6px;
@@ -1143,48 +1311,54 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
+      gap: 0.45rem;
+      font-size: 0.74rem;
+      font-weight: 600;
       cursor: pointer;
       flex-shrink: 0;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.3);
       transition: all 0.2s ease;
+      min-height: 44px;
     }
 
     .btn-add-slip:hover {
-      background: rgba(198, 166, 100, 0.18);
-      border-color: var(--gold-accent);
-      color: #fff;
+      background: #fff;
+      border-color: #7d6542;
+      color: #1a150e;
       transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.45);
     }
 
     /* RIGHT EDGE LEATHER TAB FOR QUICK POCKET ACCESS */
     .pocket-leather-tab {
       position: absolute;
       right: -10px;
-      top: 60px;
-      background: #2b2722;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      top: 55px;
+      background: linear-gradient(135deg, #c6a664 0%, #aa853c 100%);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       border-left: none;
       border-top-right-radius: 8px;
       border-bottom-right-radius: 8px;
-      padding: 0.6rem 0.5rem 0.6rem 0.65rem;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      color: #d8cebe;
+      padding: 0.55rem 0.55rem 0.55rem 0.65rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: #1b160e;
       cursor: pointer;
-      box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.45);
+      box-shadow: 3px 5px 14px rgba(0, 0, 0, 0.45);
       display: flex;
       align-items: center;
       gap: 0.35rem;
       z-index: 40;
       transition: all 0.2s ease;
+      min-height: 36px;
     }
 
     .pocket-leather-tab:hover {
-      background: #c6a664;
-      color: #12100e;
+      background: linear-gradient(135deg, #dfbc77 0%, #c6a664 100%);
+      color: #000;
       transform: translateX(4px);
+      box-shadow: 5px 7px 18px rgba(0, 0, 0, 0.55);
     }
 
     /* =========================================================
@@ -1199,14 +1373,14 @@
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 1rem;
+      padding: 0.75rem;
     }
 
     .pocket-card {
       background: #25201b;
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 14px;
-      width: min(92vw, 620px);
+      width: min(94vw, 600px);
       max-height: 88vh;
       display: flex;
       flex-direction: column;
@@ -1221,7 +1395,7 @@
     }
 
     .pocket-header {
-      padding: 1.2rem 1.5rem;
+      padding: 1rem 1.25rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       display: flex;
       justify-content: space-between;
@@ -1230,43 +1404,45 @@
 
     .pocket-title {
       font-family: 'Playfair Display', serif;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       color: #f7eedf;
     }
 
     .pocket-body {
-      padding: 1.5rem;
+      padding: 1.25rem;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
-      gap: 1.4rem;
+      gap: 1.25rem;
+      -webkit-overflow-scrolling: touch;
     }
 
     .ruling-section-title {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       font-weight: 700;
       color: var(--gold-accent);
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.5rem;
     }
 
     .current-spread-ruling-box {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
-      padding: 1rem;
+      padding: 0.85rem;
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
+      gap: 0.75rem;
     }
 
     .page-ruling-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      padding: 0.35rem 0;
+      gap: 0.75rem;
+      padding: 0.3rem 0;
+      flex-wrap: wrap;
     }
 
     .page-ruling-row:not(:last-child) {
@@ -1275,18 +1451,20 @@
 
     .ruling-button-group {
       display: flex;
-      gap: 0.4rem;
+      gap: 0.35rem;
+      flex-wrap: wrap;
     }
 
     .btn-ruling-select {
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.12);
       color: #ede6dc;
-      padding: 0.3rem 0.65rem;
+      padding: 0.3rem 0.6rem;
       border-radius: 5px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       cursor: pointer;
       transition: all 0.15s ease;
+      min-height: 32px;
     }
 
     .btn-ruling-select:hover {
@@ -1303,20 +1481,20 @@
 
     .ruling-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 0.85rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem;
     }
 
     .ruling-card {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
-      padding: 0.9rem;
+      padding: 0.85rem;
       cursor: pointer;
       transition: all 0.15s ease;
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 0.3rem;
     }
 
     .ruling-card:hover {
@@ -1330,25 +1508,28 @@
     }
 
     .ruling-card-title {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: #ede6dc;
     }
 
     .ruling-card-desc {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: #aba193;
       line-height: 1.35;
     }
 
     /* FOOTER STATUS INFO */
     .status-ribbon {
-      margin-top: 1rem;
+      margin-top: 0.85rem;
       display: flex;
       align-items: center;
-      gap: 1.5rem;
-      font-size: 0.78rem;
+      gap: 1rem;
+      font-size: 0.75rem;
       color: #8c8273;
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
     }
 
     .status-ribbon span {
@@ -1378,91 +1559,223 @@
       }
     }
 
-    /* RESPONSIVE MOBILE SPREAD BEHAVIOR */
-    @media (max-width: 768px) {
+    /* =========================================================
+       RESPONSIVE BREAKPOINTS (Mobile Phones & Narrow Tablets)
+       ========================================================= */
+    @media (max-width: 860px) {
       .top-bar {
-        padding: 0.65rem 1rem;
+        padding: 0.45rem 0.85rem;
+        min-height: 48px;
       }
+
+      .brand-wordmark {
+        font-size: 1rem;
+      }
+
+      .btn-action {
+        padding: 0.35rem 0.55rem;
+        font-size: 0.74rem;
+        min-height: 32px;
+      }
+
+      .workspace {
+        padding: 0.5rem 0.5rem 1rem 0.5rem;
+      }
+
+      /* NOTEBOOK SINGLE-PAGE ADAPTATION ON MOBILE */
       .notebook-spread-container {
-        height: 70vh;
+        width: min(96vw, 500px);
+        height: clamp(480px, 78vh, 620px);
+        padding: 8px 10px;
+        border-radius: 14px;
       }
-      .page-left {
-        display: none;
-      }
-      .page-right {
-        border-radius: 12px;
-        box-shadow: none;
-      }
+
+      /* Hide spine gutter on mobile single-page view */
       .spine-gutter {
+        display: none !important;
+      }
+
+      .ribbon-bookmark {
+        left: 24px;
+      }
+
+      /* When in Mobile Single Page mode, page-left is hidden and page-right is full width */
+      .mode-single-page .page-left {
+        display: none !important;
+      }
+
+      .mode-single-page .page-right {
+        border-radius: 10px !important;
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.06) !important;
+        border: none !important;
+      }
+
+      .mode-single-page .page-right .page-header {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+      }
+
+      .mode-single-page .page-right .page-text-area {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+      }
+
+      .mode-single-page .page-right .page-footer {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+      }
+
+      /* Navigation arrows positioned at bottom edges or overlayed */
+      .page-nav-arrow {
+        width: 38px;
+        height: 38px;
+      }
+
+      .page-nav-prev {
+        left: -10px;
+      }
+
+      .page-nav-next {
+        right: -10px;
+      }
+
+      .pocket-page-container {
+        padding: 0.65rem 0.75rem 0.75rem 0.75rem;
+        border-radius: 10px;
+      }
+
+      .pocket-top-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.85rem;
+      }
+
+      .pocket-top-title {
+        font-size: 0.85rem;
+      }
+
+      .btn-toggle-bellows {
+        padding: 0.25rem 0.55rem;
+        font-size: 0.68rem;
+      }
+
+      .btn-close-pocket {
+        padding: 0.25rem 0.65rem;
+        font-size: 0.68rem;
+      }
+
+      .pocket-front-sleeve {
+        left: 20px;
+        right: 20px;
+        height: 48%;
+        padding: 0.6rem 0.75rem;
+      }
+
+      .bellows-left, .bellows-right {
+        width: 22px;
+      }
+
+      .physical-pocket.pocket-expanded .bellows-left,
+      .physical-pocket.pocket-expanded .bellows-right {
+        width: 32px;
+      }
+
+      .pocket-slips-container {
+        left: 24px;
+        right: 24px;
+        bottom: 20%;
+      }
+
+      .pocket-leather-tab {
+        right: -6px;
+        top: 45px;
+        padding: 0.4rem 0.45rem;
+        font-size: 0.65rem;
+      }
+
+      .pocket-card {
+        max-height: 90vh;
+      }
+
+      .ruling-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand-badge {
         display: none;
       }
+
       .page-nav-prev {
-        left: 5px;
+        left: -6px;
       }
+
       .page-nav-next {
-        right: 5px;
+        right: -6px;
+      }
+
+      .standalone-cover {
+        width: 94vw;
+        height: clamp(460px, 76vh, 580px);
+        border-radius: 16px;
+      }
+
+      .notebook-spread-container {
+        width: 98vw;
       }
     }
   </style>
-<script src="/_aistudio-iframe.js?v=1f94f900"></script><script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@2.0.4"></script><style>.aistudio-hover-highlight { box-shadow: inset 0 0 0 0.5px white, inset 0 0 0 1.5px rgba(128,128,128,0.6) !important; }.aistudio-active-highlight { outline: 2px solid #87a9ff !important; outline-offset: -2px !important; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.3), inset 0 0 0 0.5px rgba(0,0,0,0.3) !important; }.aistudio-generating-blur { filter: blur(5px) grayscale(100%) brightness(28%) !important; transition: filter 0.3s ease; }#aistudio-focus-mode-tag { position: absolute; display: none; align-items: center; gap: 4px; background: #87a9ff; border-radius: 12px; z-index: 10000; padding: 8px; color: #32302c; font-family: Inter, sans-serif; font-size: 14px; font-style: normal; font-weight: 500; line-height: 21px; pointer-events: none; }#aistudio-hover-mode-tag { position: absolute; display: none; align-items: center; gap: 4px; background: rgba(128,128,128,0.6); border-radius: 12px; z-index: 10000; padding: 8px; color: white; font-family: Inter, sans-serif; font-size: 14px; font-style: normal; font-weight: 500; line-height: 21px; pointer-events: none; }.aistudio-img-icon { display: none; vertical-align: middle; pointer-events: auto; cursor: pointer; }.aistudio-img-icon.visible { display: inline-flex; }#aistudio-focus-mode-tag .aistudio-img-icon { position: relative; width: 26px; height: 26px; background: #32302c; border-radius: 6px; margin: -4px -4px -4px 0; }#aistudio-focus-mode-tag .aistudio-img-icon::before { content: ""; position: absolute; top: 4px; left: 4px; width: 18px; height: 18px; background-color: white; -webkit-mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); mask-size: contain; mask-repeat: no-repeat; }#aistudio-hover-mode-tag .aistudio-img-icon { position: relative; width: 18px; height: 18px; margin-left: 4px; }#aistudio-hover-mode-tag .aistudio-img-icon::before { content: ""; position: absolute; top: 0; left: 0; width: 18px; height: 18px; background-color: white; -webkit-mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); mask-size: contain; mask-repeat: no-repeat; }#aistudio-focus-mode-tag .aistudio-img-icon:hover, #aistudio-hover-mode-tag .aistudio-img-icon:hover { background: #424242 !important; }#aistudio-focus-mode-tag .aistudio-img-icon:active, #aistudio-hover-mode-tag .aistudio-img-icon:active { background: #393f51 !important; }</style><style>@font-face {
-              font-family: 'Open Sans Regular';
-              font-style: normal;
-              font-weight: 400;
-              src: url('chrome-extension://gkkdmjjodidppndkbkhhknakbeflbomf/fonts/open_sans/open-sans-v18-latin-regular.woff');
-          }</style><style>@font-face {
-              font-family: 'Open Sans Bold';
-              font-style: normal;
-              font-weight: 800;
-              src: url('chrome-extension://gkkdmjjodidppndkbkhhknakbeflbomf/fonts/open_sans/OpenSans-Bold.woff');
-          }</style><style>@font-face {
-              font-family: 'Open Sans ExtraBold';
-              font-style: normal;
-              font-weight: 800;
-              src: url('chrome-extension://gkkdmjjodidppndkbkhhknakbeflbomf/fonts/open_sans/open-sans-v18-latin-800.woff');
-          }</style></head>
+<script src="/_aistudio-iframe.js?v=1f94f900"></script><script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@2.0.4"></script><style>.aistudio-hover-highlight { box-shadow: inset 0 0 0 0.5px white, inset 0 0 0 1.5px rgba(128,128,128,0.6) !important; }.aistudio-active-highlight { outline: 2px solid #87a9ff !important; outline-offset: -2px !important; box-shadow: 0 0 0 0.5px rgba(0,0,0,0.3), inset 0 0 0 0.5px rgba(0,0,0,0.3) !important; }.aistudio-generating-blur { filter: blur(5px) grayscale(100%) brightness(28%) !important; transition: filter 0.3s ease; }#aistudio-focus-mode-tag { position: absolute; display: none; align-items: center; gap: 4px; background: #87a9ff; border-radius: 12px; z-index: 10000; padding: 8px; color: #32302c; font-family: Inter, sans-serif; font-size: 14px; font-style: normal; font-weight: 500; line-height: 21px; pointer-events: none; }#aistudio-hover-mode-tag { position: absolute; display: none; align-items: center; gap: 4px; background: rgba(128,128,128,0.6); border-radius: 12px; z-index: 10000; padding: 8px; color: white; font-family: Inter, sans-serif; font-size: 14px; font-style: normal; font-weight: 500; line-height: 21px; pointer-events: none; }.aistudio-img-icon { display: none; vertical-align: middle; pointer-events: auto; cursor: pointer; }.aistudio-img-icon.visible { display: inline-flex; }#aistudio-focus-mode-tag .aistudio-img-icon { position: relative; width: 26px; height: 26px; background: #32302c; border-radius: 6px; margin: -4px -4px -4px 0; }#aistudio-focus-mode-tag .aistudio-img-icon::before { content: ""; position: absolute; top: 4px; left: 4px; width: 18px; height: 18px; background-color: white; -webkit-mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); mask-size: contain; mask-repeat: no-repeat; }#aistudio-hover-mode-tag .aistudio-img-icon { position: relative; width: 18px; height: 18px; margin-left: 4px; }#aistudio-hover-mode-tag .aistudio-img-icon::before { content: ""; position: absolute; top: 0; left: 0; width: 18px; height: 18px; background-color: white; -webkit-mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); -webkit-mask-size: contain; -webkit-mask-repeat: no-repeat; mask-image: url("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/edit_fix_auto/default/24px.svg"); mask-size: contain; mask-repeat: no-repeat; }#aistudio-focus-mode-tag .aistudio-img-icon:hover, #aistudio-hover-mode-tag .aistudio-img-icon:hover { background: #424242 !important; }#aistudio-focus-mode-tag .aistudio-img-icon:active, #aistudio-hover-mode-tag .aistudio-img-icon:active { background: #393f51 !important; }</style></head>
 <body>
 
-  <!-- TOP BAR (3-Zone Clean Header) -->
+  <!-- TOP BAR (Single-Row Responsive 3-Zone Clean Header) -->
   <header class="top-bar">
     <div class="brand-wordmark">
-      <span>Carnet de Notes</span>
-      <span class="brand-badge">Moleskine Classic</span>
+      <span>Moleskine</span>
+      <span class="brand-badge">Classic</span>
     </div>
 
     <nav class="nav-actions">
       <!-- Standalone Cover Trigger -->
-      <button class="btn-action active" id="btnViewCover" title="Visualizza la copertina chiusa del taccuino">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+      <button class="btn-action" id="btnViewCover" title="Visualizza la copertina chiusa del taccuino">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
         <span>Copertina</span>
       </button>
 
       <!-- Pages View Trigger -->
-      <button class="btn-action" id="btnViewPages" title="Sfoglia le pagine del taccuino">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+      <button class="btn-action active" id="btnViewPages" title="Sfoglia le pagine del taccuino">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
         <span>Pagine</span>
       </button>
 
       <!-- Physical Accordion Pocket Trigger -->
       <button class="btn-action" id="btnViewPocket" title="Apri / Chiudi la tasca a soffietto posteriore">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1z"></path><path d="M10 12h4"></path></svg>
-        <span id="pocketBtnLabel">Tasca a Soffietto</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1z"></path><path d="M10 12h4"></path></svg>
+        <span id="pocketBtnLabel">Tasca</span>
       </button>
 
       <!-- Ruling Switcher Modal Trigger -->
       <button class="btn-action" id="btnOpenRulingModal" title="Scegli o alterna righe, quadretti e fogli bianchi">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
-        <span>Alterna &amp; Scegli Fogli</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+        <span>Fogli</span>
+      </button>
+
+      <!-- Responsive View Mode (1 Page / 2 Pages) Toggle -->
+      <button class="btn-action" id="btnTogglePageLayout" title="Alterna tra vista 1 Facciata o 2 Facciate affiancate">
+        <svg id="iconLayout" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="12" y1="3" x2="12" y2="21"></line></svg>
+        <span id="labelLayout">1 Pagina</span>
       </button>
 
       <!-- Sound Toggle -->
       <button class="btn-action" id="btnToggleSound" title="Attiva/Disattiva suoni realistici">
-        <svg id="soundIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-        <span id="soundLabel">Suono: ON</span>
+        <svg id="soundIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+        <span id="soundLabel">Suono</span>
       </button>
 
       <!-- Download Standalone HTML file -->
       <button class="btn-action btn-primary-action" id="btnDownloadHtml" title="Scarica l'intero blocco note come unico file HTML autonomo">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         <span>Scarica .HTML</span>
       </button>
     </nav>
@@ -1472,13 +1785,13 @@
   <main class="workspace">
 
     <!-- FLOATING QUICK WRITING TOOLBAR -->
-    <div class="toolbar-dock" id="toolbarDock" style="opacity: 0; pointer-events: none;">
+    <div class="toolbar-dock" id="toolbarDock" style="opacity: 1; pointer-events: auto;">
       <div class="dock-group">
         <button class="tool-btn active" id="btnModeText" title="Modalità Scrittura Testo">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>
         </button>
         <button class="tool-btn" id="btnModeDraw" title="Modalità Disegno a Mano Libera / Penna">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><circle cx="11" cy="11" r="2"></circle></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><circle cx="11" cy="11" r="2"></circle></svg>
         </button>
       </div>
 
@@ -1499,12 +1812,12 @@
       <div class="dock-group" id="textTools">
         <select class="font-select" id="fontSelector" title="Stile di Calligrafia">
           <option value="font-handwriting">Calligrafia a Mano</option>
-          <option value="font-serif">Classico Garamond / Lora</option>
+          <option value="font-serif">Garamond / Lora</option>
           <option value="font-typewriter">Macchina da Scrivere</option>
           <option value="font-clean">Tipografico Pulito</option>
         </select>
-        <button class="tool-btn" id="btnBold" title="Grassetto (Ctrl+B)"><b>B</b></button>
-        <button class="tool-btn" id="btnItalic" title="Corsivo (Ctrl+I)"><i>I</i></button>
+        <button class="tool-btn" id="btnBold" title="Grassetto"><b>B</b></button>
+        <button class="tool-btn" id="btnItalic" title="Corsivo"><i>I</i></button>
         <button class="tool-btn" id="btnInsertList" title="Inserisci Elenco">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
         </button>
@@ -1514,8 +1827,8 @@
 
       <!-- Quick Add Pages -->
       <div class="dock-group">
-        <button class="tool-btn" id="btnAddSheet" title="Aggiungi un nuovo foglio (2 facciate)">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <button class="tool-btn" id="btnAddSheet" title="Aggiungi un nuovo foglio">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
         </button>
       </div>
     </div>
@@ -1524,18 +1837,18 @@
     <div class="book-wrapper" id="bookWrapper">
 
       <!-- Navigation Arrows -->
-      <button class="page-nav-arrow page-nav-prev" id="btnPrevPage" title="Chiudi copertina" style="display: none;">
+      <button class="page-nav-arrow page-nav-prev" id="btnPrevPage" title="Pagina precedente" style="display: flex;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
       </button>
 
-      <button class="page-nav-arrow page-nav-next" id="btnNextPage" title="Apri il taccuino" style="display: flex;">
+      <button class="page-nav-arrow page-nav-next" id="btnNextPage" title="Pagina successiva" style="display: flex;">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
       </button>
 
       <!-- ==============================================
            VIEW A: STANDALONE CLOSED COVER ("sta da sola")
            ============================================== -->
-      <div class="standalone-cover" id="standaloneCover" style="display: flex;" title="Clicca per aprire il taccuino">
+      <div class="standalone-cover" id="standaloneCover" style="display: none;" title="Clicca o fai swipe per aprire il taccuino">
         <div class="cover-deboss-frame"></div>
         <div class="cover-spine-crease"></div>
         <div class="cover-elastic-band" id="coverElasticBand" title="Elastico di chiusura Moleskine"></div>
@@ -1549,7 +1862,7 @@
         </div>
 
         <div class="cover-center-badge">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
           </svg>
@@ -1558,33 +1871,33 @@
         <div class="cover-bottom-action">
           <button class="btn-open-notebook" id="btnOpenNotebookAction">
             <span>Apri Taccuino</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </button>
-          <div style="font-size: 0.7rem; color: #786f63; text-align: center; letter-spacing: 0.05em;">
-            oppure clicca sulla copertina o sull'elastico
+          <div style="font-size: 0.68rem; color: #786f63; text-align: center; letter-spacing: 0.05em;">
+            oppure tocca la copertina o l'elastico
           </div>
         </div>
       </div>
 
       <!-- ==============================================
-           VIEW B: OPEN TWO-PAGE SPREAD & PHYSICAL POCKET
+           VIEW B: OPEN NOTEBOOK (2-Page Spread or 1-Page Mobile)
            ============================================== -->
-      <div class="notebook-spread-container" id="notebookSpreadContainer" style="display: none;">
+      <div class="notebook-spread-container mode-single-page" id="notebookSpreadContainer" style="display: flex;">
         
         <!-- Satin Ribbon Bookmark -->
-        <div class="ribbon-bookmark" id="ribbonBookmark" title="Fettuccia segnalibro in raso (clicca per segnare)"></div>
+        <div class="ribbon-bookmark" id="ribbonBookmark" title="Fettuccia segnalibro in raso (tocca per segnare)"></div>
 
         <!-- Leather Tab for Quick Pocket Access (Toggles pocket) -->
         <div class="pocket-leather-tab" id="quickPocketTab" title="Apri o chiudi la Tasca a Soffietto Posteriore">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1z"></path><path d="M10 12h4"></path></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1z"></path><path d="M10 12h4"></path></svg>
           <span id="leatherTabLabel">Tasca 🗂️</span>
         </div>
 
-        <!-- TWO-PAGE SPREAD CONTAINER -->
+        <!-- SPREAD INNER CONTAINER -->
         <div class="book-spread" id="bookSpread">
           
-          <!-- Central Spine Shadow & Stitches -->
-          <div class="spine-gutter">
+          <!-- Central Spine Shadow & Stitches (shown in 2-page mode) -->
+          <div class="spine-gutter" id="spineGutter">
             <div class="spine-stitch"></div>
             <div class="spine-stitch"></div>
             <div class="spine-stitch"></div>
@@ -1592,14 +1905,14 @@
             <div class="spine-stitch"></div>
           </div>
 
-          <!-- LEFT PAGE -->
-          <article class="page page-left paper-bianco" id="pageLeft">
+          <!-- LEFT PAGE (hidden in mobile single-page mode) -->
+          <article class="page page-left paper-righe" id="pageLeft" style="display: none;">
             <div class="paper-grain"></div>
             
-            <header class="page-header" id="headerLeft" style="display: flex;">
-              <input type="text" class="page-date-input" id="dateLeft" placeholder="Data..." style="display: none;">
+            <header class="page-header" id="headerLeft">
+              <input type="text" class="page-date-input" id="dateLeft" placeholder="Data...">
               <!-- Direct Ruling Switcher on Left Page -->
-              <div class="page-ruling-switch" id="switchRulingLeft" title="Scegli la rigatura di questa facciata" style="display: none;">
+              <div class="page-ruling-switch" id="switchRulingLeft" title="Scegli la rigatura di questa facciata">
                 <button type="button" class="ruling-opt-btn active" data-ruling="righe">Righe</button>
                 <button type="button" class="ruling-opt-btn" data-ruling="quadretti">Quadretti</button>
                 <button type="button" class="ruling-opt-btn" data-ruling="bianco">Bianco</button>
@@ -1609,7 +1922,7 @@
 
             <div class="page-content-wrapper">
               <!-- Flyleaf Cover Content (only on spread 0) -->
-              <div class="flyleaf-container" id="flyleafLeft" style="display: flex;">
+              <div class="flyleaf-container" id="flyleafLeft" style="display: none;">
                 <div class="flyleaf-logo">Moleskine</div>
                 <div class="flyleaf-box">
                   <div class="flyleaf-label">In case of loss, please return to:</div>
@@ -1626,28 +1939,28 @@
               </div>
 
               <!-- Standard Writing Area -->
-              <div class="page-text-area font-handwriting" id="textLeft" contenteditable="true" spellcheck="false" style="display: none;"></div>
+              <div class="page-text-area font-handwriting" id="textLeft" contenteditable="true" spellcheck="false"></div>
 
               <!-- Freehand Sketching Canvas Layer -->
-              <canvas class="drawing-canvas" id="canvasLeft" width="551" height="535"></canvas>
+              <canvas class="drawing-canvas" id="canvasLeft" width="0" height="0"></canvas>
             </div>
 
             <footer class="page-footer">
-              <span class="page-number" id="numLeft">Inside Cover</span>
+              <span class="page-number" id="numLeft">Pag. 1</span>
               <span></span>
             </footer>
 
             <div class="page-corner-curl" id="cornerLeft" title="Volta indietro"></div>
           </article>
 
-          <!-- RIGHT PAGE (OR PHYSICAL ACCORDION POCKET ON POCKET VIEW) -->
-          <article class="page page-right paper-righe" id="pageRight">
+          <!-- RIGHT PAGE (OR FULL-WIDTH SINGLE PAGE ON MOBILE, OR PHYSICAL POCKET) -->
+          <article class="page page-right paper-righe" id="pageRight" style="display: flex;">
             <div class="paper-grain"></div>
 
             <!-- Header with Direct Ruling Switcher on Right Page -->
             <header class="page-header" id="headerRight" style="display: flex;">
-              <input type="text" class="page-date-input" id="dateRight" placeholder="Data...">
-              <div class="page-ruling-switch" id="switchRulingRight" title="Scegli la rigatura di questa facciata">
+              <input type="text" class="page-date-input" id="dateRight" placeholder="Data..." style="display: block;">
+              <div class="page-ruling-switch" id="switchRulingRight" title="Scegli la rigatura di questa facciata" style="display: inline-flex;">
                 <button type="button" class="ruling-opt-btn active" data-ruling="righe">Righe</button>
                 <button type="button" class="ruling-opt-btn" data-ruling="quadretti">Quadretti</button>
                 <button type="button" class="ruling-opt-btn" data-ruling="bianco">Bianco</button>
@@ -1656,36 +1969,57 @@
             </header>
 
             <div class="page-content-wrapper" id="contentWrapperRight" style="display: flex;">
+              <!-- Flyleaf for Mobile Single-Page Mode (when at page 0) -->
+              <div class="flyleaf-container" id="flyleafMobile" style="display: none;">
+                <div class="flyleaf-logo">Moleskine</div>
+                <div class="flyleaf-box">
+                  <div class="flyleaf-label">In case of loss, please return to:</div>
+                  <div class="flyleaf-line" contenteditable="true" id="ownerNameMobile" placeholder="Il tuo nome / indirizzo..."></div>
+                  <div class="flyleaf-line" contenteditable="true" id="ownerContactMobile" placeholder="Email o numero di telefono..."></div>
+                  <div class="flyleaf-reward">
+                    <span>As a reward: $</span>
+                    <span contenteditable="true" id="ownerRewardMobile">100</span>
+                  </div>
+                </div>
+                <p style="font-size: 0.72rem; color: #8a7e70; letter-spacing: 0.05em;">
+                  Leggendario taccuino di appunti, disegni e pensieri.
+                </p>
+              </div>
+
               <!-- Standard Writing Area -->
-              <div class="page-text-area font-handwriting" id="textRight" contenteditable="true" spellcheck="false">Benvenuto nel tuo taccuino classico stile Moleskine.
-
-Qui puoi annotare pensieri, idee, progetti o schizzi. Sfoglia le pagine con le frecce o cliccando gli angoli in basso.
-
-In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Quadretti, Bianco, Punti) oppure il pulsante "Alterna &amp; Scegli Fogli".</div>
+              <div class="page-text-area font-handwriting" id="textRight" contenteditable="true" spellcheck="false" style="display: block;"></div>
 
               <!-- Freehand Sketching Canvas Layer -->
-              <canvas class="drawing-canvas" id="canvasRight" width="551" height="511"></canvas>
+              <canvas class="drawing-canvas" id="canvasRight" width="665" height="773"></canvas>
             </div>
 
             <!-- ==============================================
                  PHYSICAL ACCORDION POCKET (Tasca a Soffietto)
                  ============================================== -->
             <div class="pocket-page-container" id="physicalPocketContainer" style="display: none;">
-              <!-- Pocket Top Bar with Close Button -->
+              <!-- Pocket Top Bar with Controls -->
               <div class="pocket-top-bar">
-                <div class="pocket-top-title">
-                  <span>🗂️ Tasca a Soffietto Posteriore</span>
+                <div class="pocket-top-title-group">
+                  <div class="pocket-top-icon">🗂️</div>
+                  <div>
+                    <div class="pocket-top-title">Tasca a Soffietto Posteriore</div>
+                    <div class="pocket-top-sub">Expandable Inner Pocket · Moleskine</div>
+                  </div>
                 </div>
-                <button class="btn-close-pocket" id="btnClosePocketView" title="Chiudi la tasca e torna a sfogliare le pagine">
-                  <span>✕ Chiudi Tasca</span>
-                </button>
+                <div class="pocket-actions-group">
+                  <button type="button" class="btn-toggle-bellows" id="btnToggleBellows" title="Espandi o richiudi il soffietto in tela">
+                    <span id="labelToggleBellows">⇕ Espandi Soffietto</span>
+                  </button>
+                  <button type="button" class="btn-close-pocket" id="btnClosePocketView" title="Chiudi la tasca e torna alle pagine del taccuino">
+                    <span>✕ Chiudi Tasca</span>
+                  </button>
+                </div>
               </div>
 
               <div class="physical-pocket" id="physicalPocket">
-                
-                <!-- Bellows Gusset / Soffietti laterali -->
-                <div class="bellows-left"></div>
-                <div class="bellows-right"></div>
+                <!-- Bellows Gusset / Soffietti laterali in tela plissettata 3D -->
+                <div class="bellows-left" title="Soffietto in tela plissettata"></div>
+                <div class="bellows-right" title="Soffietto in tela plissettata"></div>
 
                 <!-- Slips / Loose Sheets tucked into the Pocket -->
                 <div class="pocket-slips-container" id="pocketSlipsContainer"><div class="pocket-slip slip-yellow" data-id="slip_1">
@@ -1693,32 +2027,32 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
               <span class="slip-header-title" contenteditable="true" spellcheck="false">PROMEMORIA GIALLO</span>
               <button class="slip-delete-btn" title="Elimina questo foglietto">✕</button>
             </div>
-            <div class="slip-body" contenteditable="true" spellcheck="false">• Portare sempre il taccuino con sé. • Hemingway usava quaderni simili nei caffè di Parigi. • Prossimo capitolo: bozze e schizzi.</div>
+            <div class="slip-body" contenteditable="true" spellcheck="false">Correggerlo&nbsp;</div>
           </div><div class="pocket-slip slip-kraft" data-id="slip_2">
             <div class="slip-header-row">
               <span class="slip-header-title" contenteditable="true" spellcheck="false">BIGLIETTO / MEMO</span>
               <button class="slip-delete-btn" title="Elimina questo foglietto">✕</button>
             </div>
             <div class="slip-body" contenteditable="true" spellcheck="false">Contatto Personale: Studio di Design &amp; Scrittura Milano, IT note@moleskine.local</div>
-          </div><div class="pocket-slip slip-green" data-id="slip_1793108754513">
+          </div><div class="pocket-slip slip-green" data-id="slip_1793113501683">
             <div class="slip-header-row">
               <span class="slip-header-title" contenteditable="true" spellcheck="false">Foglietto #3</span>
               <button class="slip-delete-btn" title="Elimina questo foglietto">✕</button>
             </div>
-            <div class="slip-body" contenteditable="true" spellcheck="false">Scrivi qui la tua nuova nota volante...</div>
+            <div class="slip-body" contenteditable="true" spellcheck="false">Scrivi qui la tua nuova nota...</div>
           </div><button class="btn-add-slip" id="btnAddPocketSlip" title="Aggiungi un nuovo foglietto volante nella tasca">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
           <span>+ Foglietto</span>
         </button></div>
 
-                <!-- Front Cardboard Sleeve Flap with finger notch (click to expand) -->
-                <div class="pocket-front-sleeve" id="pocketFrontSleeve" title="Clicca per aprire / chiudere il soffietto" style="transform: translateY(0px);">
+                <!-- Front Manila Cardboard Sleeve Flap with finger notch -->
+                <div class="pocket-front-sleeve" id="pocketFrontSleeve" title="Tocca per espandere / ritrarre il soffietto" style="transform: translateY(0px);">
                   <div class="pocket-finger-notch"></div>
                   <div>
-                    <h4 class="pocket-sleeve-label">Tasca a Soffietto Moleskine</h4>
-                    <p class="pocket-sleeve-sub">Tasca interna espandibile in cartoncino e tela</p>
+                    <h4 class="pocket-sleeve-label">Moleskine</h4>
+                    <p class="pocket-sleeve-sub">Tasca a Soffietto Posteriore · Manila Kraft</p>
                   </div>
-                  <div style="font-size: 0.68rem; color: #b0a494; text-align: center;" id="pocketFlapHint">Clicca qui per espandere / ritrarre il soffietto ▼</div>
+                  <div class="pocket-flap-hint-tag" id="pocketFlapHint"><span>Tocca per espandere il soffietto ▼</span></div>
                 </div>
 
               </div>
@@ -1726,7 +2060,7 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
 
             <footer class="page-footer" id="footerRight" style="display: flex;">
               <span></span>
-              <span class="page-number" id="numRight">Pag. 1</span>
+              <span class="page-number" id="numRight">Pag. 11</span>
             </footer>
 
             <div class="page-corner-curl" id="cornerRight" title="Volta avanti"></div>
@@ -1736,13 +2070,13 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
       </div>
     </div>
 
-    <!-- BOTTOM STATUS INFO -->
+    <!-- BOTTOM STATUS INFO (Responsive) -->
     <div class="status-ribbon">
-      <span id="statusSpread">Copertina Chiusa · Moleskine</span>
+      <span id="statusSpread">Pagina 11 di 11</span>
       <span>·</span>
-      <span>Tasti freccia ◄ / ► per sfogliare</span>
+      <span id="statusGestureHint">Frecce o scorri con il dito per sfogliare</span>
       <span>·</span>
-      <span>Salvataggio automatico</span>
+      <span>Salvataggio locale automatico</span>
     </div>
 
   </main>
@@ -1758,10 +2092,10 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         
         <!-- SECTION 1: Questa Facciata Aperta (Direct Per-Page Control) -->
         <div>
-          <div class="ruling-section-title">1. Questa Facciata Corrente (Senza modificare le altre)</div>
+          <div class="ruling-section-title">1. Questa Facciata Corrente</div>
           <div class="current-spread-ruling-box">
             <!-- Left Page Option -->
-            <div class="page-ruling-row">
+            <div class="page-ruling-row" id="modalLeftRow">
               <span style="font-size: 0.82rem; font-weight: 600; color: #ede6dc;" id="modalLeftLabel">Pagina Sinistra:</span>
               <div class="ruling-button-group" id="modalLeftButtons">
                 <button type="button" class="btn-ruling-select" data-side="left" data-ruling="righe">Righe</button>
@@ -1772,7 +2106,7 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
             </div>
 
             <!-- Right Page Option -->
-            <div class="page-ruling-row">
+            <div class="page-ruling-row" id="modalRightRow">
               <span style="font-size: 0.82rem; font-weight: 600; color: #ede6dc;" id="modalRightLabel">Pagina Destra:</span>
               <div class="ruling-button-group" id="modalRightButtons">
                 <button type="button" class="btn-ruling-select" data-side="right" data-ruling="righe">Righe</button>
@@ -1790,12 +2124,12 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
           <div class="ruling-grid">
             <div class="ruling-card" data-preset="alt-grid-lines">
               <div class="ruling-card-title">Alterna: Quadretti &amp; Righe</div>
-              <div class="ruling-card-desc">Tutte le pagine di sinistra a Quadretti (grafici/schizzi), tutte le destre a Righe (note).</div>
+              <div class="ruling-card-desc">Pagine di sinistra a Quadretti (grafici/schizzi), pagine di destra a Righe (note).</div>
             </div>
 
             <div class="ruling-card" data-preset="alt-blank-lines">
               <div class="ruling-card-title">Alterna: Bianco &amp; Righe</div>
-              <div class="ruling-card-desc">Tutte le pagine di sinistra Bianche (disegno libero), tutte le destre a Righe (scrittura).</div>
+              <div class="ruling-card-desc">Pagine di sinistra Bianche (disegno libero), pagine di destra a Righe (scrittura).</div>
             </div>
 
             <div class="ruling-card" data-preset="alt-blank-grid">
@@ -1805,16 +2139,16 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
 
             <div class="ruling-card" data-preset="alt-sheets-trio">
               <div class="ruling-card-title">Alterna a Fogli Interi</div>
-              <div class="ruling-card-desc">Un foglio intero a Righe, il successivo a Quadretti, poi un foglio intero Bianco in rotazione continua.</div>
+              <div class="ruling-card-desc">Un foglio intero a Righe, il successivo a Quadretti, poi un foglio Bianco in rotazione.</div>
             </div>
 
             <div class="ruling-card" data-preset="all-lines">
-              <div class="ruling-card-title">Tutto il Blocco a Righe</div>
+              <div class="ruling-card-title">Tutto a Righe</div>
               <div class="ruling-card-desc">Imposta ogni facciata del taccuino con le classiche righe 6mm.</div>
             </div>
 
             <div class="ruling-card" data-preset="all-grid">
-              <div class="ruling-card-title">Tutto il Blocco a Quadretti</div>
+              <div class="ruling-card-title">Tutto a Quadretti</div>
               <div class="ruling-card-desc">Imposta ogni facciata del taccuino a quadretti 5x5mm.</div>
             </div>
 
@@ -1935,22 +2269,26 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
   <!-- NOTEBOOK ENGINE SCRIPT -->
   <script>
     (function() {
-      const STORAGE_KEY = 'moleskine_notebook_data_v3';
+      const STORAGE_KEY = 'moleskine_notebook_data_v4';
 
       let currentView = 'cover';
       let currentSpreadIndex = 0;
+      let singlePageCursor = 0; // 0 = Flyleaf, 1..N = Page 1..N
+      let userPreferredLayout = 'auto'; // 'auto' | 'single' | 'spread'
       let pocketFlapOpen = false;
 
       /* Autonomously Baked Data */
-      let notebookState = {"currentView":"cover","currentSpreadIndex":0,"bookmarkedSpread":0,"fontStyle":"font-handwriting","activeDrawColor":"#21201d","activeMode":"text","alternationPreset":"alt-grid-lines","flyleaf":{"name":"","contact":"","reward":"100"},"pocketSlips":[{"id":"slip_1","type":"slip-yellow","header":"PROMEMORIA GIALLO","text":"• Portare sempre il taccuino con sé. • Hemingway usava quaderni simili nei caffè di Parigi. • Prossimo capitolo: bozze e schizzi."},{"id":"slip_2","type":"slip-kraft","header":"BIGLIETTO / MEMO","text":"Contatto Personale: Studio di Design & Scrittura Milano, IT note@moleskine.local"},{"id":"slip_1793108754513","type":"slip-green","header":"Foglietto #3","text":"Scrivi qui la tua nuova nota volante..."}],"pages":[{"id":1,"date":"Milano, 2026","ruling":"righe","text":"Benvenuto nel tuo taccuino classico stile Moleskine.\n\nQui puoi annotare pensieri, idee, progetti o schizzi. Sfoglia le pagine con le frecce o cliccando gli angoli in basso.\n\nIn alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Quadretti, Bianco, Punti) oppure il pulsante \"Alterna &amp; Scegli Fogli\".","drawingData":null},{"id":2,"date":"Progetti & Bozzetti","ruling":"quadretti","text":"FOGLIO A QUADRETTI (5mm):\n\nIdeale per diagrammi, tabelle, calcoli e architettura.\n\n[x] Alternanza quadretti e righe\n[x] Schizzi a mano libera con la penna\n[ ] Nuovi appunti da scrivere","drawingData":null},{"id":3,"date":"Note & Riflessioni","ruling":"righe","text":"FOGLIO A RIGHE:\n\n\"Un taccuino è la patria di chiunque desideri fermare il tempo prima che fugga.\"\n\nPuoi cambiare il tipo di calligrafia dalla barra in alto tra corsivo a mano, carattere classico Garamond o macchina da scrivere.","drawingData":null},{"id":4,"date":"Disegno Libero","ruling":"bianco","text":"FOGLIO BIANCO INTONSO:\n\nCarta avorio senza vincoli né griglie. Attiva lo strumento \"Penna\" nella barra per disegnare schizzi, firme o schemi a mano libera.","drawingData":null},{"id":5,"date":"Diario di Bordo","ruling":"righe","text":"La sensazione tattile della carta classica Moleskine racchiusa in un unico foglio HTML autonomo, senza librerie esterne pesanti.\n\nFino in fondo trovi la leggendaria tasca a soffietto posteriore con i tuoi foglietti volanti!","drawingData":null},{"id":6,"date":"","ruling":"quadretti","text":"","drawingData":null},{"id":7,"date":"","ruling":"righe","text":"","drawingData":null},{"id":8,"date":"","ruling":"quadretti","text":"","drawingData":null},{"id":9,"date":"","ruling":"righe","text":"","drawingData":null},{"id":10,"date":"","ruling":"bianco","text":"","drawingData":null},{"id":11,"date":"","ruling":"righe","text":"","drawingData":null}]};
+      let notebookState = {"currentView":"spread","currentSpreadIndex":0,"singlePageCursor":11,"bookmarkedSpread":0,"fontStyle":"font-handwriting","activeDrawColor":"#21201d","activeMode":"text","alternationPreset":"alt-grid-lines","userPreferredLayout":"auto","flyleaf":{"name":"","contact":"","reward":"100"},"pocketSlips":[{"id":"slip_1","type":"slip-yellow","header":"PROMEMORIA GIALLO","text":"Correggerlo"},{"id":"slip_2","type":"slip-kraft","header":"BIGLIETTO / MEMO","text":"Contatto Personale: Studio di Design & Scrittura Milano, IT note@moleskine.local"},{"id":"slip_1793113501683","type":"slip-green","header":"Foglietto #3","text":"Scrivi qui la tua nuova nota..."}],"pages":[{"id":1,"date":"Milano, 2026","ruling":"righe","text":"L ","drawingData":null},{"id":2,"date":"Progetti & Bozzetti","ruling":"quadretti","text":"FOGLIO A QUADRETTI (5mm):\n\nIdeale per diagrammi, tabelle, calcoli e architettura.\n\n[x] Pagine reattive e responsive\n[x] Schizzi a mano libera con la penna\n[ ] Nuovi appunti da scrivere","drawingData":null},{"id":3,"date":"Note & Riflessioni","ruling":"righe","text":"FOGLIO A RIGHE:\n\n\"Un taccuino è la patria di chiunque desideri fermare il tempo prima che fugga.\"\n\nIl layout si adatta fluidamente su smartphone, tablet e schermi desktop.","drawingData":null},{"id":4,"date":"Disegno Libero","ruling":"bianco","text":"FOGLIO BIANCO INTONSO:\n\nCarta avorio senza vincoli né griglie. Attiva lo strumento \"Penna\" nella barra per disegnare schizzi, firme o schemi a mano libera.","drawingData":null},{"id":5,"date":"Diario di Bordo","ruling":"righe","text":"La sensazione tattile della carta classica Moleskine racchiusa in un unico foglio HTML autonomo, senza librerie esterne pesanti.\n\nFino in fondo trovi la leggendaria tasca a soffietto posteriore con i tuoi foglietti volanti!","drawingData":null},{"id":6,"date":"","ruling":"quadretti","text":"","drawingData":null},{"id":7,"date":"","ruling":"righe","text":"","drawingData":null},{"id":8,"date":"","ruling":"quadretti","text":"","drawingData":null},{"id":9,"date":"","ruling":"righe","text":"","drawingData":null},{"id":10,"date":"","ruling":"bianco","text":"","drawingData":null},{"id":11,"date":"","ruling":"righe","text":"","drawingData":null}]};
       let unusedVar = {
         currentView: 'cover',
         currentSpreadIndex: 0,
+        singlePageCursor: 0,
         bookmarkedSpread: 0,
         fontStyle: 'font-handwriting',
         activeDrawColor: '#21201d',
         activeMode: 'text',
         alternationPreset: 'alt-grid-lines',
+        userPreferredLayout: 'auto',
         flyleaf: {
           name: '',
           contact: '',
@@ -1978,21 +2316,21 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
           id: 1,
           date: 'Milano, 2026',
           ruling: 'righe',
-          text: 'Benvenuto nel tuo taccuino classico stile Moleskine.\n\nQui puoi annotare pensieri, idee, progetti o schizzi. Sfoglia le pagine con le frecce o cliccando gli angoli in basso.\n\nIn alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Quadretti, Bianco, Punti) oppure il pulsante "Alterna & Scegli Fogli".',
+          text: 'Benvenuto nel tuo taccuino classico stile Moleskine.\n\nQui puoi annotare pensieri, idee, progetti o schizzi. Sfoglia le pagine con le frecce o facendo scorrere il dito (swipe).\n\nIn alto puoi scegliere la vista (1 Pagina o 2 Pagine affiancate) e impostare o alternare righe, quadretti e fogli bianchi.',
           drawingData: null
         },
         {
           id: 2,
           date: 'Progetti & Bozzetti',
           ruling: 'quadretti',
-          text: 'FOGLIO A QUADRETTI (5mm):\n\nIdeale per diagrammi, tabelle, calcoli e architettura.\n\n[x] Alternanza quadretti e righe\n[x] Schizzi a mano libera con la penna\n[ ] Nuovi appunti da scrivere',
+          text: 'FOGLIO A QUADRETTI (5mm):\n\nIdeale per diagrammi, tabelle, calcoli e architettura.\n\n[x] Pagine reattive e responsive\n[x] Schizzi a mano libera con la penna\n[ ] Nuovi appunti da scrivere',
           drawingData: null
         },
         {
           id: 3,
           date: 'Note & Riflessioni',
           ruling: 'righe',
-          text: 'FOGLIO A RIGHE:\n\n"Un taccuino è la patria di chiunque desideri fermare il tempo prima che fugga."\n\nPuoi cambiare il tipo di calligrafia dalla barra in alto tra corsivo a mano, carattere classico Garamond o macchina da scrivere.',
+          text: 'FOGLIO A RIGHE:\n\n"Un taccuino è la patria di chiunque desideri fermare il tempo prima che fugga."\n\nIl layout si adatta fluidamente su smartphone, tablet e schermi desktop.',
           drawingData: null
         },
         {
@@ -2017,6 +2355,12 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         { id: 11, date: '', ruling: 'righe', text: '', drawingData: null }
       ];
 
+      function isMobileMode() {
+        if (userPreferredLayout === 'single') return true;
+        if (userPreferredLayout === 'spread') return false;
+        return window.innerWidth <= 860;
+      }
+
       function loadSavedState() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
@@ -2026,6 +2370,8 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
               notebookState = { ...notebookState, ...parsed };
               currentView = notebookState.currentView || 'cover';
               currentSpreadIndex = notebookState.currentSpreadIndex || 0;
+              singlePageCursor = notebookState.singlePageCursor || 0;
+              userPreferredLayout = notebookState.userPreferredLayout || 'auto';
               return;
             }
           }
@@ -2035,6 +2381,7 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         notebookState.pages = defaultInitialPages;
         currentView = 'cover';
         currentSpreadIndex = 0;
+        singlePageCursor = 0;
       }
 
       function persistState() {
@@ -2043,6 +2390,8 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
           savePocketSlipsContent();
           notebookState.currentView = currentView;
           notebookState.currentSpreadIndex = currentSpreadIndex;
+          notebookState.singlePageCursor = singlePageCursor;
+          notebookState.userPreferredLayout = userPreferredLayout;
           localStorage.setItem(STORAGE_KEY, JSON.stringify(notebookState));
         } catch (e) {
           console.warn(e);
@@ -2065,6 +2414,8 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
       const btnViewPocket = document.getElementById('btnViewPocket');
       const pocketBtnLabel = document.getElementById('pocketBtnLabel');
       const btnOpenRulingModal = document.getElementById('btnOpenRulingModal');
+      const btnTogglePageLayout = document.getElementById('btnTogglePageLayout');
+      const labelLayout = document.getElementById('labelLayout');
       const btnToggleSound = document.getElementById('btnToggleSound');
       const soundIcon = document.getElementById('soundIcon');
       const soundLabel = document.getElementById('soundLabel');
@@ -2077,9 +2428,11 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
       // Pages elements
       const pageLeft = document.getElementById('pageLeft');
       const pageRight = document.getElementById('pageRight');
+      const spineGutter = document.getElementById('spineGutter');
       const headerLeft = document.getElementById('headerLeft');
       const headerRight = document.getElementById('headerRight');
       const flyleafLeft = document.getElementById('flyleafLeft');
+      const flyleafMobile = document.getElementById('flyleafMobile');
       const textLeft = document.getElementById('textLeft');
       const textRight = document.getElementById('textRight');
       const dateLeft = document.getElementById('dateLeft');
@@ -2104,10 +2457,14 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
       const pocketFlapHint = document.getElementById('pocketFlapHint');
       const pocketSlipsContainer = document.getElementById('pocketSlipsContainer');
       const btnClosePocketView = document.getElementById('btnClosePocketView');
+      const btnToggleBellows = document.getElementById('btnToggleBellows');
+      const labelToggleBellows = document.getElementById('labelToggleBellows');
 
       // Modals
       const rulingModal = document.getElementById('rulingModal');
       const btnCloseRulingModal = document.getElementById('btnCloseRulingModal');
+      const modalLeftRow = document.getElementById('modalLeftRow');
+      const modalRightRow = document.getElementById('modalRightRow');
       const modalLeftLabel = document.getElementById('modalLeftLabel');
       const modalRightLabel = document.getElementById('modalRightLabel');
       const modalLeftButtons = document.getElementById('modalLeftButtons');
@@ -2143,14 +2500,38 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
 
       function resizeAllCanvases() {
         if (currentView === 'spread') {
+          updateLayoutClasses();
           setupCanvasSize(canvasLeft, ctxLeft);
           setupCanvasSize(canvasRight, ctxRight);
-          renderCanvasDrawing(canvasLeft, ctxLeft, getLeftPageIndex());
-          renderCanvasDrawing(canvasRight, ctxRight, getRightPageIndex());
+          if (isMobileMode()) {
+            const pageIdx = singlePageCursor - 1;
+            renderCanvasDrawing(canvasRight, ctxRight, pageIdx);
+          } else {
+            renderCanvasDrawing(canvasLeft, ctxLeft, getLeftPageIndex());
+            renderCanvasDrawing(canvasRight, ctxRight, getRightPageIndex());
+          }
         }
       }
 
-      window.addEventListener('resize', resizeAllCanvases);
+      window.addEventListener('resize', () => {
+        updateLayoutClasses();
+        resizeAllCanvases();
+        if (currentView === 'spread') renderSpread();
+      });
+
+      window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+          updateLayoutClasses();
+          resizeAllCanvases();
+          if (currentView === 'spread') renderSpread();
+        }, 120);
+      });
+
+      function updateLayoutClasses() {
+        const mobile = isMobileMode();
+        notebookSpreadContainer.classList.toggle('mode-single-page', mobile);
+        labelLayout.innerText = mobile ? '1 Pagina' : '2 Pagine';
+      }
 
       function getTotalSpreads() {
         return Math.ceil((notebookState.pages.length + 1) / 2);
@@ -2168,29 +2549,48 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
 
       function saveCurrentSpreadContent() {
         if (currentView !== 'spread') return;
-        const leftIdx = getLeftPageIndex();
-        const rightIdx = getRightPageIndex();
+        
+        if (isMobileMode()) {
+          // In mobile single-page mode:
+          if (singlePageCursor === 0) {
+            const ownerNameMobile = document.getElementById('ownerNameMobile');
+            const ownerContactMobile = document.getElementById('ownerContactMobile');
+            const ownerRewardMobile = document.getElementById('ownerRewardMobile');
+            if (ownerNameMobile) notebookState.flyleaf.name = ownerNameMobile.innerHTML;
+            if (ownerContactMobile) notebookState.flyleaf.contact = ownerContactMobile.innerHTML;
+            if (ownerRewardMobile) notebookState.flyleaf.reward = ownerRewardMobile.innerHTML;
+          } else {
+            const pageIdx = singlePageCursor - 1;
+            if (pageIdx >= 0 && notebookState.pages[pageIdx]) {
+              notebookState.pages[pageIdx].text = textRight.innerHTML;
+              notebookState.pages[pageIdx].date = dateRight.value;
+            }
+          }
+        } else {
+          // In 2-page desktop mode:
+          const leftIdx = getLeftPageIndex();
+          const rightIdx = getRightPageIndex();
 
-        if (leftIdx >= 0 && notebookState.pages[leftIdx]) {
-          notebookState.pages[leftIdx].text = textLeft.innerHTML;
-          notebookState.pages[leftIdx].date = dateLeft.value;
+          if (leftIdx >= 0 && notebookState.pages[leftIdx]) {
+            notebookState.pages[leftIdx].text = textLeft.innerHTML;
+            notebookState.pages[leftIdx].date = dateLeft.value;
+          }
+
+          if (rightIdx >= 0 && notebookState.pages[rightIdx]) {
+            notebookState.pages[rightIdx].text = textRight.innerHTML;
+            notebookState.pages[rightIdx].date = dateRight.value;
+          }
+
+          const ownerName = document.getElementById('ownerName');
+          const ownerContact = document.getElementById('ownerContact');
+          const ownerReward = document.getElementById('ownerReward');
+          if (ownerName) notebookState.flyleaf.name = ownerName.innerHTML;
+          if (ownerContact) notebookState.flyleaf.contact = ownerContact.innerHTML;
+          if (ownerReward) notebookState.flyleaf.reward = ownerReward.innerHTML;
         }
-
-        if (rightIdx >= 0 && notebookState.pages[rightIdx]) {
-          notebookState.pages[rightIdx].text = textRight.innerHTML;
-          notebookState.pages[rightIdx].date = dateRight.value;
-        }
-
-        const ownerName = document.getElementById('ownerName');
-        const ownerContact = document.getElementById('ownerContact');
-        const ownerReward = document.getElementById('ownerReward');
-        if (ownerName) notebookState.flyleaf.name = ownerName.innerHTML;
-        if (ownerContact) notebookState.flyleaf.contact = ownerContact.innerHTML;
-        if (ownerReward) notebookState.flyleaf.reward = ownerReward.innerHTML;
       }
 
       function savePocketSlipsContent() {
-        // Read contents of all rendered slips in container
         const slipElements = pocketSlipsContainer.querySelectorAll('.pocket-slip');
         slipElements.forEach((el) => {
           const slipId = el.getAttribute('data-id');
@@ -2238,7 +2638,7 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         btnViewCover.classList.add('active');
         btnViewPages.classList.remove('active');
         btnViewPocket.classList.remove('active');
-        pocketBtnLabel.innerText = 'Tasca a Soffietto';
+        pocketBtnLabel.innerText = 'Tasca';
         leatherTabLabel.innerText = 'Tasca 🗂️';
 
         statusSpread.innerText = 'Copertina Chiusa · Moleskine';
@@ -2249,17 +2649,24 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         persistState();
       }
 
-      function showPagesView(spreadIdx = currentSpreadIndex) {
+      function showPagesView(index = null) {
         savePocketSlipsContent();
         currentView = 'spread';
-        currentSpreadIndex = Math.max(0, Math.min(spreadIdx, getTotalSpreads() - 1));
+
+        if (isMobileMode()) {
+          if (index !== null) singlePageCursor = Math.max(0, Math.min(index, notebookState.pages.length));
+        } else {
+          if (index !== null) currentSpreadIndex = Math.max(0, Math.min(index, getTotalSpreads() - 1));
+        }
 
         standaloneCover.style.display = 'none';
         notebookSpreadContainer.style.display = 'flex';
         toolbarDock.style.opacity = '1';
         toolbarDock.style.pointerEvents = 'auto';
 
-        // Normal right page visible, physical pocket hidden
+        updateLayoutClasses();
+
+        // Normal page visible, physical pocket hidden
         headerRight.style.display = 'flex';
         contentWrapperRight.style.display = 'flex';
         footerRight.style.display = 'flex';
@@ -2268,12 +2675,14 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         btnViewCover.classList.remove('active');
         btnViewPages.classList.add('active');
         btnViewPocket.classList.remove('active');
-        pocketBtnLabel.innerText = 'Tasca a Soffietto';
+        pocketBtnLabel.innerText = 'Tasca';
         leatherTabLabel.innerText = 'Tasca 🗂️';
 
         btnPrevPage.style.display = 'flex';
         btnNextPage.style.display = 'flex';
-        btnPrevPage.title = currentSpreadIndex === 0 ? 'Chiudi copertina' : 'Pagina precedente';
+
+        const atStart = isMobileMode() ? singlePageCursor === 0 : currentSpreadIndex === 0;
+        btnPrevPage.title = atStart ? 'Chiudi copertina' : 'Pagina precedente';
         btnNextPage.title = 'Pagina successiva';
 
         renderSpread();
@@ -2289,33 +2698,40 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         toolbarDock.style.opacity = '0';
         toolbarDock.style.pointerEvents = 'none';
 
-        // Show last page on left, and physical pocket on right!
-        const lastPageIdx = notebookState.pages.length - 1;
-        const pageData = notebookState.pages[lastPageIdx];
-        if (pageData) {
-          textLeft.innerHTML = pageData.text || '';
-          dateLeft.value = pageData.date || '';
-          numLeft.innerText = 'Pag. ' + (lastPageIdx + 1);
-          applyRulingClass(pageLeft, pageData.ruling);
-          updateDirectRulingSwitch(switchRulingLeft, pageData.ruling);
-        }
-        flyleafLeft.style.display = 'none';
-        textLeft.style.display = 'block';
-        headerLeft.style.display = 'flex';
-        dateLeft.style.display = 'block';
+        updateLayoutClasses();
 
-        // Right side turns into the PHYSICAL ACCORDION POCKET
+        if (isMobileMode()) {
+          // On mobile, pocket takes full single page
+          pageLeft.style.display = 'none';
+        } else {
+          // On desktop, last page on left, pocket on right
+          pageLeft.style.display = 'flex';
+          const lastPageIdx = notebookState.pages.length - 1;
+          const pageData = notebookState.pages[lastPageIdx];
+          if (pageData) {
+            textLeft.innerHTML = pageData.text || '';
+            dateLeft.value = pageData.date || '';
+            numLeft.innerText = 'Pag. ' + (lastPageIdx + 1);
+            applyRulingClass(pageLeft, pageData.ruling);
+            updateDirectRulingSwitch(switchRulingLeft, pageData.ruling);
+          }
+          flyleafLeft.style.display = 'none';
+          textLeft.style.display = 'block';
+          headerLeft.style.display = 'flex';
+          dateLeft.style.display = 'block';
+        }
+
         headerRight.style.display = 'none';
         contentWrapperRight.style.display = 'none';
         footerRight.style.display = 'none';
         physicalPocketContainer.style.display = 'flex';
 
-        // Reset flap position
         pocketFlapOpen = false;
+        physicalPocket.classList.remove('pocket-expanded');
         pocketFrontSleeve.style.transform = 'translateY(0)';
-        pocketFlapHint.innerText = 'Clicca qui per espandere / ritrarre il soffietto ▼';
+        pocketFlapHint.innerHTML = '<span>Tocca per espandere il soffietto ▼</span>';
+        if (labelToggleBellows) labelToggleBellows.innerText = '⇕ Espandi Soffietto';
 
-        // Render pocket slips
         renderPocketSlips();
 
         btnViewCover.classList.remove('active');
@@ -2324,7 +2740,7 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         pocketBtnLabel.innerText = 'Chiudi Tasca ✕';
         leatherTabLabel.innerText = 'Chiudi ✕';
 
-        statusSpread.innerText = 'Tasca a Soffietto Posteriore · Interno Retro Copertina';
+        statusSpread.innerText = 'Tasca a Soffietto Posteriore';
         btnPrevPage.style.display = 'flex';
         btnNextPage.style.display = 'none';
         btnPrevPage.title = 'Torna alle pagine';
@@ -2336,13 +2752,12 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
       function togglePocketView() {
         if (currentView === 'pocket') {
           playPageFlipSound();
-          showPagesView(currentSpreadIndex);
+          showPagesView();
         } else {
           showPocketView();
         }
       }
 
-      // UPDATE ACTIVE BUTTON IN ON-PAGE DIRECT RULING SWITCH
       function updateDirectRulingSwitch(container, activeRuling) {
         if (!container) return;
         const buttons = container.querySelectorAll('.ruling-opt-btn');
@@ -2351,66 +2766,122 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         });
       }
 
-      // RENDER REGULAR SPREAD
+      // RENDER REGULAR PAGES (Handles both Mobile 1-Page and Desktop 2-Page mode!)
       function renderSpread() {
-        const leftIdx = getLeftPageIndex();
-        const rightIdx = getRightPageIndex();
-        const totalSpreads = getTotalSpreads();
+        updateLayoutClasses();
 
-        // Left Page
-        if (currentSpreadIndex === 0) {
-          flyleafLeft.style.display = 'flex';
-          textLeft.style.display = 'none';
-          switchRulingLeft.style.display = 'none';
-          dateLeft.style.display = 'none';
-          numLeft.innerText = 'Inside Cover';
-          applyRulingClass(pageLeft, 'bianco');
+        if (isMobileMode()) {
+          // ==============================
+          // MOBILE SINGLE-PAGE RENDERING
+          // ==============================
+          pageLeft.style.display = 'none';
+          pageRight.style.display = 'flex';
 
-          const ownerName = document.getElementById('ownerName');
-          const ownerContact = document.getElementById('ownerContact');
-          const ownerReward = document.getElementById('ownerReward');
-          if (ownerName) ownerName.innerHTML = notebookState.flyleaf.name || '';
-          if (ownerContact) ownerContact.innerHTML = notebookState.flyleaf.contact || '';
-          if (ownerReward) ownerReward.innerHTML = notebookState.flyleaf.reward || '100';
-        } else {
-          flyleafLeft.style.display = 'none';
-          textLeft.style.display = 'block';
-          switchRulingLeft.style.display = 'inline-flex';
-          dateLeft.style.display = 'block';
+          if (singlePageCursor === 0) {
+            // Mobile Page 0: Flyleaf Cover inside
+            flyleafMobile.style.display = 'flex';
+            textRight.style.display = 'none';
+            switchRulingRight.style.display = 'none';
+            dateRight.style.display = 'none';
+            numRight.innerText = 'Copertina Interna';
+            applyRulingClass(pageRight, 'bianco');
 
-          const pageData = notebookState.pages[leftIdx];
-          if (pageData) {
-            textLeft.innerHTML = pageData.text || '';
-            dateLeft.value = pageData.date || '';
-            numLeft.innerText = 'Pag. ' + (leftIdx + 1);
-            applyRulingClass(pageLeft, pageData.ruling);
-            updateDirectRulingSwitch(switchRulingLeft, pageData.ruling);
+            const ownerNameMobile = document.getElementById('ownerNameMobile');
+            const ownerContactMobile = document.getElementById('ownerContactMobile');
+            const ownerRewardMobile = document.getElementById('ownerRewardMobile');
+            if (ownerNameMobile) ownerNameMobile.innerHTML = notebookState.flyleaf.name || '';
+            if (ownerContactMobile) ownerContactMobile.innerHTML = notebookState.flyleaf.contact || '';
+            if (ownerRewardMobile) ownerRewardMobile.innerHTML = notebookState.flyleaf.reward || '100';
+          } else {
+            // Mobile Page 1..N
+            flyleafMobile.style.display = 'none';
+            textRight.style.display = 'block';
+            switchRulingRight.style.display = 'inline-flex';
+            dateRight.style.display = 'block';
+
+            const pageIdx = singlePageCursor - 1;
+            const pageData = notebookState.pages[pageIdx];
+            if (pageData) {
+              textRight.innerHTML = pageData.text || '';
+              dateRight.value = pageData.date || '';
+              numRight.innerText = 'Pag. ' + (pageIdx + 1);
+              applyRulingClass(pageRight, pageData.ruling);
+              updateDirectRulingSwitch(switchRulingRight, pageData.ruling);
+            }
           }
-        }
 
-        // Right Page
-        const rightPageData = notebookState.pages[rightIdx];
-        if (rightPageData) {
-          textRight.innerHTML = rightPageData.text || '';
-          dateRight.value = rightPageData.date || '';
-          numRight.innerText = 'Pag. ' + (rightIdx + 1);
-          applyRulingClass(pageRight, rightPageData.ruling);
-          updateDirectRulingSwitch(switchRulingRight, rightPageData.ruling);
+          statusSpread.innerText = singlePageCursor === 0 ? 'Copertina Interna' : `Pagina ${singlePageCursor} di ${notebookState.pages.length}`;
+          setupCanvasSize(canvasRight, ctxRight);
+          renderCanvasDrawing(canvasRight, ctxRight, singlePageCursor - 1);
+
+        } else {
+          // ==============================
+          // DESKTOP TWO-PAGE SPREAD RENDERING
+          // ==============================
+          pageLeft.style.display = 'flex';
+          pageRight.style.display = 'flex';
+          flyleafMobile.style.display = 'none';
+
+          const leftIdx = getLeftPageIndex();
+          const rightIdx = getRightPageIndex();
+          const totalSpreads = getTotalSpreads();
+
+          // Left Page
+          if (currentSpreadIndex === 0) {
+            flyleafLeft.style.display = 'flex';
+            textLeft.style.display = 'none';
+            switchRulingLeft.style.display = 'none';
+            dateLeft.style.display = 'none';
+            numLeft.innerText = 'Copertina Interna';
+            applyRulingClass(pageLeft, 'bianco');
+
+            const ownerName = document.getElementById('ownerName');
+            const ownerContact = document.getElementById('ownerContact');
+            const ownerReward = document.getElementById('ownerReward');
+            if (ownerName) ownerName.innerHTML = notebookState.flyleaf.name || '';
+            if (ownerContact) ownerContact.innerHTML = notebookState.flyleaf.contact || '';
+            if (ownerReward) ownerReward.innerHTML = notebookState.flyleaf.reward || '100';
+          } else {
+            flyleafLeft.style.display = 'none';
+            textLeft.style.display = 'block';
+            switchRulingLeft.style.display = 'inline-flex';
+            dateLeft.style.display = 'block';
+
+            const pageData = notebookState.pages[leftIdx];
+            if (pageData) {
+              textLeft.innerHTML = pageData.text || '';
+              dateLeft.value = pageData.date || '';
+              numLeft.innerText = 'Pag. ' + (leftIdx + 1);
+              applyRulingClass(pageLeft, pageData.ruling);
+              updateDirectRulingSwitch(switchRulingLeft, pageData.ruling);
+            }
+          }
+
+          // Right Page
+          const rightPageData = notebookState.pages[rightIdx];
+          if (rightPageData) {
+            textRight.style.display = 'block';
+            switchRulingRight.style.display = 'inline-flex';
+            dateRight.style.display = 'block';
+            textRight.innerHTML = rightPageData.text || '';
+            dateRight.value = rightPageData.date || '';
+            numRight.innerText = 'Pag. ' + (rightIdx + 1);
+            applyRulingClass(pageRight, rightPageData.ruling);
+            updateDirectRulingSwitch(switchRulingRight, rightPageData.ruling);
+          }
+
+          statusSpread.innerText = `Facciata ${currentSpreadIndex + 1} di ${totalSpreads} (Pagine ${currentSpreadIndex === 0 ? '1' : (leftIdx + 1) + ' - ' + (rightIdx + 1)})`;
+
+          setupCanvasSize(canvasLeft, ctxLeft);
+          setupCanvasSize(canvasRight, ctxRight);
+          renderCanvasDrawing(canvasLeft, ctxLeft, leftIdx);
+          renderCanvasDrawing(canvasRight, ctxRight, rightIdx);
         }
 
         applyFontStyle(notebookState.fontStyle);
-        statusSpread.innerText = `Facciata ${currentSpreadIndex + 1} di ${totalSpreads} (Pagine ${currentSpreadIndex === 0 ? '1' : (leftIdx + 1) + ' - ' + (rightIdx + 1)})`;
-
-        // Canvas setup
-        setupCanvasSize(canvasLeft, ctxLeft);
-        setupCanvasSize(canvasRight, ctxRight);
-        renderCanvasDrawing(canvasLeft, ctxLeft, leftIdx);
-        renderCanvasDrawing(canvasRight, ctxRight, rightIdx);
       }
 
-      // ==========================================
-      // POCKET SLIPS DYNAMIC RENDERING & ACTIONS
-      // ==========================================
+      // POCKET SLIPS DYNAMIC RENDERING
       function renderPocketSlips() {
         pocketSlipsContainer.innerHTML = '';
 
@@ -2427,7 +2898,6 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
             <div class="slip-body" contenteditable="true" spellcheck="false">${slip.text || ''}</div>
           `;
 
-          // Delete button listener
           const deleteBtn = slipEl.querySelector('.slip-delete-btn');
           deleteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -2437,7 +2907,6 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
             persistState();
           });
 
-          // Input autosave
           const headerEl = slipEl.querySelector('.slip-header-title');
           const bodyEl = slipEl.querySelector('.slip-body');
           headerEl.addEventListener('input', persistState);
@@ -2446,13 +2915,12 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
           pocketSlipsContainer.appendChild(slipEl);
         });
 
-        // Always append the "+ Foglietto" Add Button
         const addBtn = document.createElement('button');
         addBtn.className = 'btn-add-slip';
         addBtn.id = 'btnAddPocketSlip';
         addBtn.title = 'Aggiungi un nuovo foglietto volante nella tasca';
         addBtn.innerHTML = `
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           <span>+ Foglietto</span>
         `;
         addBtn.addEventListener('click', addNewPocketSlip);
@@ -2468,7 +2936,7 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
           id: 'slip_' + Date.now(),
           type: colorClass,
           header: 'Foglietto #' + nextNum,
-          text: 'Scrivi qui la tua nuova nota volante...'
+          text: 'Scrivi qui la tua nuova nota...'
         };
 
         notebookState.pocketSlips.push(newSlip);
@@ -2476,7 +2944,6 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         renderPocketSlips();
         persistState();
 
-        // Focus the newly added slip's body
         setTimeout(() => {
           const newEl = pocketSlipsContainer.querySelector(`[data-id="${newSlip.id}"] .slip-body`);
           if (newEl) {
@@ -2486,7 +2953,6 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         }, 80);
       }
 
-      // RULING PER-PAGE LOGIC (Directly sets a single page's ruling!)
       function setPageRuling(pageIndex, rulingType) {
         if (pageIndex < 0 || !notebookState.pages[pageIndex]) return;
         notebookState.pages[pageIndex].ruling = rulingType;
@@ -2496,17 +2962,11 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         persistState();
       }
 
-      // APPLY ALTERNATION PRESET (Global or Patterned)
       function applyAlternationPreset(presetKey) {
         notebookState.alternationPreset = presetKey;
         saveCurrentSpreadContent();
 
         notebookState.pages.forEach((page, index) => {
-          // Spread logic:
-          // index 0 = Page 1 (Right page of spread 0)
-          // index 1 = Page 2 (Left of spread 1), index 2 = Page 3 (Right of spread 1)
-          // Any odd index in array (1, 3, 5...) is a Left Page of its spread!
-          // Any even index in array (0, 2, 4...) is a Right Page of its spread!
           const isLeft = index % 2 === 1;
 
           if (presetKey === 'alt-grid-lines') {
@@ -2516,7 +2976,6 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
           } else if (presetKey === 'alt-blank-grid') {
             page.ruling = isLeft ? 'bianco' : 'quadretti';
           } else if (presetKey === 'alt-sheets-trio') {
-            // Rotates whole sheets: 1st sheet Righe, 2nd Quadretti, 3rd Bianco!
             const sheetNum = Math.floor((index + 1) / 2);
             const cycle = sheetNum % 3;
             if (cycle === 0) page.ruling = 'righe';
@@ -2537,26 +2996,41 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         persistState();
       }
 
-      // FLIP FORWARD / BACKWARD
+      // FLIP FORWARD / BACKWARD (Smooth on both single-page and 2-page spread)
       function flipForward() {
         if (currentView === 'cover') {
           playElasticSnapSound();
           playPageFlipSound();
-          showPagesView(0);
+          if (isMobileMode()) {
+            singlePageCursor = 0;
+            showPagesView(0);
+          } else {
+            showPagesView(0);
+          }
           return;
         }
 
         if (currentView === 'spread') {
-          const totalSpreads = getTotalSpreads();
-          if (currentSpreadIndex < totalSpreads - 1) {
-            saveCurrentSpreadContent();
-            playPageFlipSound();
-            currentSpreadIndex++;
-            renderSpread();
-            persistState();
+          saveCurrentSpreadContent();
+          playPageFlipSound();
+
+          if (isMobileMode()) {
+            if (singlePageCursor < notebookState.pages.length) {
+              singlePageCursor++;
+              renderSpread();
+              persistState();
+            } else {
+              showPocketView();
+            }
           } else {
-            playPageFlipSound();
-            showPocketView();
+            const totalSpreads = getTotalSpreads();
+            if (currentSpreadIndex < totalSpreads - 1) {
+              currentSpreadIndex++;
+              renderSpread();
+              persistState();
+            } else {
+              showPocketView();
+            }
           }
         }
       }
@@ -2564,20 +3038,38 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
       function flipBackward() {
         if (currentView === 'pocket') {
           playPageFlipSound();
-          showPagesView(getTotalSpreads() - 1);
+          if (isMobileMode()) {
+            singlePageCursor = notebookState.pages.length;
+            showPagesView();
+          } else {
+            showPagesView(getTotalSpreads() - 1);
+          }
           return;
         }
 
         if (currentView === 'spread') {
-          if (currentSpreadIndex > 0) {
-            saveCurrentSpreadContent();
-            playPageFlipSound();
-            currentSpreadIndex--;
-            renderSpread();
-            persistState();
+          saveCurrentSpreadContent();
+
+          if (isMobileMode()) {
+            if (singlePageCursor > 0) {
+              playPageFlipSound();
+              singlePageCursor--;
+              renderSpread();
+              persistState();
+            } else {
+              playElasticSnapSound();
+              showCoverView();
+            }
           } else {
-            playElasticSnapSound();
-            showCoverView();
+            if (currentSpreadIndex > 0) {
+              playPageFlipSound();
+              currentSpreadIndex--;
+              renderSpread();
+              persistState();
+            } else {
+              playElasticSnapSound();
+              showCoverView();
+            }
           }
         }
       }
@@ -2590,7 +3082,12 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
           { id: nextId + 1, date: '', ruling: 'righe', text: '', drawingData: null }
         );
         playPageFlipSound();
-        showPagesView(getTotalSpreads() - 1);
+        if (isMobileMode()) {
+          singlePageCursor = notebookState.pages.length;
+          showPagesView();
+        } else {
+          showPagesView(getTotalSpreads() - 1);
+        }
       }
 
       function applyFontStyle(fontClass) {
@@ -2604,6 +3101,42 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         textLeft.classList.add(fontClass);
         textRight.classList.add(fontClass);
       }
+
+      // TOUCH SWIPE DETECTION
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchEndX = 0;
+      let touchEndY = 0;
+
+      function attachSwipeListeners(elem) {
+        elem.addEventListener('touchstart', (e) => {
+          if (notebookState.activeMode === 'draw') return;
+          touchStartX = e.changedTouches[0].clientX;
+          touchStartY = e.changedTouches[0].clientY;
+        }, { passive: true });
+
+        elem.addEventListener('touchend', (e) => {
+          if (notebookState.activeMode === 'draw') return;
+          touchEndX = e.changedTouches[0].clientX;
+          touchEndY = e.changedTouches[0].clientY;
+          handleGesture();
+        }, { passive: true });
+      }
+
+      function handleGesture() {
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+        if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) {
+          if (deltaX < 0) {
+            flipForward();
+          } else {
+            flipBackward();
+          }
+        }
+      }
+
+      attachSwipeListeners(notebookSpreadContainer);
+      attachSwipeListeners(standaloneCover);
 
       // DRAWING LISTENERS
       function getCoordinates(e, canvas) {
@@ -2654,7 +3187,7 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
       }
 
       attachDrawingListeners(canvasLeft, ctxLeft, getLeftPageIndex);
-      attachDrawingListeners(canvasRight, ctxRight, getRightPageIndex);
+      attachDrawingListeners(canvasRight, ctxRight, () => isMobileMode() ? singlePageCursor - 1 : getRightPageIndex());
 
       // STANDALONE HTML EXPORT
       function downloadStandaloneHtml() {
@@ -2682,13 +3215,25 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
       }
 
       // WIRING UP LISTENERS
-
-      // Top View Switchers
       btnViewCover.addEventListener('click', showCoverView);
-      btnViewPages.addEventListener('click', () => showPagesView(currentSpreadIndex));
+      btnViewPages.addEventListener('click', () => showPagesView());
       btnViewPocket.addEventListener('click', togglePocketView);
       quickPocketTab.addEventListener('click', togglePocketView);
-      btnClosePocketView.addEventListener('click', () => showPagesView(currentSpreadIndex));
+      btnClosePocketView.addEventListener('click', () => showPagesView());
+
+      // Toggle 1-page vs 2-page layout manually
+      btnTogglePageLayout.addEventListener('click', () => {
+        if (userPreferredLayout === 'single') {
+          userPreferredLayout = 'spread';
+        } else if (userPreferredLayout === 'spread') {
+          userPreferredLayout = 'single';
+        } else {
+          userPreferredLayout = isMobileMode() ? 'spread' : 'single';
+        }
+        updateLayoutClasses();
+        if (currentView === 'spread') renderSpread();
+        persistState();
+      });
 
       // Cover opening actions
       btnOpenNotebookAction.addEventListener('click', (e) => {
@@ -2717,7 +3262,7 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
 
       // Ribbon Bookmark
       ribbonBookmark.addEventListener('click', () => {
-        notebookState.bookmarkedSpread = currentSpreadIndex;
+        notebookState.bookmarkedSpread = isMobileMode() ? singlePageCursor : currentSpreadIndex;
         playPageFlipSound();
         persistState();
       });
@@ -2734,28 +3279,39 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         const btn = e.target.closest('.ruling-opt-btn');
         if (!btn) return;
         const ruling = btn.getAttribute('data-ruling');
-        setPageRuling(getRightPageIndex(), ruling);
+        const targetIdx = isMobileMode() ? singlePageCursor - 1 : getRightPageIndex();
+        setPageRuling(targetIdx, ruling);
       });
 
       // RULING MODAL SYNC & OPEN
       btnOpenRulingModal.addEventListener('click', () => {
-        const leftIdx = getLeftPageIndex();
-        const rightIdx = getRightPageIndex();
+        if (isMobileMode()) {
+          modalLeftRow.style.display = 'none';
+          modalRightRow.style.display = 'flex';
+          const pIdx = singlePageCursor - 1;
+          modalRightLabel.innerText = pIdx < 0 ? 'Copertina Interna:' : `Pagina Corrente (Pag. ${pIdx + 1}):`;
+          const activeRuling = (pIdx >= 0 && notebookState.pages[pIdx]) ? notebookState.pages[pIdx].ruling : 'righe';
+          modalRightButtons.querySelectorAll('.btn-ruling-select').forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-ruling') === activeRuling);
+          });
+        } else {
+          modalLeftRow.style.display = 'flex';
+          modalRightRow.style.display = 'flex';
+          const leftIdx = getLeftPageIndex();
+          const rightIdx = getRightPageIndex();
+          modalLeftLabel.innerText = leftIdx < 0 ? 'Copertina Interna:' : `Pagina Sinistra (Pag. ${leftIdx + 1}):`;
+          modalRightLabel.innerText = `Pagina Destra (Pag. ${rightIdx + 1}):`;
 
-        // Update labels
-        modalLeftLabel.innerText = leftIdx < 0 ? 'Copertina Interna (Bianco)' : `Pagina Sinistra (Pag. ${leftIdx + 1}):`;
-        modalRightLabel.innerText = `Pagina Destra (Pag. ${rightIdx + 1}):`;
+          const leftRuling = (leftIdx >= 0 && notebookState.pages[leftIdx]) ? notebookState.pages[leftIdx].ruling : 'bianco';
+          const rightRuling = (rightIdx >= 0 && notebookState.pages[rightIdx]) ? notebookState.pages[rightIdx].ruling : 'righe';
 
-        // Highlight active buttons for current spread
-        const leftRuling = (leftIdx >= 0 && notebookState.pages[leftIdx]) ? notebookState.pages[leftIdx].ruling : 'bianco';
-        const rightRuling = (rightIdx >= 0 && notebookState.pages[rightIdx]) ? notebookState.pages[rightIdx].ruling : 'righe';
-
-        modalLeftButtons.querySelectorAll('.btn-ruling-select').forEach(b => {
-          b.classList.toggle('active', b.getAttribute('data-ruling') === leftRuling);
-        });
-        modalRightButtons.querySelectorAll('.btn-ruling-select').forEach(b => {
-          b.classList.toggle('active', b.getAttribute('data-ruling') === rightRuling);
-        });
+          modalLeftButtons.querySelectorAll('.btn-ruling-select').forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-ruling') === leftRuling);
+          });
+          modalRightButtons.querySelectorAll('.btn-ruling-select').forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-ruling') === rightRuling);
+          });
+        }
 
         rulingModal.style.display = 'flex';
       });
@@ -2765,7 +3321,6 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         if (e.target === rulingModal) rulingModal.style.display = 'none';
       });
 
-      // Modal Left & Right buttons
       modalLeftButtons.addEventListener('click', (e) => {
         const btn = e.target.closest('.btn-ruling-select');
         if (!btn) return;
@@ -2781,10 +3336,10 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
         const ruling = btn.getAttribute('data-ruling');
         modalRightButtons.querySelectorAll('.btn-ruling-select').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        setPageRuling(getRightPageIndex(), ruling);
+        const targetIdx = isMobileMode() ? singlePageCursor - 1 : getRightPageIndex();
+        setPageRuling(targetIdx, ruling);
       });
 
-      // Global Alternation Presets
       document.querySelectorAll('.ruling-card').forEach(card => {
         card.addEventListener('click', () => {
           document.querySelectorAll('.ruling-card').forEach(c => c.classList.remove('selected'));
@@ -2825,9 +3380,9 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
       });
 
       btnClearCanvas.addEventListener('click', () => {
-        const rightIdx = getRightPageIndex();
-        if (rightIdx >= 0 && notebookState.pages[rightIdx]) {
-          notebookState.pages[rightIdx].drawingData = null;
+        const targetIdx = isMobileMode() ? singlePageCursor - 1 : getRightPageIndex();
+        if (targetIdx >= 0 && notebookState.pages[targetIdx]) {
+          notebookState.pages[targetIdx].drawingData = null;
         }
         setupCanvasSize(canvasRight, ctxRight);
         persistState();
@@ -2846,19 +3401,32 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
       // Sound toggle
       btnToggleSound.addEventListener('click', () => {
         soundEnabled = !soundEnabled;
-        soundLabel.innerText = soundEnabled ? 'Suono: ON' : 'Suono: OFF';
+        soundLabel.innerText = soundEnabled ? 'Suono' : 'Muto';
         btnToggleSound.classList.toggle('active', soundEnabled);
       });
 
       btnDownloadHtml.addEventListener('click', downloadStandaloneHtml);
 
       // Pocket Sleeve Bellows Expand / Contract Toggle
-      pocketFrontSleeve.addEventListener('click', () => {
+      function togglePocketBellows() {
         pocketFlapOpen = !pocketFlapOpen;
-        pocketFrontSleeve.style.transform = pocketFlapOpen ? 'translateY(45px)' : 'translateY(0)';
-        pocketFlapHint.innerText = pocketFlapOpen ? 'Clicca per richiudere il soffietto ▲' : 'Clicca qui per espandere / ritrarre il soffietto ▼';
+        physicalPocket.classList.toggle('pocket-expanded', pocketFlapOpen);
+        if (pocketFlapOpen) {
+          pocketFrontSleeve.style.transform = 'perspective(600px) rotateX(-12deg) translateY(36px)';
+          pocketFlapHint.innerHTML = '<span>Soffietto espanso · Tocca per richiudere ▲</span>';
+          if (labelToggleBellows) labelToggleBellows.innerText = '⇕ Ritrai Soffietto';
+        } else {
+          pocketFrontSleeve.style.transform = 'translateY(0)';
+          pocketFlapHint.innerHTML = '<span>Tocca per espandere il soffietto ▼</span>';
+          if (labelToggleBellows) labelToggleBellows.innerText = '⇕ Espandi Soffietto';
+        }
         playPocketSlideSound();
-      });
+      }
+
+      if (btnToggleBellows) {
+        btnToggleBellows.addEventListener('click', togglePocketBellows);
+      }
+      pocketFrontSleeve.addEventListener('click', togglePocketBellows);
 
       // Auto-save on typing input
       textLeft.addEventListener('input', persistState);
@@ -2868,12 +3436,14 @@ In alto trovi il selettore diretto della rigatura per ciascuna pagina (Righe, Qu
 
       // INITIALIZATION
       loadSavedState();
+      updateLayoutClasses();
+
       if (currentView === 'cover') {
         showCoverView();
       } else if (currentView === 'pocket') {
         showPocketView();
       } else {
-        showPagesView(currentSpreadIndex);
+        showPagesView(isMobileMode() ? singlePageCursor : currentSpreadIndex);
       }
 
     })();
