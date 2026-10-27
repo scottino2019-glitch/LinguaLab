@@ -151,6 +151,11 @@ export default function App() {
       setFiles(merged);
 
       if (isManualRescan) {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(regs => {
+            regs.forEach(reg => reg.update());
+          }).catch(() => {});
+        }
         showToast(`Cartella aggiornata: rilevati ${merged.length} fogli HTML!`);
       }
     } catch (err) {

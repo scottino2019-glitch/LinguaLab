@@ -109,7 +109,7 @@ export default defineConfig(() => {
           name: 'LinguaHub PWA',
           short_name: 'LinguaHub',
           description: 'PWA modulare per raccogliere e consultare fogli HTML per lingue.',
-          theme_color: '#3b82f6',
+          theme_color: '#312e81',
           background_color: '#090d16',
           display: 'standalone',
           start_url: '/',
