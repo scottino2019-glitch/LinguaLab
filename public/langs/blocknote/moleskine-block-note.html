@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>Taccuino Classico Stile Moleskine</title>
-<meta name="category" content="blocknote">
   <meta name="description" content="Taccuino sfogliabile classico stile Moleskine interamente responsive in un unico file HTML, con copertina singola, tasca a soffietto posteriore fisica, e alternanza libera di fogli a righe, quadretti e bianchi.">
   <meta property="og:title" content="Taccuino Classico Stile Moleskine">
   <meta property="og:description" content="Taccuino sfogliabile classico stile Moleskine interamente responsive in un unico file HTML, con copertina singola, tasca a soffietto posteriore fisica, e alternanza libera di fogli a righe, quadretti e bianchi.">
@@ -1120,7 +1119,7 @@
       left: 30px;
       right: 30px;
       bottom: 0;
-      height: 52%;
+      height: 42%;
       background: linear-gradient(150deg, #ede3cb 0%, #dfd0b2 45%, #ccb993 100%);
       border: 2px solid #b39d7b;
       border-top: 3px solid #f9f1e1;
@@ -1136,11 +1135,12 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 0.85rem 1.15rem;
+      padding: 0.75rem 1.15rem;
       cursor: pointer;
       outline: 1px dashed rgba(100, 75, 40, 0.4);
       outline-offset: -6px;
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+      pointer-events: none; /* Clicks pass through to slips */
     }
 
     .pocket-front-sleeve:hover {
@@ -1163,6 +1163,7 @@
       border: 2px solid #b39d7b;
       border-top: none;
       box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.7);
+      pointer-events: auto;
     }
 
     .pocket-sleeve-label {
@@ -1175,6 +1176,7 @@
       text-align: center;
       margin-top: 0.35rem;
       text-shadow: 0 1px 0 rgba(255, 255, 255, 0.45);
+      user-select: none;
     }
 
     .pocket-sleeve-sub {
@@ -1185,6 +1187,7 @@
       text-transform: uppercase;
       text-align: center;
       margin-top: 2px;
+      user-select: none;
     }
 
     .pocket-flap-hint-tag {
@@ -1192,8 +1195,8 @@
       align-items: center;
       justify-content: center;
       gap: 0.3rem;
-      background: rgba(255, 255, 255, 0.65);
-      border: 1px solid rgba(140, 115, 80, 0.35);
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(140, 115, 80, 0.45);
       border-radius: 20px;
       padding: 0.25rem 0.65rem;
       margin: 0 auto;
@@ -1202,12 +1205,15 @@
       color: #4a3e2c;
       box-shadow: 0 1px 3px rgba(0,0,0,0.06);
       transition: all 0.15s ease;
+      pointer-events: auto;
+      cursor: pointer;
     }
 
-    .pocket-front-sleeve:hover .pocket-flap-hint-tag {
+    .pocket-flap-hint-tag:hover {
       background: #fff;
       color: #241d15;
       border-color: #8f7450;
+      transform: scale(1.03);
     }
 
     /* SLIPS / CARDS TUCKED INSIDE THE POCKET */
@@ -1216,15 +1222,31 @@
       left: 36px;
       right: 36px;
       top: 15px;
-      bottom: 22%;
-      z-index: 6;
+      bottom: 12px;
+      z-index: 10;
       display: flex;
       gap: 0.85rem;
       overflow-x: auto;
-      padding-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
       align-items: flex-end;
       -webkit-overflow-scrolling: touch;
       touch-action: pan-x;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(198, 166, 100, 0.6) transparent;
+    }
+
+    .pocket-slips-container::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .pocket-slips-container::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 3px;
+    }
+
+    .pocket-slips-container::-webkit-scrollbar-thumb {
+      background: rgba(198, 166, 100, 0.6);
+      border-radius: 3px;
     }
 
     .pocket-slip {
@@ -1237,16 +1259,20 @@
         0 2px 6px rgba(0, 0, 0, 0.25);
       flex-shrink: 0;
       position: relative;
-      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, z-index 0.2s ease;
       display: flex;
       flex-direction: column;
       outline: none;
+      cursor: pointer;
+      user-select: text;
     }
 
-    .pocket-slip:hover {
-      transform: translateY(-24px) scale(1.05) !important;
-      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.6);
-      z-index: 15;
+    .pocket-slip:hover,
+    .pocket-slip.slip-selected,
+    .pocket-slip:focus-within {
+      transform: translateY(-30px) scale(1.05) !important;
+      box-shadow: 0 20px 38px rgba(0, 0, 0, 0.65) !important;
+      z-index: 30 !important;
     }
 
     .slip-yellow { background: #fff8bf; color: #2b2518; border-top: 5px solid #d8ca6b; transform: rotate(-2deg); }
@@ -2022,21 +2048,15 @@
                 <div class="bellows-right" title="Soffietto in tela plissettata"></div>
 
                 <!-- Slips / Loose Sheets tucked into the Pocket -->
-                <div class="pocket-slips-container" id="pocketSlipsContainer"><div class="pocket-slip slip-yellow" data-id="slip_1">
-            <div class="slip-header-row">
-              <span class="slip-header-title" contenteditable="true" spellcheck="false">PROMEMORIA GIALLO</span>
-              <button class="slip-delete-btn" title="Elimina questo foglietto">✕</button>
-            </div>
-            <div class="slip-body" contenteditable="true" spellcheck="false">Correggerlo&nbsp;</div>
-          </div><div class="pocket-slip slip-kraft" data-id="slip_2">
+                <div class="pocket-slips-container" id="pocketSlipsContainer"><div class="pocket-slip slip-kraft" data-id="slip_2">
             <div class="slip-header-row">
               <span class="slip-header-title" contenteditable="true" spellcheck="false">BIGLIETTO / MEMO</span>
               <button class="slip-delete-btn" title="Elimina questo foglietto">✕</button>
             </div>
             <div class="slip-body" contenteditable="true" spellcheck="false">Contatto Personale: Studio di Design &amp; Scrittura Milano, IT note@moleskine.local</div>
-          </div><div class="pocket-slip slip-green" data-id="slip_1793113501683">
+          </div><div class="pocket-slip slip-kraft slip-selected" data-id="slip_1793181275575">
             <div class="slip-header-row">
-              <span class="slip-header-title" contenteditable="true" spellcheck="false">Foglietto #3</span>
+              <span class="slip-header-title" contenteditable="true" spellcheck="false">Foglietto #2</span>
               <button class="slip-delete-btn" title="Elimina questo foglietto">✕</button>
             </div>
             <div class="slip-body" contenteditable="true" spellcheck="false">Scrivi qui la tua nuova nota...</div>
@@ -2063,7 +2083,7 @@
               <span class="page-number" id="numRight">Pag. 11</span>
             </footer>
 
-            <div class="page-corner-curl" id="cornerRight" title="Volta avanti"></div>
+            <div class="page-corner-curl" id="cornerRight" title="Volta avanti" style="display: block;"></div>
           </article>
 
         </div>
@@ -2278,7 +2298,7 @@
       let pocketFlapOpen = false;
 
       /* Autonomously Baked Data */
-      let notebookState = {"currentView":"spread","currentSpreadIndex":0,"singlePageCursor":11,"bookmarkedSpread":0,"fontStyle":"font-handwriting","activeDrawColor":"#21201d","activeMode":"text","alternationPreset":"alt-grid-lines","userPreferredLayout":"auto","flyleaf":{"name":"","contact":"","reward":"100"},"pocketSlips":[{"id":"slip_1","type":"slip-yellow","header":"PROMEMORIA GIALLO","text":"Correggerlo"},{"id":"slip_2","type":"slip-kraft","header":"BIGLIETTO / MEMO","text":"Contatto Personale: Studio di Design & Scrittura Milano, IT note@moleskine.local"},{"id":"slip_1793113501683","type":"slip-green","header":"Foglietto #3","text":"Scrivi qui la tua nuova nota..."}],"pages":[{"id":1,"date":"Milano, 2026","ruling":"righe","text":"L ","drawingData":null},{"id":2,"date":"Progetti & Bozzetti","ruling":"quadretti","text":"FOGLIO A QUADRETTI (5mm):\n\nIdeale per diagrammi, tabelle, calcoli e architettura.\n\n[x] Pagine reattive e responsive\n[x] Schizzi a mano libera con la penna\n[ ] Nuovi appunti da scrivere","drawingData":null},{"id":3,"date":"Note & Riflessioni","ruling":"righe","text":"FOGLIO A RIGHE:\n\n\"Un taccuino è la patria di chiunque desideri fermare il tempo prima che fugga.\"\n\nIl layout si adatta fluidamente su smartphone, tablet e schermi desktop.","drawingData":null},{"id":4,"date":"Disegno Libero","ruling":"bianco","text":"FOGLIO BIANCO INTONSO:\n\nCarta avorio senza vincoli né griglie. Attiva lo strumento \"Penna\" nella barra per disegnare schizzi, firme o schemi a mano libera.","drawingData":null},{"id":5,"date":"Diario di Bordo","ruling":"righe","text":"La sensazione tattile della carta classica Moleskine racchiusa in un unico foglio HTML autonomo, senza librerie esterne pesanti.\n\nFino in fondo trovi la leggendaria tasca a soffietto posteriore con i tuoi foglietti volanti!","drawingData":null},{"id":6,"date":"","ruling":"quadretti","text":"","drawingData":null},{"id":7,"date":"","ruling":"righe","text":"","drawingData":null},{"id":8,"date":"","ruling":"quadretti","text":"","drawingData":null},{"id":9,"date":"","ruling":"righe","text":"","drawingData":null},{"id":10,"date":"","ruling":"bianco","text":"","drawingData":null},{"id":11,"date":"","ruling":"righe","text":"","drawingData":null}]};
+      let notebookState = {"currentView":"spread","currentSpreadIndex":0,"singlePageCursor":11,"bookmarkedSpread":0,"fontStyle":"font-handwriting","activeDrawColor":"#21201d","activeMode":"text","alternationPreset":"alt-grid-lines","userPreferredLayout":"auto","flyleaf":{"name":"","contact":"","reward":"100"},"pocketSlips":[{"id":"slip_2","type":"slip-kraft","header":"BIGLIETTO / MEMO","text":"Contatto Personale: Studio di Design & Scrittura Milano, IT note@moleskine.local"},{"id":"slip_1793181275575","type":"slip-kraft","header":"Foglietto #2","text":"Scrivi qui la tua nuova nota..."}],"pages":[{"id":1,"date":"Milano, 2026","ruling":"righe","text":"L ","drawingData":null},{"id":2,"date":"Progetti & Bozzetti","ruling":"quadretti","text":"FOGLIO A QUADRETTI (5mm):\n\nIdeale per diagrammi, tabelle, calcoli e architettura.\n\n[x] Pagine reattive e responsive\n[x] Schizzi a mano libera con la penna\n[ ] Nuovi appunti da scrivere","drawingData":null},{"id":3,"date":"Note & Riflessioni","ruling":"righe","text":"FOGLIO A RIGHE:\n\n\"Un taccuino è la patria di chiunque desideri fermare il tempo prima che fugga.\"\n\nIl layout si adatta fluidamente su smartphone, tablet e schermi desktop.","drawingData":null},{"id":4,"date":"Disegno Libero","ruling":"bianco","text":"FOGLIO BIANCO INTONSO:\n\nCarta avorio senza vincoli né griglie. Attiva lo strumento \"Penna\" nella barra per disegnare schizzi, firme o schemi a mano libera.","drawingData":null},{"id":5,"date":"Diario di Bordo","ruling":"righe","text":"La sensazione tattile della carta classica Moleskine racchiusa in un unico foglio HTML autonomo, senza librerie esterne pesanti.\n\nFino in fondo trovi la leggendaria tasca a soffietto posteriore con i tuoi foglietti volanti!","drawingData":null},{"id":6,"date":"","ruling":"quadretti","text":"","drawingData":null},{"id":7,"date":"","ruling":"righe","text":"","drawingData":null},{"id":8,"date":"","ruling":"quadretti","text":"","drawingData":null},{"id":9,"date":"","ruling":"righe","text":"","drawingData":null},{"id":10,"date":"","ruling":"bianco","text":"","drawingData":null},{"id":11,"date":"","ruling":"righe","text":"","drawingData":null}]};
       let unusedVar = {
         currentView: 'cover',
         currentSpreadIndex: 0,
@@ -2670,6 +2690,7 @@
         headerRight.style.display = 'flex';
         contentWrapperRight.style.display = 'flex';
         footerRight.style.display = 'flex';
+        cornerRight.style.display = 'block';
         physicalPocketContainer.style.display = 'none';
 
         btnViewCover.classList.remove('active');
@@ -2724,6 +2745,7 @@
         headerRight.style.display = 'none';
         contentWrapperRight.style.display = 'none';
         footerRight.style.display = 'none';
+        cornerRight.style.display = 'none';
         physicalPocketContainer.style.display = 'flex';
 
         pocketFlapOpen = false;
@@ -2912,6 +2934,34 @@
           headerEl.addEventListener('input', persistState);
           bodyEl.addEventListener('input', persistState);
 
+          // Prevent any interaction with slips from bubbling to page swipe or sleeve
+          slipEl.addEventListener('click', (e) => {
+            e.stopPropagation();
+            pocketSlipsContainer.querySelectorAll('.pocket-slip').forEach(s => s.classList.remove('slip-selected'));
+            slipEl.classList.add('slip-selected');
+          });
+
+          slipEl.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+          }, { passive: true });
+
+          slipEl.addEventListener('touchend', (e) => {
+            e.stopPropagation();
+          }, { passive: true });
+
+          headerEl.addEventListener('click', (e) => e.stopPropagation());
+          bodyEl.addEventListener('click', (e) => e.stopPropagation());
+
+          headerEl.addEventListener('focus', () => {
+            pocketSlipsContainer.querySelectorAll('.pocket-slip').forEach(s => s.classList.remove('slip-selected'));
+            slipEl.classList.add('slip-selected');
+          });
+
+          bodyEl.addEventListener('focus', () => {
+            pocketSlipsContainer.querySelectorAll('.pocket-slip').forEach(s => s.classList.remove('slip-selected'));
+            slipEl.classList.add('slip-selected');
+          });
+
           pocketSlipsContainer.appendChild(slipEl);
         });
 
@@ -3035,8 +3085,9 @@
         }
       }
 
-      function flipBackward() {
+      function flipBackward(fromNavButton = false) {
         if (currentView === 'pocket') {
+          if (!fromNavButton) return;
           playPageFlipSound();
           if (isMobileMode()) {
             singlePageCursor = notebookState.pages.length;
@@ -3111,12 +3162,24 @@
       function attachSwipeListeners(elem) {
         elem.addEventListener('touchstart', (e) => {
           if (notebookState.activeMode === 'draw') return;
+          // When in pocket view, or when touching inside pocket slips or container, ignore page swipe!
+          if (currentView === 'pocket' || e.target.closest('#physicalPocketContainer') || e.target.closest('.pocket-slip') || e.target.closest('#pocketSlipsContainer')) {
+            touchStartX = 0;
+            touchStartY = 0;
+            return;
+          }
           touchStartX = e.changedTouches[0].clientX;
           touchStartY = e.changedTouches[0].clientY;
         }, { passive: true });
 
         elem.addEventListener('touchend', (e) => {
           if (notebookState.activeMode === 'draw') return;
+          if (currentView === 'pocket' || e.target.closest('#physicalPocketContainer') || e.target.closest('.pocket-slip') || e.target.closest('#pocketSlipsContainer')) {
+            touchStartX = 0;
+            touchStartY = 0;
+            return;
+          }
+          if (touchStartX === 0 && touchStartY === 0) return;
           touchEndX = e.changedTouches[0].clientX;
           touchEndY = e.changedTouches[0].clientY;
           handleGesture();
@@ -3124,13 +3187,14 @@
       }
 
       function handleGesture() {
+        if (currentView === 'pocket') return;
         const deltaX = touchEndX - touchStartX;
         const deltaY = touchEndY - touchStartY;
         if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) {
           if (deltaX < 0) {
             flipForward();
           } else {
-            flipBackward();
+            flipBackward(false);
           }
         }
       }
@@ -3248,16 +3312,16 @@
 
       // Navigation Arrows & Corners
       btnNextPage.addEventListener('click', flipForward);
-      btnPrevPage.addEventListener('click', flipBackward);
+      btnPrevPage.addEventListener('click', () => flipBackward(true));
       cornerRight.addEventListener('click', flipForward);
-      cornerLeft.addEventListener('click', flipBackward);
+      cornerLeft.addEventListener('click', () => flipBackward(true));
 
       window.addEventListener('keydown', (e) => {
         if (document.activeElement && document.activeElement.getAttribute('contenteditable') === 'true') {
           return;
         }
         if (e.key === 'ArrowRight') flipForward();
-        else if (e.key === 'ArrowLeft') flipBackward();
+        else if (e.key === 'ArrowLeft') flipBackward(true);
       });
 
       // Ribbon Bookmark
@@ -3424,9 +3488,31 @@
       }
 
       if (btnToggleBellows) {
-        btnToggleBellows.addEventListener('click', togglePocketBellows);
+        btnToggleBellows.addEventListener('click', (e) => {
+          e.stopPropagation();
+          togglePocketBellows();
+        });
       }
-      pocketFrontSleeve.addEventListener('click', togglePocketBellows);
+      if (pocketFlapHint) {
+        pocketFlapHint.addEventListener('click', (e) => {
+          e.stopPropagation();
+          togglePocketBellows();
+        });
+      }
+
+      // Isolate pocket slips container from parent touch swipe handlers
+      pocketSlipsContainer.addEventListener('touchstart', (e) => {
+        e.stopPropagation();
+      }, { passive: true });
+      pocketSlipsContainer.addEventListener('touchmove', (e) => {
+        e.stopPropagation();
+      }, { passive: true });
+      pocketSlipsContainer.addEventListener('touchend', (e) => {
+        e.stopPropagation();
+      }, { passive: true });
+      pocketSlipsContainer.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
 
       // Auto-save on typing input
       textLeft.addEventListener('input', persistState);
